@@ -1,13 +1,13 @@
-'use strict';
+angular.module('eu.crismaproject.pilotE', ['eu.crismaproject.pilotE.controllers', 'ngRoute'])
+    .config(['$routeProvider', function ($routeProvider) {
+        'use strict';
 
-angular.module('pilotEApplicationApp', [])
-  .config(function ($routeProvider) {
-    $routeProvider
-      .when('/', {
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
-      })
-      .otherwise({
-        redirectTo: '/'
-      });
-  });
+        $routeProvider
+            .when('/', {
+                templateUrl: 'views/main.html',
+                controller: 'master-patient-controller'
+            })
+            .otherwise({
+                redirectTo: '/'
+            });
+    }]);

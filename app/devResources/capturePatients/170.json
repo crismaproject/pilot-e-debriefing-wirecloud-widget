@@ -1,0 +1,21 @@
+{
+    "id" : 170,
+    "name" : "Brinkmann",
+    "correctTriage" : "T2",
+    "preTriage" : {
+        "classification" : null,
+        "timestamp" : null,
+        "treatedBy" : null
+    },
+    "triage" : {
+        "classification" : null,
+        "timestamp" : null,
+        "treatedBy" : null
+    },
+    "careMeasures" : [],
+    "transportation" : {
+        "timestamp" : null,
+        "treatedBy" : null,
+        "rating" : null
+    }
+}

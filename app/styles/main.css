@@ -20,3 +20,27 @@ body {
     line-height: 1;
     letter-spacing: -1px;
 }
+
+.ng-table .triage {
+    border-top: 2px solid transparent;
+    border-bottom: 2px solid transparent;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+}
+
+.ng-table .T1 {
+    background-color: #e9322d;
+}
+
+.ng-table .T2 {
+    background-color: #f5e810;
+}
+
+.ng-table .T3 {
+    background-color: #62c462;
+}
+
+.ng-table .averageRating {
+    float: left;
+    width: 50px;
+}
