@@ -1,28 +1,28 @@
-<table id="master-patient-widget" data-ng-table="tableParams" class="table ng-table-responsive">
+<table id="master-patient-widget" data-ng-table="tableParams" show-filter="true" class="table ng-table-responsive">
     <tbody>
         <tr data-ng-repeat="patient in $data" class="patientrow ng-class:{'patientrowselected': patient.id === selectedPatient.id};" data-ng-click="setSelected(patient)">
-            <td data-title="'ID'">
+            <td data-title="'ID'" sortable="id">
                 {{patient.id}}
             </td>
-            <td data-title="'Name'">
+            <td data-title="'Name'" sortable="name" filter="{'name': 'text'}">
                 {{patient.name}}
             </td>
-            <td data-title="'Correct'">
+            <td data-title="'Correct'" class="centered">
                 <span class="triage ng-class:{'T1': patient.correctTriage === 'T1', 'T2': patient.correctTriage === 'T2', 'T3': patient.correctTriage === 'T3'};">
                     {{patient.correctTriage}}
                 </span>
             </td>
-            <td data-title="'Pre-Triage'">
+            <td data-title="'Pre-Triage'" class="centered">
                 <span class="triage ng-class:{'T1': patient.preTriage.classification === 'T1', 'T2': patient.preTriage.classification === 'T2', 'T3': patient.preTriage.classification === 'T3'};">
                     {{patient.preTriage.classification}}
                 </span>
             </td>
-            <td data-title="'Triage'">
+            <td data-title="'Triage'" class="centered">
                 <span class="triage ng-class:{'T1': patient.triage.classification === 'T1', 'T2': patient.triage.classification === 'T2', 'T3': patient.triage.classification === 'T3'};">
                     {{patient.triage.classification}}
                 </span>
             </td>
-            <td data-title="'Care Measures'">
+            <td data-title="'Care Measures'" class="centered">
                 {{patient.careMeasures.length}} / {{maxCareMeasures}}
             </td>
             <td data-title="'Average Rating'">
