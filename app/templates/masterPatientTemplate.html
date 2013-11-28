@@ -1,36 +1,38 @@
 <table id="master-patient-widget" data-ng-table="tableParams" class="table ng-table-responsive">
-    <tr data-ng-repeat="patient in $data" class="patientrow ng-class:{'patientrowselected': patient.id === selectedPatient.id};" data-ng-click="setSelected(patient)">
-        <td data-title="'ID'">
-            {{patient.id}}
-        </td>
-        <td data-title="'Name'">
-            {{patient.name}}
-        </td>
-        <td data-title="'Correct'">
-            <span class="triage ng-class:{'T1': patient.correctTriage === 'T1', 'T2': patient.correctTriage === 'T2', 'T3': patient.correctTriage === 'T3'};">
-                {{patient.correctTriage}}
-            </span>
-        </td>
-        <td data-title="'Pre-Triage'">
-            <span class="triage ng-class:{'T1': patient.preTriage.classification === 'T1', 'T2': patient.preTriage.classification === 'T2', 'T3': patient.preTriage.classification === 'T3'};">
-                {{patient.preTriage.classification}}
-            </span>
-        </td>
-        <td data-title="'Triage'">
-            <span class="triage ng-class:{'T1': patient.triage.classification === 'T1', 'T2': patient.triage.classification === 'T2', 'T3': patient.triage.classification === 'T3'};">
-                {{patient.triage.classification}}
-            </span>
-        </td>
-        <td data-title="'Care Measures'">
-            {{patient.careMeasures.length}} / {{maxCareMeasures}}
-        </td>
-        <td data-title="'Average Rating'">
-            <span class="averageRating">
-                {{patient.averageRating}}
-            </span>
-            <span >
-                {{patient.averageRatingString}}
-            </span>
-        </td>
-    </tr>
+    <tbody>
+        <tr data-ng-repeat="patient in $data" class="patientrow ng-class:{'patientrowselected': patient.id === selectedPatient.id};" data-ng-click="setSelected(patient)">
+            <td data-title="'ID'">
+                {{patient.id}}
+            </td>
+            <td data-title="'Name'">
+                {{patient.name}}
+            </td>
+            <td data-title="'Correct'">
+                <span class="triage ng-class:{'T1': patient.correctTriage === 'T1', 'T2': patient.correctTriage === 'T2', 'T3': patient.correctTriage === 'T3'};">
+                    {{patient.correctTriage}}
+                </span>
+            </td>
+            <td data-title="'Pre-Triage'">
+                <span class="triage ng-class:{'T1': patient.preTriage.classification === 'T1', 'T2': patient.preTriage.classification === 'T2', 'T3': patient.preTriage.classification === 'T3'};">
+                    {{patient.preTriage.classification}}
+                </span>
+            </td>
+            <td data-title="'Triage'">
+                <span class="triage ng-class:{'T1': patient.triage.classification === 'T1', 'T2': patient.triage.classification === 'T2', 'T3': patient.triage.classification === 'T3'};">
+                    {{patient.triage.classification}}
+                </span>
+            </td>
+            <td data-title="'Care Measures'">
+                {{patient.careMeasures.length}} / {{maxCareMeasures}}
+            </td>
+            <td data-title="'Average Rating'">
+                <span class="averageRating">
+                    {{patient.averageRating}}
+                </span>
+                <span >
+                    {{patient.averageRatingString}}
+                </span>
+            </td>
+        </tr>
+    </tbody>
 </table>
