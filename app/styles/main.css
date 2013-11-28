@@ -26,6 +26,10 @@ body {
     border-bottom: 2px solid transparent;
     border-left: 15px solid transparent;
     border-right: 15px solid transparent;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
 .ng-table .T1 {
@@ -43,4 +47,12 @@ body {
 .ng-table .averageRating {
     float: left;
     width: 50px;
+}
+
+.ng-table .patientrow:hover {
+    background-color: #D2E0E6;
+}
+
+.ng-table .patientrowselected {
+    background-color: rgba(0, 50, 108, 0.3);
 }

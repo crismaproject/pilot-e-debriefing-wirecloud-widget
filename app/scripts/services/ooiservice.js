@@ -13,16 +13,23 @@ angular.module(
         function (OOI_API, $resource) {
             'use strict';
 
+            var getCapturePatients, getMaxCareMeasures;
+
             // TODO: implement proper ooi integration
 
-            var getCapturePatients = function () {
+            getCapturePatients = function () {
                 return $resource('devResources/capturePatients/:patientId.json', {patientId: '@id'}, {
                     query: {method: 'GET', params: { patientId: 'allPatients'}, isArray: true}
                 });
             };
 
+            getMaxCareMeasures = function () {
+                return 7;
+            };
+
             return {
-                getCapturePatients : getCapturePatients
+                getCapturePatients : getCapturePatients,
+                getMaxCareMeasures : getMaxCareMeasures
             };
         }
     ]

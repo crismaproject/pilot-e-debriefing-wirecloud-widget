@@ -2,7 +2,7 @@
     <div>
         Patients:
         <table id="master-patient-widget" data-ng-table="tableParams" class="table ng-table-responsive">
-            <tr data-ng-repeat="patient in $data">
+            <tr data-ng-repeat="patient in $data" class="patientrow ng-class:{'patientrowselected': patient.id === selectedPatient.id};" data-ng-click="setSelected(patient)">
                 <td data-title="'ID'">
                     {{patient.id}}
                 </td>
@@ -25,7 +25,7 @@
                     </span>
                 </td>
                 <td data-title="'Care Measures'">
-                    {{patient.careMeasures.length}} / 7
+                    {{patient.careMeasures.length}} / {{maxCareMeasures}}
                 </td>
                 <td data-title="'Average Rating'">
                     <span class="averageRating">

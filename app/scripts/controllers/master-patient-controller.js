@@ -75,4 +75,10 @@ angular.module('eu.crismaproject.pilotE.controllers',
                         }
                     );
                 });
+                $scope.maxCareMeasures = ooi.getMaxCareMeasures();
+                $scope.selectedPatient = null;
+
+                $scope.setSelected = function (patient) {
+                    $scope.selectedPatient = patient;
+                };
             }]);
