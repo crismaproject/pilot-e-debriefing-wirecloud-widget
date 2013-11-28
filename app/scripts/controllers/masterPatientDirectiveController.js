@@ -1,10 +1,5 @@
-angular.module('eu.crismaproject.pilotE.controllers',
-    [
-        'ngTable',
-        'eu.crismaproject.pilotE.services',
-        'eu.crismaproject.pilotE.configuration'
-    ])
-    .controller('master-patient-controller',
+angular.module('eu.crismaproject.pilotE.controllers')
+    .controller('masterPatientDirectiveController',
         [
             '$scope',
             '$q',
@@ -14,11 +9,17 @@ angular.module('eu.crismaproject.pilotE.controllers',
             function ($scope, $q, NgTableParams, ooi, DEBUG) {
                 'use strict';
 
+                var initTable;
+
                 if (DEBUG) {
-                    console.log("initialising master controller");
+                    console.log("initialising master patient directive controller");
                 }
 
-                $scope.patients = ooi.getCapturePatients().query(function () {
+                if (!$scope.patients) {
+                    throw "IllegalStateException: patients not provided by directive user";
+                }
+
+                initTable = function (allPatients) {
                     $scope.tableParams = new NgTableParams(
                         {
                             page: 1,
@@ -29,7 +30,7 @@ angular.module('eu.crismaproject.pilotE.controllers',
                             getData: function ($defer, params) {
                                 var currentPatients, resolvedPatients, i;
 
-                                currentPatients = $scope.patients.slice(
+                                currentPatients = allPatients.slice(
                                     (params.page() - 1) * params.count(),
                                     params.page() * params.count()
                                 );
@@ -42,7 +43,7 @@ angular.module('eu.crismaproject.pilotE.controllers',
 
                                 $q.all(resolvedPatients).then(function (thePatients) {
                                     var patient, i, j, rating, getRatingString;
-                                    
+
                                     getRatingString = function (rating) {
                                         if (rating <= 1.5) {
                                             return '++';
@@ -51,10 +52,10 @@ angular.module('eu.crismaproject.pilotE.controllers',
                                         } else if (rating <= 3.5) {
                                             return '0';
                                         }
-                                        
+
                                         return '';
                                     };
-                                    
+
                                     for (i = 0; i < thePatients.length; ++i) {
                                         patient = thePatients[i];
                                         rating = null;
@@ -74,7 +75,20 @@ angular.module('eu.crismaproject.pilotE.controllers',
                             }
                         }
                     );
-                });
+                };
+
+                if ($scope.patients.length === 0) {
+                    if ($scope.patients.$promise) {
+                        $scope.patients.$promise.then(function () {
+                            initTable($scope.patients);
+                        });
+                    } else {
+                        throw "IllegalStateException: no patients";
+                    }
+                } else {
+                    initTable($scope.patients);
+                }
+
                 $scope.maxCareMeasures = ooi.getMaxCareMeasures();
                 $scope.selectedPatient = null;
 
