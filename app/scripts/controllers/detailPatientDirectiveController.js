@@ -8,8 +8,9 @@ angular.module('eu.crismaproject.pilotE.controllers')
                 'use strict';
 
                 if (DEBUG) {
-                    console.log("initialising detail patient directive controller");
+                    console.log('initialising detail patient directive controller');
                 }
 
                 $scope.classifications = ooi.getClassifications();
-            }]);
+            }
+        ]);

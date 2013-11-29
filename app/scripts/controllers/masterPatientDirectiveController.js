@@ -11,11 +11,11 @@ angular.module('eu.crismaproject.pilotE.controllers')
                 'use strict';
 
                 if (DEBUG) {
-                    console.log("initialising master patient directive controller");
+                    console.log('initialising master patient directive controller');
                 }
 
                 if (!$scope.patients) {
-                    throw "IllegalStateException: patients not provided by directive user";
+                    throw 'IllegalStateException: patients not provided by directive user';
                 }
 
                 $scope.tableParams = new NgTableParams(
@@ -85,7 +85,7 @@ angular.module('eu.crismaproject.pilotE.controllers')
                     }
                 );
 
-                $scope.$watch('patients.length', function (n, o, p) {
+                $scope.$watch('patients.length', function () {
                     $scope.tableParams.reload();
                 });
 
