@@ -13,9 +13,10 @@ angular.module('eu.crismaproject.pilotE.controllers',
                 'use strict';
 
                 if (DEBUG) {
-                    console.log("initialising capture view controller");
+                    console.log('initialising capture view controller');
                 }
 
                 $scope.patients = ooi.getCapturePatients().query();
                 $scope.selectedPatient = null;
-            }]);
+            }
+        ]);

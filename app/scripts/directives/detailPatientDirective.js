@@ -31,11 +31,11 @@ angular.module('eu.crismaproject.pilotE.directives').directive(
                 var format;
 
                 format = function (selection) {
-                    if (selection.text === "") {
-                        return "";
+                    if (selection.text === '') {
+                        return '';
                     }
 
-                    return "<img src='img/" + selection.text + ".png'/>";
+                    return '<img src="img/' + selection.text + '.png"/>';
                 };
 
                 $scope.select2Options = {
