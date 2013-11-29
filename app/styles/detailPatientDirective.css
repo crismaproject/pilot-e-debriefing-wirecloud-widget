@@ -1,0 +1,11 @@
+detail-patient-widget .rating {
+    width: 50px;
+}
+
+detail-patient-widget .responder {
+    width: 50px;
+}
+
+detail-patient-widget .defaultinsets {
+    padding: 5px;
+}
