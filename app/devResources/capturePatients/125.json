@@ -1,0 +1,58 @@
+{
+    "id" : 125,
+    "name" : "Gindhard",
+    "correctTriage" : "T2",
+    "preTriage" : {
+        "classification" : "T2",
+        "timestamp" : null,
+        "treatedBy" : null
+    },
+    "triage" : {
+        "classification" : "T3",
+        "timestamp" : null,
+        "treatedBy" : null
+    },
+    "careMeasures" : [
+        {
+            "measure" : "Consciousness",
+            "timestamp" : null,
+            "treatedBy" : null,
+            "rating" : 1
+        },
+        {
+            "measure" : "Pulse",
+            "timestamp" : null,
+            "treatedBy" : null,
+            "rating" : 6
+        },
+        {
+            "measure" : "Blood pressure",
+            "timestamp" : null,
+            "treatedBy" : null,
+            "rating" : 3
+        },
+        {
+            "measure" : "Position",
+            "timestamp" : null,
+            "treatedBy" : null,
+            "rating" : 1
+        },
+        {
+            "measure" : "Warmth preservation",
+            "timestamp" : null,
+            "treatedBy" : null,
+            "rating" : 1
+        },
+        {
+            "measure" : "Attendance",
+            "timestamp" : null,
+            "treatedBy" : null,
+            "rating" : 1
+        }
+    ],
+    "transportation" : {
+        "timestamp" : null,
+        "treatedBy" : null,
+        "rating" : null
+    }
+}

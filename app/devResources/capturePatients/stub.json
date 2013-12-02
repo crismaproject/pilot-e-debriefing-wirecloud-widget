@@ -1,0 +1,64 @@
+{
+    "id" : 100,
+    "name" : "Mustermann",
+    "correctTriage" : "T3",
+    "preTriage" : {
+        "classification" : null,
+        "timestamp" : null,
+        "treatedBy" : null
+    },
+    "triage" : {
+        "classification" : null,
+        "timestamp" : null,
+        "treatedBy" : null
+    },
+    "careMeasures" : [
+        {
+            "measure" : "Consciousness",
+            "timestamp" : null,
+            "treatedBy" : null,
+            "rating" : null
+        },
+        {
+            "measure" : "Respiration",
+            "timestamp" : null,
+            "treatedBy" : null,
+            "rating" : null
+        },
+        {
+            "measure" : "Pulse",
+            "timestamp" : null,
+            "treatedBy" : null,
+            "rating" : null
+        },
+        {
+            "measure" : "Blood pressure",
+            "timestamp" : null,
+            "treatedBy" : null,
+            "rating" : null
+        },
+        {
+            "measure" : "Position",
+            "timestamp" : null,
+            "treatedBy" : null,
+            "rating" : null
+        },
+        {
+            "measure" : "Warmth preservation",
+            "timestamp" : null,
+            "treatedBy" : null,
+            "rating" : null
+        },
+        {
+            "measure" : "Attendance",
+            "timestamp" : null,
+            "treatedBy" : null,
+            "rating" : null
+        }
+    ],
+    "transportation" : {
+        "timestamp" : null,
+        "treatedBy" : null,
+        "rating" : null
+    }
+}

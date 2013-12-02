@@ -1,0 +1,41 @@
+.ng-table .triage {
+    border-top: 2px solid transparent;
+    border-bottom: 2px solid transparent;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.ng-table .T1 {
+    background-color: #e9322d;
+}
+
+.ng-table .T2 {
+    background-color: #f5e810;
+}
+
+.ng-table .T3 {
+    background-color: #62c462;
+}
+
+.ng-table .averageRating {
+    float: left;
+    width: 50px;
+}
+
+.ng-table .patientrow:hover {
+    background-color: #D2E0E6;
+}
+
+.ng-table .patientrowselected {
+    background-color: rgba(0, 50, 108, 0.3);
+}
+
+.ng-table .centered {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
