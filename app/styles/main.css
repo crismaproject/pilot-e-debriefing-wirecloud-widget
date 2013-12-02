@@ -4,19 +4,41 @@ body {
     color: #333;
 }
 
-.hero-unit {
-    margin: 50px auto 0 auto;
-    width: 300px;
-    font-size: 18px;
-    font-weight: 200;
-    line-height: 30px;
-    background-color: #eee;
-    border-radius: 6px;
-    padding: 60px;
+.triage {
+    border-top: 2px solid transparent;
+    border-bottom: 2px solid transparent;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 
-.hero-unit h1 {
-    font-size: 60px;
-    line-height: 1;
-    letter-spacing: -1px;
+.triage.T1 {
+    background-color: #e9322d;
+}
+
+.triage.T2 {
+    background-color: #f5e810;
+}
+
+.triage.T3 {
+    background-color: #62c462;
+}
+
+.container {
+    width: 1280px;
+}
+
+#master {
+    float: left;
+    margin: 20px;
+    width: 760px;
+}
+
+#detail {
+    float: right;
+    margin: 20px;
+    width: 440px;
 }

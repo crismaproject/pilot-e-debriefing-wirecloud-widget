@@ -13,7 +13,7 @@ angular.module(
         function (OOI_API, $resource) {
             'use strict';
 
-            var getCapturePatients, getMaxCareMeasures;
+            var getCapturePatients, getMaxCareMeasures, getClassifications;
 
             // TODO: implement proper ooi integration
 
@@ -27,9 +27,16 @@ angular.module(
                 return 7;
             };
 
+            getClassifications = function () {
+                return [
+                    'T1', 'T2', 'T3'
+                ];
+            };
+
             return {
                 getCapturePatients : getCapturePatients,
-                getMaxCareMeasures : getMaxCareMeasures
+                getMaxCareMeasures : getMaxCareMeasures,
+                getClassifications : getClassifications
             };
         }
     ]
