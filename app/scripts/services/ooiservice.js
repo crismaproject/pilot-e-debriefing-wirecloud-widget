@@ -13,15 +13,39 @@ angular.module(
         function (OOI_API, $resource) {
             'use strict';
 
-            var getCapturePatients, getMaxCareMeasures, getClassifications;
+            var getCapturePatients,
+                getMaxCareMeasures,
+                getClassifications,
+                getAverageRating,
+                getAverageRatingString,
+                getRatedMeasuresCount;
 
             // TODO: implement proper ooi integration
 
             getCapturePatients = function () {
                 return $resource(OOI_API + '/CRISMA.capturePatients/:patientId', {},
                     {
-                        'get':    {method: 'GET', cache: true},
-                        'save':   {method: 'POST', cache: true},
+                        'get':    {method: 'GET', cache: true, transformResponse: function (data) {
+                            // we augment the patient with virtual properties
+                            var patient;
+
+                            patient = JSON.parse(data);
+                            patient.ratedMeasuresCount = getRatedMeasuresCount(patient);
+                            patient.averageRating = getAverageRating(patient);
+                            patient.averageRatingString = getAverageRatingString(patient.averageRating);
+
+                            return patient;
+                        }},
+                        'save':   {method: 'POST', cache: true, transformRequest: function (data) {
+                            // we remove the virtual properties from the patient again
+                            console.log(data);
+
+                            delete data.ratedMeasuresCount;
+                            delete data.averageRating;
+                            delete data.averageRatingString;
+
+                            return data;
+                        }},
                         'query':  {method: 'GET', isArray: true, transformResponse: function (data) {
                             // we strip the ids of the objects only
                             var col, res, i;
@@ -50,10 +74,65 @@ angular.module(
                 ];
             };
 
+            getAverageRating = function (patient) {
+                var i, numerator, denominator;
+
+                if (patient.careMeasures.length !== getMaxCareMeasures()) {
+                    throw "IllegalArgumentException: not all care measures specified";
+                }
+
+                numerator = 0;
+                denominator = 0;
+                for (i = 0; i < patient.careMeasures.length; ++i) {
+                    if (patient.careMeasures[i].rating) {
+                        denominator++;
+                        numerator += patient.careMeasures[i].rating;
+                    }
+                }
+
+                return denominator > 0 ? Math.round((numerator / denominator) * 100) / 100 : null;
+            };
+
+            getRatedMeasuresCount = function (patient) {
+                var i, count;
+
+                if (patient.careMeasures.length !== getMaxCareMeasures()) {
+                    throw "IllegalArgumentException: not all care measures specified";
+                }
+
+                count = 0;
+                for (i = 0; i < patient.careMeasures.length; ++i) {
+                    if (patient.careMeasures[i].rating) {
+                        count++;
+                    }
+                }
+
+                return count;
+            };
+
+            getAverageRatingString = function (rating) {
+                if (!rating) {
+                    return '';
+                }
+
+                if (rating <= 1.5) {
+                    return '++';
+                } else if (rating <= 2.5) {
+                    return '+';
+                } else if (rating <= 3.5) {
+                    return '0';
+                }
+
+                return '';
+            };
+
             return {
                 getCapturePatients : getCapturePatients,
                 getMaxCareMeasures : getMaxCareMeasures,
-                getClassifications : getClassifications
+                getClassifications : getClassifications,
+                getAverageRating : getAverageRating,
+                getAverageRatingString : getAverageRatingString,
+                getRatedMeasuresCount : getRatedMeasuresCount
             };
         }
     ]
