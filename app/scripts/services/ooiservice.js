@@ -86,7 +86,7 @@ angular.module(
                 for (i = 0; i < patient.careMeasures.length; ++i) {
                     if (patient.careMeasures[i].rating) {
                         denominator++;
-                        numerator += patient.careMeasures[i].rating;
+                        numerator += parseInt(patient.careMeasures[i].rating, 10);
                     }
                 }
 
@@ -121,6 +121,10 @@ angular.module(
                     return '+';
                 } else if (rating <= 3.5) {
                     return '0';
+                } else if (rating <= 4.5) {
+                    return '-';
+                } else if (rating <= 6) {
+                    return '--';
                 }
 
                 return '';
