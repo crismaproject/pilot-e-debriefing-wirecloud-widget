@@ -10,7 +10,8 @@ angular.module(
     [
         'OOI_API',
         '$resource',
-        function (OOI_API, $resource) {
+        '$timeout',
+        function (OOI_API, $resource, $timeout) {
             'use strict';
 
             var getCapturePatients,
@@ -18,12 +19,14 @@ angular.module(
                 getClassifications,
                 getAverageRating,
                 getAverageRatingString,
-                getRatedMeasuresCount;
+                getRatedMeasuresCount,
+                getQueue,
+                queueMap;
 
             // TODO: implement proper ooi integration
 
             getCapturePatients = function () {
-                return $resource(OOI_API + '/CRISMA.capturePatients/:patientId', {},
+                return $resource(OOI_API + '/CRISMA.capturePatients/:patientId', {patientId: '@id'},
                     {
                         'get':    {method: 'GET', cache: true, transformResponse: function (data) {
                             // we augment the patient with virtual properties
@@ -36,15 +39,29 @@ angular.module(
 
                             return patient;
                         }},
-                        'save':   {method: 'POST', cache: true, transformRequest: function (data) {
+                        'save':   {method: 'PUT', cache: true, transformRequest: function (data) {
                             // we remove the virtual properties from the patient again
-                            console.log(data);
+                            return JSON.stringify(data, function (k, v) {
+                                if (k === 'averageRating' || k === 'averageRatingString' || k === 'ratedMeasuresCount') {
+                                    return undefined;
+                                }
 
-                            delete data.ratedMeasuresCount;
-                            delete data.averageRating;
-                            delete data.averageRatingString;
+                                if (k.substring(0, 1) === '$' && !(k === '$self' || k === '$ref')) {
+                                    return undefined;
+                                }
 
-                            return data;
+                                return v;
+                            });
+                        }, transformResponse: function (data) {
+                            // we augment the patient with virtual properties again
+                            var patient;
+
+                            patient = JSON.parse(data);
+                            patient.ratedMeasuresCount = getRatedMeasuresCount(patient);
+                            patient.averageRating = getAverageRating(patient);
+                            patient.averageRatingString = getAverageRatingString(patient.averageRating);
+
+                            return patient;
                         }},
                         'query':  {method: 'GET', isArray: true, transformResponse: function (data) {
                             // we strip the ids of the objects only
@@ -130,13 +147,47 @@ angular.module(
                 return '';
             };
 
+            queueMap = {};
+
+            getQueue = function (queueName) {
+                var queue, clear, currentPromise;
+
+                if (!queueName) {
+                    throw "IllegalArgumentException: queueName empty";
+                }
+
+                currentPromise = queueMap[queueName];
+
+                queue = function (fn, timeout) {
+                    clear();
+
+                    currentPromise = $timeout(fn, timeout);
+                    queueMap[queueName] = currentPromise;
+                    currentPromise.then(function () {
+                        queueMap[queueName] = undefined;
+                    });
+                };
+
+                clear = function () {
+                    if (currentPromise) {
+                        $timeout.cancel(currentPromise);
+                    }
+                };
+
+                return {
+                    queue : queue,
+                    clear : clear
+                };
+            };
+
             return {
                 getCapturePatients : getCapturePatients,
                 getMaxCareMeasures : getMaxCareMeasures,
                 getClassifications : getClassifications,
                 getAverageRating : getAverageRating,
                 getAverageRatingString : getAverageRatingString,
-                getRatedMeasuresCount : getRatedMeasuresCount
+                getRatedMeasuresCount : getRatedMeasuresCount,
+                getQueue : getQueue
             };
         }
     ]

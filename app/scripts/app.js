@@ -1,4 +1,4 @@
-angular.module('eu.crismaproject.pilotE', ['eu.crismaproject.pilotE.controllers', 'eu.crismaproject.pilotE.directives', 'ngRoute'])
+angular.module('eu.crismaproject.pilotE', ['eu.crismaproject.pilotE.controllers', 'eu.crismaproject.pilotE.directives', 'ngRoute', 'ngAnimate'])
     .config(['$routeProvider', function ($routeProvider) {
         'use strict';
 
