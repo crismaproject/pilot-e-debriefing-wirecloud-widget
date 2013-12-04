@@ -1,9 +1,9 @@
-<div>
+<div ng-hide="!patient">
     <div class="well">
         <table>
             <thead>
                 <tr>
-                    <th colspan="2" class="text-left">Measures for {{patient.name}}</th>
+                    <th colspan="2" class="text-left">Measures for {{patient.name}}, {{patient.forename}}</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,7 +39,7 @@
                 <tr>
                     <td class="defaultinsets">When:</td>
                     <td class="text-right defaultinsets">
-                        <timepicker ng-model="patient.preTriage.timestamp" show-meridian="false" required="true"></timepicker>
+                        <timepicker ng-model="patient.preTriage.timestamp" show-meridian="false" required="false"></timepicker>
                     </td>
                 </tr>
                 <tr>
@@ -66,7 +66,7 @@
                 <tr>
                     <td class="defaultinsets">When:</td>
                     <td class="text-right defaultinsets">
-                        <timepicker ng-model="patient.triage.timestamp" show-meridian="false" required="true"></timepicker>
+                        <timepicker ng-model="patient.triage.timestamp" show-meridian="false" required="false"></timepicker>
                     </td>
                 </tr>
                 <tr>
@@ -80,24 +80,27 @@
         <table>
             <thead>
                 <tr>
-                    <th colspan="4" class="text-left defaultinsets">Care Measures</th>
+                    <th colspan="3" class="text-left defaultinsets">Care Measures</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
+                    <td colspan="2" class="defaultinsets">Treatment begin:</td>
+                    <td class="text-right defaultinsets">
+                        <timepicker ng-model="patient.treatment_timestamp" show-meridian="false" required="false"></timepicker>
+                    </td>
+                </tr>
+                <tr>
                     <td class="text-center defaultinsets"></td>
-                    <td class="text-center defaultinsets"><i>When</i></td>
                     <td class="text-center defaultinsets"><i>R. Id</i></td>
                     <td class="text-center defaultinsets"><i>Rating</i></td>
                 </tr>
                 <!-- assumes care measures available -->
-                <tr data-ng-repeat="cm in patient.careMeasures | orderBy:'measure'">
+                <tr data-ng-repeat="cm in patient.careMeasures | orderBy:'measure'" ng-controller="detailPatientDirectiveCareMeasureController">
                     <td class="defaultinsets">{{cm.measure}}:</td>
-                    <td class="defaultinsets">
-                        <timepicker ng-model="cm.timestamp" show-meridian="false"></timepicker>
-                    </td>
                     <td class="text-right defaultinsets"><input ng-model="cm.treatedBy" class="responder"></td>
                     <td class="text-right defaultinsets"><select ng-model="cm.rating" class="rating">
+                            <option value=""></option>
                             <option value="1">1</option>
                             <option value="3">3</option>
                             <option value="6">6</option>

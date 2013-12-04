@@ -1,4 +1,7 @@
 <div>
+    <div id="statusbar">
+        <alert data-ng-repeat="alert in alerts" type="alert.type" close="alerts.pop()">{{alert.msg}}</alert>
+    </div>
     <div id="master">
         <master-patient-widget patients="patients" selected-patient="selectedPatient"></master-patient-widget>
     </div>
