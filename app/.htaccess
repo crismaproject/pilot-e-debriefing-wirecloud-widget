@@ -8,6 +8,11 @@
 # # CROSS-ORIGIN RESOURCE SHARING (CORS)                                       #
 # ##############################################################################
 
+AuthType Basic
+AuthName "Restricted to consortium partners"
+AuthUserFile /home/demo/crisma/pilotE/.htpasswd
+Require valid-user
+
 # ------------------------------------------------------------------------------
 # | Cross-domain AJAX requests                                                 |
 # ------------------------------------------------------------------------------
