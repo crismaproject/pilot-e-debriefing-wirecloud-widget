@@ -71,7 +71,7 @@ angular.module(
                             res = [];
 
                             for (i = 0; i < col.length; ++i) {
-                                res.push({"id": parseInt(col[i].$ref.substr(col[i].$ref.lastIndexOf('/') + 1), 10)});
+                                res.push({'id': parseInt(col[i].$ref.substr(col[i].$ref.lastIndexOf('/') + 1), 10)});
                             }
 
                             return res;
@@ -95,7 +95,7 @@ angular.module(
                 var i, numerator, denominator;
 
                 if (patient.careMeasures.length !== getMaxCareMeasures()) {
-                    throw "IllegalArgumentException: not all care measures specified";
+                    throw 'IllegalArgumentException: not all care measures specified';
                 }
 
                 numerator = 0;
@@ -114,7 +114,7 @@ angular.module(
                 var i, count;
 
                 if (patient.careMeasures.length !== getMaxCareMeasures()) {
-                    throw "IllegalArgumentException: not all care measures specified";
+                    throw 'IllegalArgumentException: not all care measures specified';
                 }
 
                 count = 0;
@@ -153,7 +153,7 @@ angular.module(
                 var queue, clear, currentPromise;
 
                 if (!queueName) {
-                    throw "IllegalArgumentException: queueName empty";
+                    throw 'IllegalArgumentException: queueName empty';
                 }
 
                 currentPromise = queueMap[queueName];

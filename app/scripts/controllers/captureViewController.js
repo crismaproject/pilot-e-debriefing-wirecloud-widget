@@ -21,7 +21,7 @@ angular.module('eu.crismaproject.pilotE.controllers',
                 $scope.selectedPatient = null;
                 $scope.alerts = [];
 
-                $scope.$on("alertSave", function (e, alert) {
+                $scope.$on('alertSave', function (e, alert) {
                     if (alert) {
                         $scope.alerts.pop();
                         $scope.alerts.push(alert);
