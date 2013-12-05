@@ -64,26 +64,26 @@ angular.module('eu.crismaproject.pilotE.controllers')
                     $scope.selectedPatient = patient;
                 };
 
-                $scope.$watch("selectedPatient", function (n, o) {
+                $scope.$watch('selectedPatient', function (n, o) {
                     if (o && n && o.id === n.id) {
                         // now the patient has been changed by the user, queue save operation
-                        $scope.$emit("alertSave", {
+                        $scope.$emit('alertSave', {
                             type: 'warning',
-                            msg: 'Patient \'' + n.name + ", " + n.forename + "\' contains unsaved changes!"
+                            msg: 'Patient \'' + n.name + ', ' + n.forename + '\' contains unsaved changes!'
                         });
                         ooi.getQueue(n.name + n.id).queue(function () {
                             n.$save(
                                 {},
                                 function () {
-                                    $scope.$emit("alertSave", {
+                                    $scope.$emit('alertSave', {
                                         type: 'success',
-                                        msg: 'Patient \'' + n.name + ", " + n.forename + "\' saved!"
+                                        msg: 'Patient \'' + n.name + ', ' + n.forename + '\' saved!'
                                     });
                                 },
                                 function () {
-                                    $scope.$emit("alertSave", {
+                                    $scope.$emit('alertSave', {
                                         type: 'error',
-                                        msg: 'Patient \'' + n.name + ", " + n.forename + "\' could not be saved!"
+                                        msg: 'Patient \'' + n.name + ', ' + n.forename + '\' could not be saved!'
                                     });
                                 }
                             );
