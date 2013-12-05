@@ -10,6 +10,8 @@
 module.exports = function (grunt) {
   require('load-grunt-tasks')(grunt);
   require('time-grunt')(grunt);
+  
+  grunt.loadNpmTasks('grunt-ssh');
 
   grunt.initConfig({
     yeoman: {
@@ -294,6 +296,22 @@ module.exports = function (grunt) {
           ]
         }
       }
+    },
+    secret: grunt.file.readJSON('secret.json'),
+    sftp: {
+      upload: {
+        files: {
+          './': '<%= yeoman.dist %>/**/*'
+        },
+        options: {
+          path: '/var/www_crisma/pilotE/',
+          srcBasePath: '<%= yeoman.dist %>/',
+          host: 'crisma.cismet.de',
+          username: '<%= secret.username %>',
+          password: '<%= secret.password %>',
+          createDirectories: true
+        }
+      }
     }
   });
 
@@ -338,5 +356,10 @@ module.exports = function (grunt) {
     'jshint',
     'test',
     'build'
+  ]);
+
+  grunt.registerTask('deploy', [
+    'default',
+    'sftp'
   ]);
 };
