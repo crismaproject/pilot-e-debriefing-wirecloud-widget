@@ -26,7 +26,7 @@ angular.module(
             // TODO: implement proper ooi integration
 
             getCapturePatients = function () {
-                return $resource(OOI_API + '/CRISMA.capturePatients/:patientId', {patientId: '@id'},
+                return $resource(OOI_API + '/CRISMA.capturePatients/:patientId', {patientId: '@id', deduplicate: true},
                     {
                         'get':    {method: 'GET', cache: true, transformResponse: function (data) {
                             // we augment the patient with virtual properties
