@@ -6,10 +6,10 @@ angular.module('eu.crismaproject.pilotE', ['eu.crismaproject.pilotE.controllers'
             .when('/', {
                 templateUrl: 'views/main.html',
                 controller: 'captureViewController'
-            }).when('/widgets/care-measures', {
-                templateUrl : 'views/care-measures-widget.html',
-                controller : 'careMeasuresWidgetController'
-            }).otherwise({
+            }).when('/debriefing', {
+              templateUrl : 'views/debriefing.html',
+              controller : 'debriefingViewController'
+          }).otherwise({
                 redirectTo: '/'
             });
     }]);

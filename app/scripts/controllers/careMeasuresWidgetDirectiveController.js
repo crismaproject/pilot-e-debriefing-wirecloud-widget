@@ -1,6 +1,6 @@
 var controllers = angular.module('eu.crismaproject.pilotE.controllers');
 
-    controllers.controller('careMeasuresWidgetController',
+    controllers.controller('careMeasuresWidgetDirectiveController',
         ['$scope',
          'eu.crismaproject.pilotE.services.OoI',
          '$q',
@@ -8,8 +8,20 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
          
     function($scope, ooiService, $q, DEBUG) {
      'use strict';
+     
+     if (DEBUG) {
+       console.log('initialising care measures widget directive controller');
+     }
+
+     if (!$scope.patientsData) {
+         throw 'IllegalStateException: patientsData not provided by directive user';
+     }
+     
+     if (!$scope.kpiListData) {
+         throw 'IllegalStateException: kpiListData not provided by directive user';
+     }
           
-      var chartSettings = {
+      var chartOpts = {
           pieChartOptions : {
             // Provide a custom seriesColors array to override the default colors.
             seriesColors : [ '#FF0000', '#FFFF00', '#66FF66', '#C0C0C0' ],
@@ -39,8 +51,7 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
       var patientDataForChart = [];
 
       var numberOfPatients = 0;
-      var patients = ooiService.getCapturePatients().query();
-      patients.$promise.then(function(resp) {
+      $scope.patientsData.$promise.then(function(resp) {
         
         // Get number of all patients.
         numberOfPatients = resp.length;
@@ -118,18 +129,10 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
                 return 0;
               });
 
-              $scope.someData = [ patientDataForChart ];
-              $scope.myChartOpts = chartSettings.pieChartOptions;
+              $scope.chartData = [ patientDataForChart ];
+              $scope.chartSettings = chartOpts.pieChartOptions;
             });
 
       });
-      
-      $scope.incidentData = [ {
-        value : '35min',
-        key : 'average time until care measures start'
-      }, {
-        value : '0',
-        key : 'number of peoples died'
-      } ];
       
     }]);
