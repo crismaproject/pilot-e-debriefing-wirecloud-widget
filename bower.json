@@ -8,16 +8,19 @@
     "angular-resource": "1.2.3",
     "angular-route": "1.2.3",
     "ng-table": "~0.3.0",
+    "angular-ui-chart": "0.0.1",
     "angular-ui-select2": "~0.0.4",
     "angular-bootstrap": "~0.7.0",
     "angular-animate": "1.2.3",
-    "angular": "1.2.3"
+    "angular": "1.2.3",
+    "momentjs": "~2.5.1"
   },
   "devDependencies": {
     "angular-mocks": "~1.0.7",
     "angular-scenario": "~1.0.7"
   },
   "resolutions": {
-    "angular": "1.2.3"
+    "angular": "1.2.3",
+    "jquery": "~2.x"
   }
 }
