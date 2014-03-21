@@ -224,13 +224,8 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
                         var arrCorrectClassifiedPatients = [];
 
                         for (var currIter = 0; currIter <= (parseInt(nbrIterations, 10) + 1); currIter++) {
-                          console.log('nbrIterations: ' + nbrIterations);
-                          console.log('currIter: ' + currIter);
-
                           var currIterTimeStamp = moment(dateTimeStamp)
                               .add('minutes', iterStepMinutes * currIter);
-                          
-                          console.log('currIterTimeStamp: ' + currIterTimeStamp.format('YYYY-MM-DD HH:mm:ss'));
 
                           var nbrWrongClassifiedPatients = 0;
                           var nbrCorrectClassifiedPatients = 0;
