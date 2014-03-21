@@ -13,6 +13,10 @@ angular.module('eu.crismaproject.pilotE.controllers')
 
                 $scope.patients = ooi.getCapturePatients().query();
                 
+                
+                $scope.stepMinutesData = 10;
+                $scope.stepAmountData = 30;
+                
                 $scope.cmKpiData = [ {
                   value : '11min',
                   key : 'time until triage starts'

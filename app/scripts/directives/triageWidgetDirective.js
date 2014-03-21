@@ -5,7 +5,9 @@ angular.module('eu.crismaproject.pilotE.directives').directive(
 
         var scope = {
                 patientsData: '=',
-                kpiListData: '='
+                kpiListData: '=',
+                stepMinutes: '=',
+                stepAmount: '='
             };
 
         return {
