@@ -12,6 +12,10 @@ angular.module('eu.crismaproject.pilotE.controllers')
                 }
 
                 $scope.patients = ooi.getCapturePatients().query();
+
+                $scope.stepMinutesData = 10;
+                $scope.stepAmountData = 30;
+                                
                 
                 $scope.ptrKpiData = [ {
                   value : '6min',

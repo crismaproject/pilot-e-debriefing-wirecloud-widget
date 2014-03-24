@@ -20,6 +20,21 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
      if (!$scope.kpiListData) {
          throw 'IllegalStateException: kpiListData not provided by directive user';
      }
+     
+     
+     if (!$scope.stepMinutes) {
+       if (DEBUG) {
+         console.log('stepMinutes not provided by directive user, setting default value.');
+       }
+       $scope.stepMinutes = 10;
+     }
+     
+     if (!$scope.stepAmount) {
+       if (DEBUG) {
+         console.log('stepAmount not provided by directive user, setting default value.');
+       }
+       $scope.stepAmount = 30;
+     }
           
       var chartOpts = {
            barChartOptions : {
@@ -52,10 +67,15 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
              xaxis : {
                renderer : $.jqplot.DateAxisRenderer,
                min : '1899-12-30 08:23:00',
+               tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
                tickOptions : {
+//               angle: -90,
+//               tickInterval: '1 hour',
+//               autoscale: true,
+                 fontSize: '8pt',
                  formatString : '%R'
                },
-               tickInterval : '30 minutes',
+               tickInterval : '60 minutes',
                label : 'Time since exercise start (hh:mm)',
                labelOptions : {
                  fontFamily : 'Helvetica',
@@ -90,8 +110,8 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
              }
            },
            cursor : {
-           // show: true,
-           // zoom:true,
+             show: true,
+             zoom: true,
            // showTooltip:true
            }
           }
@@ -113,7 +133,7 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
             // Get pre-triage classification of all patients and put the
             // data into a map.
 
-            var patientPreTriageCheckCorrectTimestamp = [];
+            $scope.patientPreTriageCheckCorrectTimestamp = [];
             var patientPreTriageCheckIncorrectTimestamp = [];
             var patientPreTriageCheck = [];
             var patientPromises = [];
@@ -150,7 +170,7 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
 
                                 if (moment(resp.preTriage.timestamp)
                                     .isValid()) {
-                                  patientPreTriageCheckCorrectTimestamp
+                                  $scope.patientPreTriageCheckCorrectTimestamp
                                       .push([
                                           moment(resp.preTriage.timestamp)
                                               .format('YYYY-MM-DD HH:mm:ss'),
@@ -164,7 +184,7 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
                               });
 
                       // Sort array by date ascending.
-                      patientPreTriageCheckCorrectTimestamp
+                      $scope.patientPreTriageCheckCorrectTimestamp
                           .sort(function(a, b) {
                             // a < b
                             if (moment(a[0]).diff(moment(b[0])) < 0) {
@@ -179,35 +199,34 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
                           });
                       
                       if (DEBUG) {
-                        console.log(patientPreTriageCheckCorrectTimestamp);
+                        console.log($scope.patientPreTriageCheckCorrectTimestamp);
                       }
 
-                      // Starttime for the chart shall be 30 minutes before
+                      // Starttime for the chart shall be 5 minutes before
                       // the earliest triage timestamp.
-                      var timePeriodStart = moment(
-                          patientPreTriageCheckCorrectTimestamp[0][0])
-                          .subtract('minutes', 30).format(
+                      $scope.timePeriodStart = moment(
+                          $scope.patientPreTriageCheckCorrectTimestamp[0][0])
+                          .subtract('minutes', 5).format(
                               'YYYY-MM-DD HH:mm:ss');
                       if (DEBUG) {
-                        console.log('timePeriodStart: ' + timePeriodStart);
+                        console.log('timePeriodStart: ' + $scope.timePeriodStart);
                       }
 
                       // Endtime for the chart shall be 30 minutes after the
                       // last triage timestamp.
                       var timePeriodEnd = moment(
-                          patientPreTriageCheckCorrectTimestamp[patientPreTriageCheckCorrectTimestamp.length - 1][0])
+                          $scope.patientPreTriageCheckCorrectTimestamp[$scope.patientPreTriageCheckCorrectTimestamp.length - 1][0])
                           .add('minutes', 30).format('YYYY-MM-DD HH:mm:ss');
                       if (DEBUG) {
                         console.log('timePeriodEnd: ' + timePeriodEnd);
                       }
 
-                      var calculatePreTriagedPatients = function(
-                          dateTimeStamp, dataArray, nbrIterations,
-                          iterStepMinutes) {
+                      $scope.calculatePreTriagedPatients = function(
+                          dateTimeStamp, dataArray, nbrIterations, iterStepMinutes) {
                         var arrWrongClassifiedPatients = [];
                         var arrCorrectClassifiedPatients = [];
 
-                        for (var currIter = 0; currIter < nbrIterations; currIter++) {
+                        for (var currIter = 0; currIter <= parseInt(nbrIterations, 10); currIter++) {
 
                           var currIterTimeStamp = moment(dateTimeStamp)
                               .add('minutes', iterStepMinutes * currIter);
@@ -245,33 +264,49 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
 
                       if (DEBUG) {
                        console.log('WrongClassifiedPatients: ');
-                       console.log(calculatePreTriagedPatients(
-                           timePeriodStart,
-                           patientPreTriageCheckCorrectTimestamp, 20, 30)[1]);
+                       console.log($scope.calculatePreTriagedPatients(
+                           $scope.timePeriodStart,
+                           $scope.patientPreTriageCheckCorrectTimestamp, $scope.stepAmount, $scope.stepMinutes)[1]);
                        console.log('CorrectClassifiedPatients: ');
-                       console.log(calculatePreTriagedPatients(
-                           timePeriodStart,
-                           patientPreTriageCheckCorrectTimestamp, 20, 30)[0]);
+                       console.log($scope.calculatePreTriagedPatients(
+                           $scope.timePeriodStart,
+                           $scope.patientPreTriageCheckCorrectTimestamp, $scope.stepAmount, $scope.stepMinutes)[0]);
                       }
 
-                      var stepMinutes = 30;
-                      patientDataForChart = calculatePreTriagedPatients(
-                          timePeriodStart,
-                          patientPreTriageCheckCorrectTimestamp, 20,
-                          stepMinutes);
+                      patientDataForChart = $scope.calculatePreTriagedPatients(
+                          $scope.timePeriodStart,
+                          $scope.patientPreTriageCheckCorrectTimestamp, $scope.stepAmount,
+                          $scope.stepMinutes);
 
                       // Finally set start date to chart options.
-                      chartOpts.barChartOptions.axes.xaxis.min = timePeriodStart;
-
-                      // Finally set the tickInterval to chart options.
-                      if (DEBUG) {
-                        console.log(stepMinutes.toString() + ' minutes');
-                      }
-                      chartOpts.barChartOptions.axes.xaxis.tickInterval = stepMinutes.toString() + ' minutes'; // i.e. '30 minutes'
+                      chartOpts.barChartOptions.axes.xaxis.min = $scope.timePeriodStart;
 
                       $scope.chartData = patientDataForChart;
                       $scope.chartSettings = chartOpts.barChartOptions;
 
                     });
           });
+            
+            $scope.$watch('stepMinutes', function() {
+              if ($scope.stepMinutes.length > 0) {
+                var patientDataForChart = [];
+                patientDataForChart = $scope.calculatePreTriagedPatients(
+                    $scope.timePeriodStart,
+                    $scope.patientPreTriageCheckCorrectTimestamp,
+                    $scope.stepAmount, $scope.stepMinutes);
+                $scope.chartData = patientDataForChart;
+              }
+            });
+            
+            $scope.$watch('stepAmount', function() {
+              if ($scope.stepAmount.length > 0) {
+                var patientDataForChart = [];
+                patientDataForChart = $scope.calculatePreTriagedPatients(
+                    $scope.timePeriodStart,
+                    $scope.patientPreTriageCheckCorrectTimestamp,
+                    $scope.stepAmount, $scope.stepMinutes);
+                $scope.chartData = patientDataForChart;
+              }
+            });
+            
     }]);
