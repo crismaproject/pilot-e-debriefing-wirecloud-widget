@@ -15,7 +15,6 @@ angular.module('eu.crismaproject.pilotE.controllers')
                 
                 
                 $scope.stepMinutesData = 10;
-                $scope.stepAmountData = 30;
                 
                 $scope.cmKpiData = [ {
                   value : '11min',
