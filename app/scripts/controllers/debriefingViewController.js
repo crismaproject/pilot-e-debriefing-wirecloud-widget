@@ -11,7 +11,7 @@ angular.module('eu.crismaproject.pilotE.controllers')
                     console.log('initialising debriefing view controller');
                 }
 
-                $scope.patients = ooi.getCapturePatients().query();
+                $scope.patients = ooi.getCapturePatients().getAll();
                 
                 
                 $scope.stepMinutesData = 10;
