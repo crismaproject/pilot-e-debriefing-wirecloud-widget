@@ -2,11 +2,9 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
 
     controllers.controller('careMeasuresWidgetDirectiveController',
         ['$scope',
-         'eu.crismaproject.pilotE.services.OoI',
-         '$q',
          'DEBUG',
          
-    function($scope, ooiService, $q, DEBUG) {
+    function($scope, DEBUG) {
      'use strict';
      
      if (DEBUG) {
@@ -55,84 +53,74 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
         
         // Get number of all patients.
         numberOfPatients = resp.length;
+        
         if (DEBUG) {
           console.log('Number of Patients: ' + numberOfPatients);
+          console.log('Response: ' + resp[0].toSource());
+          console.log('Response: ' + resp[3].toSource());
         }
 
-        // Get triage classification of all patients and put the data into a
-        // map.
-        
+        // Get triage classification of all patients and put the data into a map.
         
         var classificationMap = {};
-        var patientPromises = [];
+        var triageClassification = 'unclassified';
+        
+        for (var currPat = 0; currPat < numberOfPatients; currPat++) {
+          
+          if (DEBUG) {
+            console.log(resp[currPat]);
+            console.log(resp[currPat].correctTriage);
+            console.log(resp[currPat].triage.classification);
+          }
+  
+          triageClassification = resp[currPat].triage.classification;
 
-        for (var patId = 1; patId <= numberOfPatients; patId++) {
-          var triageClassification = 'unclassified';
-          var patientXY = ooiService.getCapturePatients().get({
-            patientId : patId
-          });
-          patientPromises.push(patientXY.$promise);
+          if (triageClassification === null || triageClassification === undefined || triageClassification.valueOf() === '') {
+            triageClassification = 'unclassified';
+          }
+
+          if (classificationMap[triageClassification] === null || classificationMap[triageClassification] === undefined) {
+            classificationMap[triageClassification] = 0;
+          }
+          classificationMap[triageClassification]++;
+          
+          if (DEBUG) {
+           console
+               .log('classificationMap.T1: ' + classificationMap.T1);
+           console
+               .log('classificationMap.T2: ' + classificationMap.T2);
+           console
+               .log('classificationMap.T3: ' + classificationMap.T3);
+           console.log('classificationMap.unclassified: ' + classificationMap.unclassified);
+          }
         }
 
-        $q.all(patientPromises).then(
-            function(responses) {
-              angular.forEach(responses,
-                  function(resp) {
-                    if (DEBUG) {
-                     console.log(resp);
-                     console.log(resp.correctTriage);
-                     console.log(resp.triage.classification);
-                    }
-                    triageClassification = resp.triage.classification;
+        if (DEBUG) {
+         console.log(classificationMap);
+         console.log('classificationMap.T2: ' + classificationMap.T2);
+        }
 
-                    if (triageClassification === null || triageClassification === undefined || triageClassification.valueOf() === '') {
-                      triageClassification = 'unclassified';
-                    }
+        for ( var key in classificationMap) {
+          patientDataForChart.push([ key, classificationMap[key] ]);
+        }
+        
+        if (DEBUG) {
+         console.log(patientDataForChart);
+        }
 
-                    if (classificationMap[triageClassification] === null || classificationMap[triageClassification] === undefined) {
-                      classificationMap[triageClassification] = 0;
-                    }
-                    classificationMap[triageClassification]++;
-                    
-                    if (DEBUG) {
-                     console
-                         .log('classificationMap.T1: ' + classificationMap.T1);
-                     console
-                         .log('classificationMap.T2: ' + classificationMap.T2);
-                     console
-                         .log('classificationMap.T3: ' + classificationMap.T3);
-                     console.log('classificationMap.unclassified: ' + classificationMap.unclassified);
-                    }
-                  });
+        patientDataForChart.sort(function(a, b) {
+          if (a[0] > b[0]) {
+            return 1;
+          }
+          if (a[0] < b[0]) {
+            return -1;
+          }
+          // a must be equal to b
+          return 0;
+        });
 
-              if (DEBUG) {
-               console.log(classificationMap);
-               console.log('classificationMap.T2: ' + classificationMap.T2);
-              }
-
-              for ( var key in classificationMap) {
-                patientDataForChart.push([ key, classificationMap[key] ]);
-              }
-              
-              if (DEBUG) {
-               console.log(patientDataForChart);
-              }
-
-              patientDataForChart.sort(function(a, b) {
-                if (a[0] > b[0]) {
-                  return 1;
-                }
-                if (a[0] < b[0]) {
-                  return -1;
-                }
-                // a must be equal to b
-                return 0;
-              });
-
-              $scope.chartData = [ patientDataForChart ];
-              $scope.chartSettings = chartOpts.pieChartOptions;
-            });
-
+        $scope.chartData = [ patientDataForChart ];
+        $scope.chartSettings = chartOpts.pieChartOptions;
       });
       
     }]);

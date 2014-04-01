@@ -26,7 +26,7 @@ angular.module(
             // TODO: implement proper ooi integration
 
             getCapturePatients = function () {
-                return $resource(OOI_API + '/CRISMA.capturePatients/:patientId', {patientId: '@id', deduplicate: true},
+                return $resource(OOI_API + '/CRISMA.capturePatients/:patientId', {patientId: '@id', deduplicate: true, level: 5},
                     {
                         'get':    {method: 'GET', cache: true, transformResponse: function (data) {
                             // we augment the patient with virtual properties
@@ -71,10 +71,19 @@ angular.module(
                             res = [];
 
                             for (i = 0; i < col.length; ++i) {
-                                res.push({'id': parseInt(col[i].$ref.substr(col[i].$ref.lastIndexOf('/') + 1), 10)});
+                                res.push({'id': parseInt(col[i].$self.substr(col[i].$self.lastIndexOf('/') + 1), 10)});
                             }
 
                             return res;
+                        }},
+                        'getAll':  {method: 'GET', isArray: true, transformResponse: function (data) {
+                          // we strip the ids of the objects only
+                          var col, res;
+
+                          col = JSON.parse(data).$collection;
+                          res = col;
+
+                          return res;
                         }},
                         'remove': {method: 'DELETE', cache: true},
                         'delete': {method: 'DELETE', cache: true}
