@@ -1,29 +1,18 @@
 <div id="transp-widget">
     <div align="center">
-            <br><br>
-            <div>
-                StepMinutes:
-                <input type="text" ng-model="stepMinutes" />
-                <br>
-                StepAmount:
-                <input type="text" ng-model="stepAmount" />
-            </div>
-
-            <br><br>
-            <div 
+        <div 
                 style="margin-top:20px; margin-left:40px; width:400px; height:300px;"
-                ui-chart="chartData" chart-options="chartSettings"></div>
+                ui-chart="chartData" chart-options="chartSettings">
         </div>
-        
-        
-        <br>
-        <table style="margin:0px auto">
-            <tr><td><b>General</b></td></tr>
-            <tr ng-repeat="obj in kpiListData">
-                <td width="30%">{{ obj.value }}</td>
-                <td>{{ obj.key }}</td>
-            </tr>
-        </table>
+    </div>
+    <br>
+      <table style="margin:0px auto">
+          <tr><td><b>General</b></td></tr>
+          <tr ng-repeat="obj in kpiListData">
+              <td width="30%">{{ obj.value }}</td>
+              <td>{{ obj.key }}</td>
+          </tr>
+      </table>
 </div>
 
 

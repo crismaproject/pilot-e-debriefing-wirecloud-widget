@@ -27,13 +27,6 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
        }
        $scope.stepMinutes = 10;
      }
-     
-     if (!$scope.stepAmount) {
-       if (DEBUG) {
-         console.log('stepAmount not provided by directive user, setting default value.');
-       }
-       $scope.stepAmount = 30;
-     }
           
      var chartOpts = {
          barChartOptions : {
@@ -59,18 +52,14 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
           },
           pointLabels : {
             show : true,
-          // stackedValue: true
           }
         },
         axes : {
           xaxis : {
             renderer : $.jqplot.DateAxisRenderer,
-            min : '1899-12-30 08:23:00',
             tickOptions : {
               formatString : '%R'
             },
-            tickInterval : '60 minutes',
- 
             label : 'Time since exercise start (hh:mm)',
             labelOptions : {
               fontFamily : 'Helvetica',
@@ -98,15 +87,12 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
           labels : [ 'T1', 'T2', 'T3', 'unclassified' ],
           renderer : $.jqplot.EnhancedLegendRenderer,
           rendererOptions : {
-            //numberColumns: 3,
-            //numberRows : 1,
             rowSpacing : '1.0em',
           }
         },
         cursor : {
           show : true,
           zoom : true,
-        //   showTooltip:true
         }
        }
      };
@@ -200,35 +186,36 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
                        console.log($scope.idCorrectTriageTransportTimeCheckCorrectTimestamp);
                      }
 
-                     //Starttime for the chart shall be 30 minutes before the earliest transportation timestamp.
+                     //Starttime for the chart.
                      $scope.timePeriodStart = moment(
                          $scope.idCorrectTriageTransportTimeCheckCorrectTimestamp[0][0])
-                         .subtract('minutes', 30).format(
-                             'YYYY-MM-DD HH:mm:ss');
+                         .format('YYYY-MM-DD HH:mm:ss');
                      if (DEBUG) {
                        console.log('timePeriodStart: ' + $scope.timePeriodStart);
                      }
 
-                     //Endtime for the chart shall be 30 minutes after the last transportation timestamp.
-                     var timePeriodEnd = moment(
+                     //Endtime for the chart.
+                     $scope.timePeriodEnd = moment(
                          $scope.idCorrectTriageTransportTimeCheckCorrectTimestamp[$scope.idCorrectTriageTransportTimeCheckCorrectTimestamp.length - 1][0])
-                         .add('minutes', 30).format('YYYY-MM-DD HH:mm:ss');
+                         .format('YYYY-MM-DD HH:mm:ss');
                      if (DEBUG) {
-                       console.log('timePeriodEnd: ' + timePeriodEnd);
+                       console.log('timePeriodEnd: ' + $scope.timePeriodEnd);
                      }
 
                      $scope.calculateTransportedPatients = function(
-                         dateTimeStamp, dataArray, nbrIterations,
-                         iterStepMinutes) {
+                         startDateTimeStamp, endDateTimeStamp, dataArray, iterStepMinutes) {
                        var arrT1 = [];
                        var arrT2 = [];
                        var arrT3 = [];
                        var arrUnclassified = [];
 
-                       for (var currIter = 0; currIter < nbrIterations; currIter++) {
-
-                         var currIterTimeStamp = moment(dateTimeStamp)
-                             .add('minutes', iterStepMinutes * currIter);
+                       var currIter = 0;
+                       var currIterTimeStamp = moment(startDateTimeStamp);
+                       
+                         do {
+                         
+                         currIterTimeStamp = moment(startDateTimeStamp)
+                         .add('minutes', iterStepMinutes * currIter);
 
                          var nbrT1 = 0;
                          var nbrT2 = 0;
@@ -265,7 +252,10 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
                              currIterTimeStamp
                                  .format('YYYY-MM-DD HH:mm:ss'),
                              nbrUnclassified ]);
-                       }
+                         
+                         currIter++;
+                         
+                       } while (!currIterTimeStamp.isAfter(moment(endDateTimeStamp)));
 
                        return [ arrT1, arrT2, arrT3, arrUnclassified ];
                      };
@@ -276,45 +266,49 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
                           .log($scope
                               .calculateTransportedPatients(
                                   $scope.timePeriodStart,
+                                  $scope.timePeriodEnd,
                                   $scope.idCorrectTriageTransportTimeCheckCorrectTimestamp,
-                                  20, 10)[0]);
+                                  $scope.stepMinutes)[0]);
                       console.log('T2-Patients: ');
                       console
                           .log($scope
                               .calculateTransportedPatients(
                                   $scope.timePeriodStart,
+                                  $scope.timePeriodEnd,
                                   $scope.idCorrectTriageTransportTimeCheckCorrectTimestamp,
-                                  20, 10)[1]);
+                                  $scope.stepMinutes)[1]);
                       console.log('T3-Patients: ');
                       console
                           .log($scope
                               .calculateTransportedPatients(
                                   $scope.timePeriodStart,
+                                  $scope.timePeriodEnd,
                                   $scope.idCorrectTriageTransportTimeCheckCorrectTimestamp,
-                                  20, 10)[2]);
+                                  $scope.stepMinutes)[2]);
                       console.log('Unclassified-Patients: ');
                       console
                           .log($scope
                               .calculateTransportedPatients(
                                   $scope.timePeriodStart,
+                                  $scope.timePeriodEnd,
                                   $scope.idCorrectTriageTransportTimeCheckCorrectTimestamp,
-                                  20, 10)[3]);
+                                  $scope.stepMinutes)[3]);
                      }
 
                      patientDataForChart = $scope
                          .calculateTransportedPatients(
                              $scope.timePeriodStart,
+                             $scope.timePeriodEnd,
                              $scope.idCorrectTriageTransportTimeCheckCorrectTimestamp,
-                             $scope.stepAmount, $scope.stepMinutes);
+                             $scope.stepMinutes);
 
                      //Finally set start date to chart options.
-                     chartOpts.barChartOptions.axes.xaxis.min = $scope.timePeriodStart;
+                     chartOpts.barChartOptions.axes.xaxis.min = moment($scope.timePeriodStart).subtract('minutes', 30).format('YYYY-MM-DD HH:mm:ss');
+                     
+                     // Finally set end date to chart options.
+                     chartOpts.barChartOptions.axes.xaxis.max = moment($scope.timePeriodEnd).add('minutes', 30).format('YYYY-MM-DD HH:mm:ss');
 
-                     //Finally set the tickInterval to chart options.
-                     if (DEBUG) {
-                       console.log($scope.stepMinutes.toString() + ' minutes');
-                     }
-
+                     
                      $scope.chartData = patientDataForChart;
                      $scope.chartSettings = chartOpts.barChartOptions;
                      
@@ -322,23 +316,13 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
           });
      
      $scope.$watch('stepMinutes', function() {
-       if ($scope.stepMinutes.length > 0) {
+       if (parseInt($scope.stepMinutes, 10) > 0) {
          var patientDataForChart = [];
          patientDataForChart = $scope.calculateTransportedPatients(
              $scope.timePeriodStart,
+             $scope.timePeriodEnd,
              $scope.idCorrectTriageTransportTimeCheckCorrectTimestamp,
-             $scope.stepAmount, $scope.stepMinutes);
-         $scope.chartData = patientDataForChart;
-       }
-     });
-     
-     $scope.$watch('stepAmount', function() {
-       if ($scope.stepAmount.length > 0) {
-         var patientDataForChart = [];
-         patientDataForChart = $scope.calculateTransportedPatients(
-             $scope.timePeriodStart,
-             $scope.idCorrectTriageTransportTimeCheckCorrectTimestamp,
-             $scope.stepAmount, $scope.stepMinutes);
+             $scope.stepMinutes);
          $scope.chartData = patientDataForChart;
        }
      });
