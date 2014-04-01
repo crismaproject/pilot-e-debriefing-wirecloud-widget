@@ -2,11 +2,9 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
 
     controllers.controller('transportationWidgetDirectiveController',
         ['$scope',
-         'eu.crismaproject.pilotE.services.OoI',
-         '$q',
          'DEBUG',
          
-    function($scope, ooiService, $q, DEBUG) {
+    function($scope, DEBUG) {
      'use strict';
      
      if (DEBUG) {
@@ -99,220 +97,205 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
       
       
      var patientDataForChart = [];
-
-     //Get number of all patients.
      var numberOfPatients = 0;
      
      $scope.patientsData.$promise
          .then(function(resp) {
+           //Get number of all patients.
            numberOfPatients = resp.length;
+           
            if (DEBUG) {
              console.log('Number of Patients: ' + numberOfPatients);
+             console.log('Response: ' + resp[0].toSource());
+             console.log('Response: ' + resp[3].toSource());
            }
 
-           //Get pre-triage classification of all patients and put the data into a map.
+           //Get triage classification of all patients and put the data into a map.
 
            $scope.idCorrectTriageTransportTimeCheckCorrectTimestamp = [];
            var idCorrectTriageTransportTimeCheckIncorrectTimestamp = [];
            var idCorrectTriageTransportTimeCheck = [];
-           var patientPromises = [];
 
-           for (var patId = 1; patId <= numberOfPatients; patId++) {
-             var patientXY = ooiService.getCapturePatients().get({
-               patientId : patId
-             });
-             patientPromises.push(patientXY.$promise);
+
+           for (var currPat = 0; currPat < numberOfPatients; currPat++) {
+             if (DEBUG) {
+               console.log(resp[currPat]);
+               console.log(resp[currPat].correctTriage);
+               console.log(resp[currPat]).transportation_timestamp;
+             }
+
+             idCorrectTriageTransportTimeCheck.push([
+                 resp[currPat].id, resp[currPat].correctTriage,
+                 resp[currPat].preTriage.timestamp ]);
+
+             if (moment(resp[currPat].transportation_timestamp)
+                 .isValid()) {
+               $scope.idCorrectTriageTransportTimeCheckCorrectTimestamp
+                   .push([
+                       moment(
+                           resp[currPat].transportation_timestamp)
+                           .format('YYYY-MM-DD HH:mm:ss'),
+                       resp[currPat].correctTriage ]);
+             } else {
+               idCorrectTriageTransportTimeCheckIncorrectTimestamp
+                   .push([
+                       resp[currPat].transportation_timestamp,
+                       resp[currPat].correctTriage ]);
+             }
            }
 
-           $q
-               .all(patientPromises)
-               .then(
-                   function(responses) {
-                     angular
-                         .forEach(
-                             responses,
-                             function(resp) {
-                               if (DEBUG) {
-                                console.log(resp);
-                                console.log(resp.correctTriage);
-                                console.log(resp.transportation_timestamp);
-                               }
+           if (DEBUG) {
+            console.log(idCorrectTriageTransportTimeCheck);
+            console.log(moment().format());
+            console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
+            console.log(idCorrectTriageTransportTimeCheck[0][2]);
+            console.log($scope.idCorrectTriageTransportTimeCheckCorrectTimestamp);
+            console.log(idCorrectTriageTransportTimeCheckIncorrectTimestamp);
+           }
 
-                               idCorrectTriageTransportTimeCheck.push([
-                                   resp.id, resp.correctTriage,
-                                   resp.preTriage.timestamp ]);
+           //Sort array by date ascending. 
+           $scope.idCorrectTriageTransportTimeCheckCorrectTimestamp
+               .sort(function(a, b) {
+                 //a < b 
+                 if (moment(a[0]).diff(moment(b[0])) < 0) {
+                   return -1;
+                 }
+                 //a > b 
+                 if (moment(b[0]).diff(moment(a[0])) < 0) {
+                   return 1;
+                 }
+                 // a must be equal to b
+                 return 0;
+               });
 
-                               if (moment(resp.transportation_timestamp)
-                                   .isValid()) {
-                                 $scope.idCorrectTriageTransportTimeCheckCorrectTimestamp
-                                     .push([
-                                         moment(
-                                             resp.transportation_timestamp)
-                                             .format('YYYY-MM-DD HH:mm:ss'),
-                                         resp.correctTriage ]);
-                               } else {
-                                 idCorrectTriageTransportTimeCheckIncorrectTimestamp
-                                     .push([
-                                         resp.transportation_timestamp,
-                                         resp.correctTriage ]);
-                               }
+           if (DEBUG) {
+             console.log($scope.idCorrectTriageTransportTimeCheckCorrectTimestamp);
+           }
 
-                             });
-                     if (DEBUG) {
-                      console.log(idCorrectTriageTransportTimeCheck);
-                      console.log(moment().format());
-                      console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
-                      console.log(idCorrectTriageTransportTimeCheck[0][2]);
-                      console.log($scope.idCorrectTriageTransportTimeCheckCorrectTimestamp);
-                      console.log(idCorrectTriageTransportTimeCheckIncorrectTimestamp);
-                     }
+           //Starttime for the chart.
+           $scope.timePeriodStart = moment(
+               $scope.idCorrectTriageTransportTimeCheckCorrectTimestamp[0][0])
+               .format('YYYY-MM-DD HH:mm:ss');
+           if (DEBUG) {
+             console.log('timePeriodStart: ' + $scope.timePeriodStart);
+           }
 
-                     //Sort array by date ascending. 
-                     $scope.idCorrectTriageTransportTimeCheckCorrectTimestamp
-                         .sort(function(a, b) {
-                           //a < b 
-                           if (moment(a[0]).diff(moment(b[0])) < 0) {
-                             return -1;
-                           }
-                           //a > b 
-                           if (moment(b[0]).diff(moment(a[0])) < 0) {
-                             return 1;
-                           }
-                           // a must be equal to b
-                           return 0;
-                         });
+           //Endtime for the chart.
+           $scope.timePeriodEnd = moment(
+               $scope.idCorrectTriageTransportTimeCheckCorrectTimestamp[$scope.idCorrectTriageTransportTimeCheckCorrectTimestamp.length - 1][0])
+               .format('YYYY-MM-DD HH:mm:ss');
+           if (DEBUG) {
+             console.log('timePeriodEnd: ' + $scope.timePeriodEnd);
+           }
 
-                     if (DEBUG) {
-                       console.log($scope.idCorrectTriageTransportTimeCheckCorrectTimestamp);
-                     }
+           $scope.calculateTransportedPatients = function(
+               startDateTimeStamp, endDateTimeStamp, dataArray, iterStepMinutes) {
+             var arrT1 = [];
+             var arrT2 = [];
+             var arrT3 = [];
+             var arrUnclassified = [];
 
-                     //Starttime for the chart.
-                     $scope.timePeriodStart = moment(
-                         $scope.idCorrectTriageTransportTimeCheckCorrectTimestamp[0][0])
-                         .format('YYYY-MM-DD HH:mm:ss');
-                     if (DEBUG) {
-                       console.log('timePeriodStart: ' + $scope.timePeriodStart);
-                     }
+             var currIter = 0;
+             var currIterTimeStamp = moment(startDateTimeStamp);
+             
+             do {
+               currIterTimeStamp = moment(startDateTimeStamp)
+               .add('minutes', iterStepMinutes * currIter);
 
-                     //Endtime for the chart.
-                     $scope.timePeriodEnd = moment(
-                         $scope.idCorrectTriageTransportTimeCheckCorrectTimestamp[$scope.idCorrectTriageTransportTimeCheckCorrectTimestamp.length - 1][0])
-                         .format('YYYY-MM-DD HH:mm:ss');
-                     if (DEBUG) {
-                       console.log('timePeriodEnd: ' + $scope.timePeriodEnd);
-                     }
+               var nbrT1 = 0;
+               var nbrT2 = 0;
+               var nbrT3 = 0;
+               var nbrUnclassified = 0;
 
-                     $scope.calculateTransportedPatients = function(
-                         startDateTimeStamp, endDateTimeStamp, dataArray, iterStepMinutes) {
-                       var arrT1 = [];
-                       var arrT2 = [];
-                       var arrT3 = [];
-                       var arrUnclassified = [];
+               for (var i = 0; i < dataArray.length; i++) {
+                 //Only consider time until dateTimeStamp.
+                 if (moment(dataArray[i][0]).diff(
+                     currIterTimeStamp) <= 0) {
+                   if (dataArray[i][1] === 'T1') {
+                     nbrT1++;
+                   } else if (dataArray[i][1] === 'T2') {
+                     nbrT2++;
+                   } else if (dataArray[i][1] === 'T3') {
+                     nbrT3++;
+                   } else {
+                     //Triage classification is wrong.
+                     arrUnclassified++;
+                   }
+                 }
+               }
 
-                       var currIter = 0;
-                       var currIterTimeStamp = moment(startDateTimeStamp);
-                       
-                         do {
-                         
-                         currIterTimeStamp = moment(startDateTimeStamp)
-                         .add('minutes', iterStepMinutes * currIter);
+               arrT1.push([
+                   currIterTimeStamp
+                       .format('YYYY-MM-DD HH:mm:ss'), nbrT1 ]);
+               arrT2.push([
+                   currIterTimeStamp
+                       .format('YYYY-MM-DD HH:mm:ss'), nbrT2 ]);
+               arrT3.push([
+                   currIterTimeStamp
+                       .format('YYYY-MM-DD HH:mm:ss'), nbrT3 ]);
+               arrUnclassified.push([
+                   currIterTimeStamp
+                       .format('YYYY-MM-DD HH:mm:ss'),
+                   nbrUnclassified ]);
+               
+               currIter++;
+               
+             } while (!currIterTimeStamp.isAfter(moment(endDateTimeStamp)));
 
-                         var nbrT1 = 0;
-                         var nbrT2 = 0;
-                         var nbrT3 = 0;
-                         var nbrUnclassified = 0;
+             return [ arrT1, arrT2, arrT3, arrUnclassified ];
+           };
 
-                         for (var i = 0; i < dataArray.length; i++) {
-                           //Only consider time until dateTimeStamp.
-                           if (moment(dataArray[i][0]).diff(
-                               currIterTimeStamp) <= 0) {
-                             if (dataArray[i][1] === 'T1') {
-                               nbrT1++;
-                             } else if (dataArray[i][1] === 'T2') {
-                               nbrT2++;
-                             } else if (dataArray[i][1] === 'T3') {
-                               nbrT3++;
-                             } else {
-                               //Triage classification is wrong.
-                               arrUnclassified++;
-                             }
-                           }
-                         }
+           if (DEBUG) {
+            console.log('T1-Patients: ');
+            console
+                .log($scope
+                    .calculateTransportedPatients(
+                        $scope.timePeriodStart,
+                        $scope.timePeriodEnd,
+                        $scope.idCorrectTriageTransportTimeCheckCorrectTimestamp,
+                        $scope.stepMinutes)[0]);
+            console.log('T2-Patients: ');
+            console
+                .log($scope
+                    .calculateTransportedPatients(
+                        $scope.timePeriodStart,
+                        $scope.timePeriodEnd,
+                        $scope.idCorrectTriageTransportTimeCheckCorrectTimestamp,
+                        $scope.stepMinutes)[1]);
+            console.log('T3-Patients: ');
+            console
+                .log($scope
+                    .calculateTransportedPatients(
+                        $scope.timePeriodStart,
+                        $scope.timePeriodEnd,
+                        $scope.idCorrectTriageTransportTimeCheckCorrectTimestamp,
+                        $scope.stepMinutes)[2]);
+            console.log('Unclassified-Patients: ');
+            console
+                .log($scope
+                    .calculateTransportedPatients(
+                        $scope.timePeriodStart,
+                        $scope.timePeriodEnd,
+                        $scope.idCorrectTriageTransportTimeCheckCorrectTimestamp,
+                        $scope.stepMinutes)[3]);
+           }
 
-                         arrT1.push([
-                             currIterTimeStamp
-                                 .format('YYYY-MM-DD HH:mm:ss'), nbrT1 ]);
-                         arrT2.push([
-                             currIterTimeStamp
-                                 .format('YYYY-MM-DD HH:mm:ss'), nbrT2 ]);
-                         arrT3.push([
-                             currIterTimeStamp
-                                 .format('YYYY-MM-DD HH:mm:ss'), nbrT3 ]);
-                         arrUnclassified.push([
-                             currIterTimeStamp
-                                 .format('YYYY-MM-DD HH:mm:ss'),
-                             nbrUnclassified ]);
-                         
-                         currIter++;
-                         
-                       } while (!currIterTimeStamp.isAfter(moment(endDateTimeStamp)));
+           patientDataForChart = $scope
+               .calculateTransportedPatients(
+                   $scope.timePeriodStart,
+                   $scope.timePeriodEnd,
+                   $scope.idCorrectTriageTransportTimeCheckCorrectTimestamp,
+                   $scope.stepMinutes);
 
-                       return [ arrT1, arrT2, arrT3, arrUnclassified ];
-                     };
+           //Finally set start date to chart options.
+           chartOpts.barChartOptions.axes.xaxis.min = moment($scope.timePeriodStart).subtract('minutes', 30).format('YYYY-MM-DD HH:mm:ss');
+           
+           // Finally set end date to chart options.
+           chartOpts.barChartOptions.axes.xaxis.max = moment($scope.timePeriodEnd).add('minutes', 30).format('YYYY-MM-DD HH:mm:ss');
 
-                     if (DEBUG) {
-                      console.log('T1-Patients: ');
-                      console
-                          .log($scope
-                              .calculateTransportedPatients(
-                                  $scope.timePeriodStart,
-                                  $scope.timePeriodEnd,
-                                  $scope.idCorrectTriageTransportTimeCheckCorrectTimestamp,
-                                  $scope.stepMinutes)[0]);
-                      console.log('T2-Patients: ');
-                      console
-                          .log($scope
-                              .calculateTransportedPatients(
-                                  $scope.timePeriodStart,
-                                  $scope.timePeriodEnd,
-                                  $scope.idCorrectTriageTransportTimeCheckCorrectTimestamp,
-                                  $scope.stepMinutes)[1]);
-                      console.log('T3-Patients: ');
-                      console
-                          .log($scope
-                              .calculateTransportedPatients(
-                                  $scope.timePeriodStart,
-                                  $scope.timePeriodEnd,
-                                  $scope.idCorrectTriageTransportTimeCheckCorrectTimestamp,
-                                  $scope.stepMinutes)[2]);
-                      console.log('Unclassified-Patients: ');
-                      console
-                          .log($scope
-                              .calculateTransportedPatients(
-                                  $scope.timePeriodStart,
-                                  $scope.timePeriodEnd,
-                                  $scope.idCorrectTriageTransportTimeCheckCorrectTimestamp,
-                                  $scope.stepMinutes)[3]);
-                     }
-
-                     patientDataForChart = $scope
-                         .calculateTransportedPatients(
-                             $scope.timePeriodStart,
-                             $scope.timePeriodEnd,
-                             $scope.idCorrectTriageTransportTimeCheckCorrectTimestamp,
-                             $scope.stepMinutes);
-
-                     //Finally set start date to chart options.
-                     chartOpts.barChartOptions.axes.xaxis.min = moment($scope.timePeriodStart).subtract('minutes', 30).format('YYYY-MM-DD HH:mm:ss');
-                     
-                     // Finally set end date to chart options.
-                     chartOpts.barChartOptions.axes.xaxis.max = moment($scope.timePeriodEnd).add('minutes', 30).format('YYYY-MM-DD HH:mm:ss');
-
-                     
-                     $scope.chartData = patientDataForChart;
-                     $scope.chartSettings = chartOpts.barChartOptions;
-                     
-                    });
+           
+           $scope.chartData = patientDataForChart;
+           $scope.chartSettings = chartOpts.barChartOptions;
           });
      
      $scope.$watch('stepMinutes', function() {
