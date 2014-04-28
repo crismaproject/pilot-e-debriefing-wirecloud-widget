@@ -179,7 +179,7 @@ angular.module(
                     clear : clear
                 };
             };
-
+            
             return {
                 getCapturePatients : getCapturePatients,
                 getMaxCareMeasures : getMaxCareMeasures,

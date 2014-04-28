@@ -13,9 +13,9 @@
 
         <link rel="stylesheet" href="bower_components/ng-table/ng-table.css">
         <link rel="stylesheet" href="bower_components/select2/select2.css">
+        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
         
         <!-- build:css(.tmp) styles/main.css -->
-        <link rel="stylesheet" href="styles/bootstrap.css">
         <link rel="stylesheet" href="styles/main.css">
         <link rel="stylesheet" href="styles/masterPatientDirective.css">
         <link rel="stylesheet" href="styles/detailPatientDirective.css">
@@ -31,8 +31,25 @@
           <script src="bower_components/json3/lib/json3.min.js"></script>
         <![endif]-->
 
-        <!-- Add your site or application content here -->
-        <div class="container" ng-view></div>
+        <div ng-controller="eu.crismaproject.pilotE.controllers.WirecloudController">
+            <div><h3>Exercise {{worldstate.name}}</h3></div>
+            <tabset>
+                <tab heading='Patients'>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class='col-lg-8'>
+                                <master-patient-widget patients="patients" selected-patient="selectedPatient"></master-patient-widget>
+                            </div>
+                            <div class='col-lg-4'>
+                                <detail-patient-widget patient="selectedPatient" editing="editing"></detail-patient-widget>
+                            </div>
+                        </div>
+                    </div>
+                </tab>
+                <tab heading='Site'></tab>
+                <tab heading='Alerts & Requests'></tab>
+            </tabset>
+        </div>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
         <!--script>
@@ -48,6 +65,7 @@
         <script src="bower_components/jquery/jquery.js"></script>
         <script src="bower_components/angular/angular.js"></script>
         <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+        <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
         <script src="bower_components/angular-resource/angular-resource.js"></script>
         <script src="bower_components/angular-route/angular-route.js"></script>
         <script src="bower_components/angular-animate/angular-animate.js"></script>
@@ -58,6 +76,7 @@
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/captureViewController.js"></script>
+        <script src="scripts/controllers/wirecloudController.js"></script>
         <script src="scripts/controllers/masterPatientDirectiveController.js"></script>
         <script src="scripts/directives/masterPatientDirective.js"></script>
         <script src="scripts/controllers/detailPatientDirectiveController.js"></script>
@@ -65,5 +84,47 @@
         <script src="scripts/services/ooiservice.js"></script>
         <script src="scripts/configuration.js"></script>
         <!-- endbuild -->
+        
+<!--        <script type="text/javascript" >
+            MashupPlatform = {
+                wiring: {
+                    registerCallback: function (name, func) {
+                        console.log("registerCallback: [name=" + name + "]");
+                        MashupPlatform[name] = func;
+                    },
+                    pushEvent: function (name, value) {
+                        console.log("pushEvent: [name=" + name + "|value=" + value + "]");
+                    }
+                }
+            };
+            
+            window.setTimeout(function() {
+                console.log("push ws");
+                $.getJSON('http://crisma.cismet.de/pilotE/icmm_api/CRISMA.worldstates/1?omitNullValues=true&deduplicate=true', function (data) {
+                    MashupPlatform.setWorldstate(JSON.stringify(data));
+                })
+            }, 2000);
+            window.setTimeout(function() {
+                console.log("set editing");
+                MashupPlatform.setEditing(true);
+            }, 3000);
+//            
+//            window.setTimeout(function() {
+//                console.log("push ws");
+//                MashupPlatform.setWorldstate('{}');
+//            }, 4000);
+            window.setTimeout(function() {
+                console.log("set editing");
+                MashupPlatform.setEditing(false);
+            }, 5000);
+//            window.setTimeout(function() {
+//                console.log("set editing");
+//                MashupPlatform.setEditing(false);
+//            }, 10000);
+//            window.setTimeout(function() {
+//                console.log("set editing");
+//                MashupPlatform.setEditing(false);
+//            }, 20000);
+        </script>-->
     </body>
 </html>
