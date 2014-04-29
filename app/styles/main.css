@@ -78,3 +78,9 @@ body {
 .animate-alert.ng-leave.ng-leave-active {
     opacity:0;
 }
+
+.angular-google-map-container {
+    height: 400px;
+    width: 600px;
+    margin: auto;
+}
