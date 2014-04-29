@@ -48,7 +48,13 @@
                 </tab>
                 <tab heading='Site' select="mapRepaint()">
                     <div class="container-fluid">
-                    <google-map draggable="true" center="map.center" zoom="map.zoom" control="map.control"></google-map>
+                        <div class="row">
+                            <div class='col-lg-8'>
+                                <google-map id="site-map" draggable="true" center="map.center" zoom="map.zoom" control="map.control"></google-map>
+                            </div>
+                            <div class='col-lg-4'>
+                            </div>
+                        </div>
                     </div>
                 </tab>
                 <tab heading='Alerts & Requests'></tab>

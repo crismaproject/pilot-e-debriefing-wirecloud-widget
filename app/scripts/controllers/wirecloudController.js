@@ -67,7 +67,8 @@ angular.module(
                             position: new google.maps.LatLng(geojson.coordinates[0], geojson.coordinates[1]),
                             title: 'Exercise location',
                             visible: true,
-                            zIndex: 0
+                            zIndex: 0,
+                            icon: 'img/glyphicons_185_screenshot.png'
                         });
                         $scope.map.control.getGMap().setCenter($scope.locationMarker.getPosition());
                     });
@@ -118,7 +119,7 @@ angular.module(
                     latitude: 45,
                     longitude: 0
                 },
-                zoom: 10,
+                zoom: 15,
                 control: {}
             };
             
