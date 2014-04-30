@@ -48,11 +48,11 @@
                         </div>
                     </div>
                 </tab>
-                <tab heading='Site' select="mapRepaint()">
+                <tab heading='Site' select="siteVisible=true" deselect="siteVisible=false">
                     <div class="container-fluid">
                         <div class="row">
                             <div class='col-lg-8'>
-                                <google-map id="site-map" draggable="true" center="map.center" zoom="map.zoom" control="map.control"></google-map>
+                                <site-map-widget exercise="exercise" visible="siteVisible"></site-map-widget>
                             </div>
                             <div class='col-lg-4'>
                             </div>

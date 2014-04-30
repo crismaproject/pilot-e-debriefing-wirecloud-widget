@@ -20,6 +20,8 @@
   "smarttabs": true,
   "globals": {
     "angular": false,
-    "MashupPlatform": false
+    "MashupPlatform": false,
+    "Terraformer": false,
+    "google": false
   }
 }

@@ -23,14 +23,12 @@ angular.module(
                 $scope.patients = null;
                 $scope.exercise = null;
                 $scope.apiurl = null;
-                $scope.locationMarker = null;
             };
 
             initScope();
 
             $scope.processWorldstate = function () {
-                var cats, dai, ewkt, geojson, i, indexof, item, items, j, res;
-
+                var cats, dai, i, item, items, j, res;
 
                 if (DEBUG) {
                     console.log('parse dataitem and fetch patients');
@@ -57,19 +55,6 @@ angular.module(
                     $scope.exercise = res.get({id: item.actualaccessinfo});
                     $scope.exercise.$promise.then(function () {
                         $scope.patients = $scope.exercise.patients;
-                        ewkt = $scope.exercise.location;
-                        indexof = ewkt.indexOf(';');
-                        // assume 4326 point
-                        geojson = Terraformer.WKT.parse(indexof > 0 ? ewkt.substr(indexof + 1) : ewkt);
-                        $scope.locationMarker = new google.maps.Marker({
-                            map: $scope.map.control.getGMap(),
-                            position: new google.maps.LatLng(geojson.coordinates[0], geojson.coordinates[1]),
-                            title: 'Exercise location',
-                            visible: true,
-                            zIndex: 0,
-                            icon: 'img/glyphicons_185_screenshot.png'
-                        });
-                        $scope.map.control.getGMap().setCenter($scope.locationMarker.getPosition());
                     });
                 } else {
                     initScope();
@@ -112,23 +97,6 @@ angular.module(
                 });
 
                 return def.promise;
-            };
-            $scope.map = {
-                center: {
-                    latitude: 51.163375,
-                    longitude: 10.447683
-                },
-                zoom: 6,
-                control: {}
-            };
-            
-            $scope.mapRepaint = function() {
-                var oldcenter;
-                
-                oldcenter = $scope.map.control.getGMap().getCenter();
-                // refresh changes the center of the map, don't know why oO
-                $scope.map.control.refresh();
-                $scope.map.control.getGMap().setCenter(oldcenter);
             };
 
             if (typeof MashupPlatform === 'undefined') {
