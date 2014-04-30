@@ -6,8 +6,13 @@ angular.module(
         'use strict';
         
         var scope = {
-                exercise: '=',
-                visible: '='
+                allowCoordinateSelection: '=',
+                location: '=',
+                locationIcon: '@',
+                locationTitle: '@',
+                tacticalAreas: '=',
+                selectedCoordinate: '=',
+                visible: '=',
             };
 
         return {

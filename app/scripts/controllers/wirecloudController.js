@@ -23,6 +23,36 @@ angular.module(
                 $scope.patients = null;
                 $scope.exercise = null;
                 $scope.apiurl = null;
+                $scope.allTacticalAreas = [
+                    {
+                        "name": "Area of danger",
+                        "icon": "",
+                    },
+                    {
+                        "name": "Advanced Medical Post",
+                        "icon": "",
+                    },
+                    {
+                        "name": "Treatment Area",
+                        "icon": "",
+                    },
+                    {
+                        "name": "Staging Area",
+                        "icon": "",
+                    },
+                    {
+                        "name": "Helicopter Landing Area",
+                        "icon": "",
+                    },
+                    {
+                        "name": "Collecting Space",
+                        "icon": "",
+                    },
+                    {
+                        "name": "Loading Area",
+                        "icon": "",
+                    }
+                ];
             };
 
             initScope();

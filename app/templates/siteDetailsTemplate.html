@@ -1,0 +1,17 @@
+<!--<div ng-show='editing' class='well'>-->
+<div class='well'>
+    <select id="area-select" data-ui-select2="select2Options" data-ng-model="selectedArea">
+        <option ng-repeat="area in availableAreas" value="{{area}}">{{area.name}}</option>
+    </select>
+</div>
+<div>
+    <!-- maybe create directive -->
+    <div class='well' ng-repeat='area in tacticalAreas'>
+        <span>
+            <img src="{{area.icon}}" alt=''/>{{area.name}} ({{area.time | date:'HH:mm'}})
+        </span>
+        <button type='button' class='btn btn-default' ng-show="editing">
+            <span class="glyphicon glyphicon-remove-circle"></span>
+        </button>
+    </div>
+</div>

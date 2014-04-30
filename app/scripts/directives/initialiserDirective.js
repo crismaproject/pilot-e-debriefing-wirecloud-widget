@@ -3,6 +3,7 @@ angular.module(
     [
         'ui.select2',
         'ui.bootstrap.timepicker',
-        'ui.bootstrap.tpls'
+        'ui.bootstrap.tpls',
+        'ui.bootstrap.dropdownToggle'
     ]
 );
