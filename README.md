@@ -13,12 +13,12 @@ This is not the implementation of whole pilot e application anymore but only of 
             name="setWorldstate"
             type="text"
             label="Set Worldstate"
-            description="Sets a worldstate (JSON-String, min level 3) to be displayed or edited.&#10;
-However, if the widget is currently editing (see set/isEditing) it will&#10;
-prompt the user if he wants to discard changes. If the user is positive&#10;
-about discard then the new worldstate data is loaded and an 'isEditing'&#10;
-event with the value 'false' is issued, otherwise the worldstate will&#10;
-remain the old one and an 'isEditing' event with value 'false' is issued.""
+            description="Sets a worldstate (JSON-String, min level 3) to be displayed or edited.
+                         However, if the widget is currently editing (see set/isEditing) it will
+                         prompt the user if he wants to discard changes. If the user is positive
+                         about discard then the new worldstate data is loaded and an 'isEditing'
+                         event with the value 'false' is issued, otherwise the worldstate will
+                         remain the old one and an 'isEditing' event with value 'false' is issued."
             friendcode="worldstate_json_expanded"/>
         <InputEndpoint
             name="setEditing"
