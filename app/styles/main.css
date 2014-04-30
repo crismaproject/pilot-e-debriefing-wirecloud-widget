@@ -45,41 +45,6 @@ body {
     width: 440px;
 }
 
-#statusbar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    margin: 10px;
-    width: 1260px;
-    height: 40px;
-    overflow: hidden;
-}
-
-.animate-alert {
-    -webkit-transition: all linear 0.5s;
-    -moz-transition: all linear 0.5s;
-    -ms-transition: all linear 0.5s;
-    -o-transition: all linear 0.5s;
-    transition: all linear 0.5s;
-    position: absolute;
-    opacity: 1;
-}
-
-.animate-alert .close {
-    float: right;
-}
-
-.animate-alert .msg {
-    float: left;
-}
-
-.animate-alert.ng-enter
-.animate-alert.ng-move,
-.animate-alert.ng-leave.ng-leave-active {
-    opacity:0;
-}
-
-#site-map .angular-google-map-container {
-    height: 600px;
-    margin-top: 10px;
+.ex-header {
+    margin-left: 10px;
 }

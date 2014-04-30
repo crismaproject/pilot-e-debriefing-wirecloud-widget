@@ -7,9 +7,8 @@ angular.module(
         '$modal',
         '$q',
         '$resource',
-        '$timeout',
         'DEBUG',
-        function ($scope, $modal, $q, $resource, $timeout, DEBUG) {
+        function ($scope, $modal, $q, $resource, DEBUG) {
             'use strict';
 
             var dialog, initScope, mashupPlatform;
@@ -116,10 +115,10 @@ angular.module(
             };
             $scope.map = {
                 center: {
-                    latitude: 45,
-                    longitude: 0
+                    latitude: 51.163375,
+                    longitude: 10.447683
                 },
-                zoom: 15,
+                zoom: 6,
                 control: {}
             };
             

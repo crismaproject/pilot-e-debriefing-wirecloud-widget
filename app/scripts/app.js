@@ -3,21 +3,7 @@ angular.module(
     [
         'eu.crismaproject.pilotE.controllers',
         'eu.crismaproject.pilotE.directives',
-        'ngRoute',
-        'ngAnimate',
-        'ui.bootstrap.tpls',
-        'ui.bootstrap.tabs',
-        'google-maps'
+        'eu.crismaproject.pilotE.services',
+        'ui.bootstrap.tabs'
     ]
-).config(['$routeProvider', function ($routeProvider) {
-    'use strict';
-
-    $routeProvider
-        .when('/', {
-            templateUrl: 'views/main.html',
-            controller: 'captureViewController'
-        })
-        .otherwise({
-            redirectTo: '/'
-        });
-}]);
+);

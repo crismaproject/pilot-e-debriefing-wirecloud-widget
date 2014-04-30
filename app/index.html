@@ -19,6 +19,8 @@
         <link rel="stylesheet" href="styles/main.css">
         <link rel="stylesheet" href="styles/masterPatientDirective.css">
         <link rel="stylesheet" href="styles/detailPatientDirective.css">
+        <link rel="stylesheet" href="styles/siteMapDirective.css">
+        <link rel="stylesheet" href="styles/siteDetailsDirective.css">
         <!-- endbuild -->
     </head>
     <body ng-app="eu.crismaproject.pilotE">
@@ -32,7 +34,7 @@
         <![endif]-->
 
         <div ng-controller="eu.crismaproject.pilotE.controllers.WirecloudController">
-            <div><h3>Exercise {{worldstate.name}}</h3></div>
+            <div class="ex-header"><h3>Exercise {{worldstate.name}}</h3></div>
             <tabset>
                 <tab heading='Patients'>
                     <div class="container-fluid">
@@ -77,8 +79,6 @@
         <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
         <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
         <script src="bower_components/angular-resource/angular-resource.js"></script>
-        <script src="bower_components/angular-route/angular-route.js"></script>
-        <script src="bower_components/angular-animate/angular-animate.js"></script>
         <script src="bower_components/ng-table/ng-table.js"></script>
         <script src="bower_components/select2/select2.js"></script>
         <script src="bower_components/angular-ui-select2/src/select2.js"></script>
@@ -90,17 +90,36 @@
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
-        <script src="scripts/controllers/captureViewController.js"></script>
+        <script src="scripts/controllers/initialiserController.js"></script>
         <script src="scripts/controllers/wirecloudController.js"></script>
         <script src="scripts/controllers/masterPatientDirectiveController.js"></script>
-        <script src="scripts/directives/masterPatientDirective.js"></script>
         <script src="scripts/controllers/detailPatientDirectiveController.js"></script>
+        <script src="scripts/controllers/siteMapDirectiveController.js"></script>
+        <script src="scripts/controllers/siteDetailsDirectiveController.js"></script>
+        <script src="scripts/directives/initialiserDirective.js"></script>
+        <script src="scripts/directives/masterPatientDirective.js"></script>
         <script src="scripts/directives/detailPatientDirective.js"></script>
+        <script src="scripts/directives/siteMapDirective.js"></script>
+        <script src="scripts/directives/siteDetailsDirective.js"></script>
+        <script src="scripts/services/initialiserService.js"></script>
         <script src="scripts/services/ooiservice.js"></script>
-        <script src="scripts/configuration.js"></script>
         <!-- endbuild -->
         
         <script type="text/javascript" >
+            angular.module('eu.crismaproject.pilotE').config(
+                [
+                    '$provide',
+                    function ($provide) {
+                        'use strict';
+
+                        $provide.constant('DEBUG', 'true');
+                        $provide.constant('CRISMA_DOMAIN', 'CRISMA');
+                        $provide.constant('CRISMA_ICMM_API', 'http://crisma.cismet.de/pilotE/icmm_api');
+                        $provide.constant('OOI_API', 'http://crisma.cismet.de/pilotE/icmm_api');
+                    }
+                ]
+            );
+    
             MashupPlatform = {
                 wiring: {
                     registerCallback: function (name, func) {
