@@ -6,12 +6,12 @@
     <!-- Catalog.ResourceDescription element. This element defines the core metadata of the widget -->
     <Catalog.ResourceDescription>
         <!-- Vendor: Company that distributes the widget -->
-        <Vendor>cismet GmbH</Vendor>
+        <Vendor>cismet_GmbH</Vendor>
         <!-- Name: Name of the widget -->
         <Name>pilot-e-capture-widget</Name>
         <!-- Version: Current widget version number-->
         <!-- we include a build # to prevent caching by wirecloud -->
-        <Version>0.1.0.1</Version>
+        <Version>0.1.0.2</Version>
         <!-- DisplayName: Name shown in the UI of the widget -->
         <DisplayName>CRISMA Pilot E Capture Widget</DisplayName>
         <!-- Author: Widget developer(s) -->

@@ -5,6 +5,7 @@ angular.module(
         'ui.bootstrap.alert',
         'ui.bootstrap.modal',
         'eu.crismaproject.pilotE.services',
-        'google-maps'
+        'google-maps',
+        'de.cismet.commons.angular.angularTools'
     ]
 );

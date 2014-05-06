@@ -4,8 +4,9 @@ angular.module(
     'eu.crismaproject.pilotE.controllers.siteMapDirectiveController',
     [
         '$scope',
+        'de.cismet.commons.angular.angularTools.AngularTools',
         'DEBUG',
-        function ($scope, DEBUG) {
+        function ($scope, angularTools, DEBUG) {
             'use strict';
 
             if (DEBUG) {
@@ -29,17 +30,38 @@ angular.module(
                     zIndex: 0,
                     icon: $scope.locationIcon ? $scope.locationIcon : 'img/glyphicons_185_screenshot.png'
                 });
+                $scope.coordinateMarker = new google.maps.Marker({
+                    title: 'Coordinate Marker',
+                    visible: true,
+                    zIndex: 1000,
+                    icon: $scope.locationIcon ? $scope.locationIcon : 'img/glyphicons_242_google_maps.png'
+                });
+                $scope.coordinateMarkerListener = google.maps.event.addListener(
+                    $scope.map.control.getGMap(), 
+                    'click', 
+                    function(me) {
+                        $scope.coordinateMarker.setMap($scope.map.control.getGMap());
+                        $scope.coordinateMarker.setPosition(me.latLng);
+                        angularTools.safeApply($scope, function() {
+                            $scope.selectedCoordinate = me.latLng;
+                        });
+                    });
+                
                 $scope.map.control.getGMap().setCenter($scope.locationMarker.getPosition());
                 $scope.map.control.getGMap().setZoom(15);
             };
+
             $scope.resetMap = function () {
+                google.maps.event.removeListener($scope.coordinateMarkerListener);
                 $scope.map.control.getGMap().setCenter(new google.maps.LatLng(51.163375, 10.447683));
                 $scope.map.control.getGMap().setZoom(6);
                 if ($scope.locationMarker) {
                     $scope.locationMarker.setMap(null);
+                    $scope.coordinateMarker.setMap(null);
                 }
             };
-            $scope.initAreas = function () {
+
+            $scope.processAreas = function () {
                 var area, i, marker;
                 
                 for(i = 0; i < $scope.tacticalAreas.length; ++i) {
@@ -56,6 +78,7 @@ angular.module(
                     $scope.areaMarkers.push(marker);
                 }
             };
+
             $scope.resetAreas = function () {
                 var i;
                 
@@ -74,16 +97,23 @@ angular.module(
 
             $scope.$watch('tacticalAreas', function (areas) {
                 if (areas) {
-                    $scope.initAreas();
+                    $scope.processAreas();
                 } else {
                     $scope.resetAreas();    
                 }
 
-            });
+            }, true);
             
             $scope.$watch('visible', function (n, o) {
                 if (n && !o) {
                     $scope.mapRepaint();
+                }
+            });
+            
+            $scope.$watch('selectedCoordinate', function (n, o) {
+                if(n !== o) {
+                    $scope.coordinateMarker.setMap($scope.map.control.getGMap());
+                    $scope.coordinateMarker.setPosition(n);
                 }
             });
 

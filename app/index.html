@@ -48,14 +48,25 @@
                         </div>
                     </div>
                 </tab>
-                <tab heading='Site' select="siteVisible=true" deselect="siteVisible=false">
+                <tab heading='Site' select="siteVisible=true" deselect="siteVisible=false" active="true">
                     <div class="container-fluid">
                         <div class="row">
                             <div class='col-lg-8'>
-                                <site-map-widget location="exercise.location" location-title="Exercise location" tactical-areas="exercise.tacticalAreas" visible="siteVisible"></site-map-widget>
+                                <site-map-widget 
+                                    location="exercise.location"
+                                    location-title="Exercise location"
+                                    tactical-areas="exercise.tacticalAreas"
+                                    visible="siteVisible"
+                                    selected-coordinate="selectedCoordinate">
+                                </site-map-widget>
                             </div>
                             <div class='col-lg-4'>
-                                <site-detail-widget areas="exercise.tacticalAreas" all-areas="allTacticalAreas" editing="true"></site-detail-widget>
+                                <site-detail-widget 
+                                    areas="exercise.tacticalAreas"
+                                    all-areas="allTacticalAreas"
+                                    editing="true"
+                                    selected-coordinate="selectedCoordinate">
+                                </site-detail-widget>
                             </div>
                         </div>
                     </div>
@@ -77,6 +88,7 @@
 
         <script src="bower_components/jquery/jquery.js"></script>
         <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/angular-commons/dist/scripts/angular-commons.js"></script>
         <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
         <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
         <script src="bower_components/angular-resource/angular-resource.js"></script>

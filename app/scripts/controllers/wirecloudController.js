@@ -16,7 +16,7 @@ angular.module(
             if (DEBUG) {
                 console.log('initialising wirecloud controller');
             }
-
+            
             initScope = function () {
                 $scope.editing = false;
                 $scope.worldstate = null;
@@ -26,31 +26,31 @@ angular.module(
                 $scope.allTacticalAreas = [
                     {
                         "name": "Area of danger",
-                        "icon": "",
+                        "icon": "img/area_of_danger_16.png",
                     },
                     {
                         "name": "Advanced Medical Post",
-                        "icon": "",
+                        "icon": "img/advanced_medical_post_16.png",
                     },
                     {
                         "name": "Treatment Area",
-                        "icon": "",
+                        "icon": "img/treatment_area_16.png",
                     },
                     {
                         "name": "Staging Area",
-                        "icon": "",
+                        "icon": "img/staging_area_16.png",
                     },
                     {
                         "name": "Helicopter Landing Area",
-                        "icon": "",
+                        "icon": "img/helicopter_landing_area_16.png",
                     },
                     {
                         "name": "Collecting Space",
-                        "icon": "",
+                        "icon": "img/collecting_space_16.png",
                     },
                     {
                         "name": "Loading Area",
-                        "icon": "",
+                        "icon": "img/loading_area_16.png",
                     }
                 ];
             };
