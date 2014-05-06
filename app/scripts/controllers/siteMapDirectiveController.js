@@ -28,25 +28,26 @@ angular.module(
                     title: $scope.locationTitle,
                     visible: true,
                     zIndex: 0,
-                    icon: $scope.locationIcon ? $scope.locationIcon : 'img/glyphicons_185_screenshot.png'
+                    icon: $scope.locationIcon || 'img/glyphicons_185_screenshot.png'
                 });
                 $scope.coordinateMarker = new google.maps.Marker({
                     title: 'Coordinate Marker',
                     visible: true,
                     zIndex: 1000,
-                    icon: $scope.locationIcon ? $scope.locationIcon : 'img/glyphicons_242_google_maps.png'
+                    icon: $scope.locationIcon || 'img/glyphicons_242_google_maps.png'
                 });
                 $scope.coordinateMarkerListener = google.maps.event.addListener(
-                    $scope.map.control.getGMap(), 
-                    'click', 
-                    function(me) {
+                    $scope.map.control.getGMap(),
+                    'click',
+                    function (me) {
                         $scope.coordinateMarker.setMap($scope.map.control.getGMap());
                         $scope.coordinateMarker.setPosition(me.latLng);
-                        angularTools.safeApply($scope, function() {
+                        angularTools.safeApply($scope, function () {
                             $scope.selectedCoordinate = me.latLng;
                         });
-                    });
-                
+                    }
+                );
+
                 $scope.map.control.getGMap().setCenter($scope.locationMarker.getPosition());
                 $scope.map.control.getGMap().setZoom(15);
             };
@@ -63,8 +64,8 @@ angular.module(
 
             $scope.processAreas = function () {
                 var area, i, marker;
-                
-                for(i = 0; i < $scope.tacticalAreas.length; ++i) {
+
+                for (i = 0; i < $scope.tacticalAreas.length; ++i) {
                     area = $scope.tacticalAreas[i];
                     // only points supported currently
                     marker = new google.maps.Marker({
@@ -81,8 +82,8 @@ angular.module(
 
             $scope.resetAreas = function () {
                 var i;
-                
-                for(i = 0; $scope.areaMarkers.length; ++i) {
+
+                for (i = 0; $scope.areaMarkers.length; ++i) {
                     $scope.areaMarkers[i].setMap(null);
                 }
             };
@@ -99,19 +100,19 @@ angular.module(
                 if (areas) {
                     $scope.processAreas();
                 } else {
-                    $scope.resetAreas();    
+                    $scope.resetAreas();
                 }
 
             }, true);
-            
+
             $scope.$watch('visible', function (n, o) {
                 if (n && !o) {
                     $scope.mapRepaint();
                 }
             });
-            
+
             $scope.$watch('selectedCoordinate', function (n, o) {
-                if(n !== o) {
+                if (n !== o) {
                     $scope.coordinateMarker.setMap($scope.map.control.getGMap());
                     $scope.coordinateMarker.setPosition(n);
                 }
