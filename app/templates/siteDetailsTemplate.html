@@ -49,19 +49,55 @@
     </div>
 </div>
 <div>
-    <!-- maybe create directive -->
-    <div class='well small-well' ng-repeat='area in areas'>
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-10">
-                    <span style="margin: 10px;"><img src="{{area.icon}}" alt=''/></span>{{area.name}} ({{area.time | date:'HH:mm'}})
+    <accordion close-others="false">
+        <accordion-group is-open="isopen" ng-repeat='area in areas'>
+            <accordion-heading>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <span style="margin: 10px;"><img src="{{area.icon}}" alt=''/></span><span class="underline">{{area.name}}</span>
+                        </div>
+                        <div class="col-lg-2">
+                            <button type='button' class='btn btn-xs btn-link pull-right' ng-show="editing" ng-click="removeArea($index)">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-lg-2">
-                    <button type='button' class='btn btn-xs btn-link pull-right' ng-show="editing" ng-click="removeArea($index)">
-                        <span class="glyphicon glyphicon-remove-circle"></span>
-                    </button>
+            </accordion-heading>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-5">
+                        Created:
+                    </div>
+                    <div class="col-lg-7">
+                        {{area.time | date:'HH:mm'}}
+                    </div>
+                </div>
+                <div class="row margintop10">
+                <div class='col-lg-5'>
+                    <b>Coordinates</b>
+                </div>
+                <div class='col-lg-7'>
                 </div>
             </div>
-        </div>
-    </div>
+            <div class="row">
+                <div class='col-lg-5'>
+                    Latitude: 
+                </div>
+                <div class='col-lg-7'>
+                    {{area.coordinates[0]}}
+                </div>
+            </div>
+            <div class="row">
+                <div class='col-lg-5'>
+                    Longitude: 
+                </div>
+                <div class='col-lg-7'>
+                    {{area.coordinates[1]}}
+                </div>
+            </div>
+            </div>
+        </accordion-group>
+    </accordion>
 </div>

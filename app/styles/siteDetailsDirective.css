@@ -6,9 +6,8 @@
     width: 100%;
 }
 
-.small-well {
-    padding: 2px;
-    margin-bottom: 10px;
+.underline:hover {
+    text-decoration: underline
 }
 /*
 .collapsable {
