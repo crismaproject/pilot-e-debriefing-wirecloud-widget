@@ -3,4 +3,4 @@ angular.module(
     []
 )
     .constant('OOI_API', 'http://crisma.cismet.de/pilotE/icmm_api')
-    .constant('DEBUG', true);
+    .constant('DEBUG', false);

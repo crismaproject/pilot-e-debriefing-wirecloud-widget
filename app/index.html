@@ -13,12 +13,13 @@
 
         <link rel="stylesheet" href="bower_components/ng-table/ng-table.css">
         <link rel="stylesheet" href="bower_components/select2/select2.css">
+        <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
         
         <!-- build:css(.tmp) styles/main.css -->
-        <link rel="stylesheet" href="styles/bootstrap.css">
         <link rel="stylesheet" href="styles/main.css">
         <link rel="stylesheet" href="styles/masterPatientDirective.css">
         <link rel="stylesheet" href="styles/detailPatientDirective.css">
+        <link rel="stylesheet" href="bower_components/jqplot/jquery.jqplot.css"/>
         <!-- endbuild -->
     </head>
     <body ng-app="eu.crismaproject.pilotE">
@@ -45,8 +46,11 @@
           ga('send', 'pageview');
        </script-->
 
-        <script src="bower_components/jquery/jquery.js"></script>
+        <script src="bower_components/jquery/dist/jquery.js"></script>
+        <script src="bower_components/jqplot/jquery.jqplot.js"></script>
         <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/angular-ui-chart/src/chart.js"></script>
+        <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
         <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
         <script src="bower_components/angular-resource/angular-resource.js"></script>
         <script src="bower_components/angular-route/angular-route.js"></script>
@@ -54,9 +58,15 @@
         <script src="bower_components/ng-table/ng-table.js"></script>
         <script src="bower_components/select2/select2.js"></script>
         <script src="bower_components/angular-ui-select2/src/select2.js"></script>
+        
+        <!-- new libs for jqplot -->
+        <script type="text/javascript" src="bower_components/jqplot/plugins/jqplot.pieRenderer.js"></script>
+        <script type="text/javascript" src="bower_components/jqplot/plugins/jqplot.donutRenderer.js"></script>
+
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
+        <script src="scripts/directives/initialiserDirective.js"></script>
         <script src="scripts/controllers/captureViewController.js"></script>
         <script src="scripts/controllers/masterPatientDirectiveController.js"></script>
         <script src="scripts/directives/masterPatientDirective.js"></script>
@@ -64,6 +74,16 @@
         <script src="scripts/directives/detailPatientDirective.js"></script>
         <script src="scripts/services/ooiservice.js"></script>
         <script src="scripts/configuration.js"></script>
+        
+        <script src="scripts/controllers/debriefingViewController.js"></script>
+        <script src="scripts/controllers/careMeasuresWidgetDirectiveController.js"></script>
+        <script src="scripts/directives/careMeasuresWidgetDirective.js"></script>
+        
+        <script src="scripts/controllers/responsePhasesNavDirectiveController.js"></script>
+        <script src="scripts/controllers/responsePhasesNav2DirectiveController.js"></script>
+        <script src="scripts/directives/responsePhasesNavDirective.js"></script>
+        <script src="scripts/directives/responsePhasesNav2Directive.js"></script>
+        
         <!-- endbuild -->
     </body>
 </html>

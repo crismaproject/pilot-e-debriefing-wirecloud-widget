@@ -1,0 +1,6 @@
+<div class="list-group">
+    <h4 href="#" class="list-group-item-heading">{{listHeader}}</h4>
+    <a data-ng-repeat="entry in listItems" ng-href="#{{currentLocation}}" class="list-group-item" ng-class="{active : $index===selectedItemIndex, '' : !($index===selectedItemIndex)}" ng-click="itemClicked($index)">{{entry.value}}
+        <i class="pull-right glyphicon glyphicon-chevron-right"></i>
+    </a>
+</div>
