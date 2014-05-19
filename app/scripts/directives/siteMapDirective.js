@@ -13,6 +13,7 @@ angular.module(
                 tacticalAreas: '=',
                 selectedCoordinate: '=',
                 visible: '=',
+                editing: '='
             };
 
         return {

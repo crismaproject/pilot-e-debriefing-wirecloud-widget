@@ -8,9 +8,15 @@ angular.module(
         'DEBUG',
         function ($scope, angularTools, DEBUG) {
             'use strict';
+            
+            var getIcon32;
 
             if (DEBUG) {
                 console.log('initialising site map directive controller');
+            }
+            
+            getIcon32 = function (icon) {
+                return icon.replace(/(\w+_)(\d+)(\.\w+)/, "$132$3");
             }
 
             $scope.locationMarker = null;
@@ -40,11 +46,13 @@ angular.module(
                     $scope.map.control.getGMap(),
                     'click',
                     function (me) {
-                        $scope.coordinateMarker.setMap($scope.map.control.getGMap());
-                        $scope.coordinateMarker.setPosition(me.latLng);
-                        angularTools.safeApply($scope, function () {
-                            $scope.selectedCoordinate = me.latLng;
-                        });
+                        if($scope.editing) {
+                            $scope.coordinateMarker.setMap($scope.map.control.getGMap());
+                            $scope.coordinateMarker.setPosition(me.latLng);
+                            angularTools.safeApply($scope, function () {
+                                $scope.selectedCoordinate = me.latLng;
+                            });
+                        }
                     }
                 );
 
@@ -54,7 +62,7 @@ angular.module(
 
             $scope.resetMap = function () {
                 google.maps.event.removeListener($scope.coordinateMarkerListener);
-                $scope.map.control.getGMap().setCenter(new google.maps.LatLng(51.163375, 10.447683));
+                $scope.map.control.getGMap().setCenter(new google.maps.LatLng(51.163375, 10.447683)); // center of ger
                 $scope.map.control.getGMap().setZoom(6);
                 if ($scope.locationMarker) {
                     $scope.locationMarker.setMap(null);
@@ -63,60 +71,72 @@ angular.module(
             };
 
             $scope.processAreas = function () {
-                var area, i, marker;
+                var add, area, i, j, marker, markerFound;
 
+                // first mark them all for removal
+                for (j = 0; j < $scope.areaMarkers.length; ++j) {
+                    $scope.areaMarkers[j].remove = true;
+                }
+                
+                add = [];
                 for (i = 0; i < $scope.tacticalAreas.length; ++i) {
                     area = $scope.tacticalAreas[i];
-                    // only points supported currently
-                    marker = new google.maps.Marker({
-                        map: $scope.map.control.getGMap(),
-                        position: new google.maps.LatLng(area.coordinates[0], area.coordinates[1]),
-                        title: area.name,
-                        visible: true,
-                        zIndex: 0,
-                        icon: area.icon
-                    });
-                    $scope.areaMarkers.push(marker);
+                    
+                    markerFound = false;
+                    for (j = 0; j < $scope.areaMarkers.length && !markerFound; ++j) {
+                        marker = $scope.areaMarkers[j];
+                        
+                        if (marker.getTitle() === area.name) {
+                            marker.remove = false;
+                            markerFound = true;
+                        }
+                    }
+                    
+                    if (!markerFound) {
+                        // only points supported currently
+                        marker = new google.maps.Marker({
+                            map: $scope.map.control.getGMap(),
+                            position: new google.maps.LatLng(area.coordinates[0], area.coordinates[1]),
+                            title: area.name,
+                            visible: true,
+                            zIndex: 0,
+                            icon: getIcon32(area.icon),
+                            clickable: true
+                        });
+                        google.maps.event.addListener(marker, 'mouseover', function() {
+                            this.setZIndex(1000);
+                        });
+                        google.maps.event.addListener(marker, 'mouseout', function() {
+                            this.setZIndex(0);
+                        });
+                        add.push(marker);
+                    }
+                }
+                
+                // remove all markers that were marked as removed
+                i = $scope.areaMarkers.length;
+                while (i--) {
+                    if ($scope.areaMarkers[i].remove) {
+                        $scope.areaMarkers[i].setMap(null);
+                        $scope.areaMarkers.splice(i, 1);
+                    }
+                }
+                
+                // add the new markers
+                for(i = 0; i < add.length; ++i) {
+                    $scope.areaMarkers.push(add[i]);
                 }
             };
-
-            $scope.resetAreas = function () {
+            
+            $scope.clearAreas = function () {
                 var i;
 
-                for (i = 0; $scope.areaMarkers.length; ++i) {
+                i = $scope.areaMarkers.length;
+                while (i--) {
                     $scope.areaMarkers[i].setMap(null);
+                    $scope.areaMarkers.pop();
                 }
             };
-
-            $scope.$watch('location', function (location) {
-                if (location) {
-                    $scope.initMap();
-                } else {
-                    $scope.resetMap();
-                }
-            });
-
-            $scope.$watch('tacticalAreas', function (areas) {
-                if (areas) {
-                    $scope.processAreas();
-                } else {
-                    $scope.resetAreas();
-                }
-
-            }, true);
-
-            $scope.$watch('visible', function (n, o) {
-                if (n && !o) {
-                    $scope.mapRepaint();
-                }
-            });
-
-            $scope.$watch('selectedCoordinate', function (n, o) {
-                if (n !== o) {
-                    $scope.coordinateMarker.setMap($scope.map.control.getGMap());
-                    $scope.coordinateMarker.setPosition(n);
-                }
-            });
 
             $scope.map = {
                 center: {
@@ -135,6 +155,36 @@ angular.module(
                 $scope.map.control.refresh();
                 $scope.map.control.getGMap().setCenter(oldcenter);
             };
+
+            $scope.$watch('location', function (location) {
+                if (location) {
+                    $scope.initMap();
+                } else {
+                    $scope.resetMap();
+                }
+            });
+
+            $scope.$watch('tacticalAreas', function (areas) {
+                if (areas) {
+                    $scope.processAreas();
+                } else {
+                    $scope.clearAreas();
+                }
+
+            }, true);
+
+            $scope.$watch('visible', function (n, o) {
+                if (n && !o) {
+                    $scope.mapRepaint();
+                }
+            });
+
+            $scope.$watch('selectedCoordinate', function (n, o) {
+                if (n !== o) {
+                    $scope.coordinateMarker.setMap($scope.map.control.getGMap());
+                    $scope.coordinateMarker.setPosition(n);
+                }
+            });
         }
     ]
 );
