@@ -37,13 +37,14 @@
             <div class="ex-header"><h3>Exercise {{worldstate.name}}</h3></div>
             <tabset>
                 <tab heading='Patients'>
+                    <div class="margintop10"></div>
                     <div class="container-fluid">
                         <div class="row">
                             <div class='col-lg-8'>
                                 <master-patient-widget patients="patients" selected-patient="selectedPatient"></master-patient-widget>
                             </div>
                             <div class='col-lg-4'>
-                                <detail-patient-widget patient="selectedPatient" editing="editing"></detail-patient-widget>
+                                <detail-patient-widget patient="selectedPatient" editing="true"></detail-patient-widget>
                             </div>
                         </div>
                     </div>
@@ -62,6 +63,7 @@
                                 </site-map-widget>
                             </div>
                             <div class='col-lg-4'>
+                                <div class="margintop10"></div>
                                 <site-detail-widget 
                                     areas="exercise.tacticalAreas"
                                     all-areas="allTacticalAreas"
