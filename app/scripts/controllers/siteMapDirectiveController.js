@@ -21,10 +21,12 @@ angular.module(
 
             $scope.locationMarker = null;
             $scope.areaMarkers = [];
+            $scope.infoWindow = null;
             $scope.initMap = function () {
                 var ewkt, geojson, indexof;
 
                 ewkt = $scope.location;
+                $scope.infoWindow = new google.maps.InfoWindow();
                 indexof = ewkt.indexOf(';');
                 // assume 4326 point
                 geojson = Terraformer.WKT.parse(indexof > 0 ? ewkt.substr(indexof + 1) : ewkt);
@@ -108,6 +110,10 @@ angular.module(
                         });
                         google.maps.event.addListener(marker, 'mouseout', function() {
                             this.setZIndex(0);
+                        });
+                        google.maps.event.addListener(marker, 'click', function() {
+                            $scope.infoWindow.setContent(this.getTitle());
+                            $scope.infoWindow.open($scope.map.control.getGMap(), this);
                         });
                         add.push(marker);
                     }
