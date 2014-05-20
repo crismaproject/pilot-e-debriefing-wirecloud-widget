@@ -11,8 +11,11 @@ angular.module(
     [
         '$timepickerProvider',
         function ($timepickerProvider) {
+            // consistent defaults for the whole app
+            'use strict';
+
             angular.extend(
-                $timepickerProvider.defaults, 
+                $timepickerProvider.defaults,
                 {
                     timeFormat: 'HH:mm',
                     timeType: 'iso',

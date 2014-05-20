@@ -16,8 +16,8 @@ angular.module(
             }
             
             getIcon32 = function (icon) {
-                return icon.replace(/(\w+_)(\d+)(\.\w+)/, "$132$3");
-            }
+                return icon.replace(/(\w+_)(\d+)(\.\w+)/, '$132$3');
+            };
 
             $scope.locationMarker = null;
             $scope.areaMarkers = [];
@@ -73,13 +73,26 @@ angular.module(
             };
 
             $scope.processAreas = function () {
-                var add, area, i, j, marker, markerFound;
+                var add, area, i, j, marker, markerFound, showInfo, zMinus, zPlus;
 
                 // first mark them all for removal
                 for (j = 0; j < $scope.areaMarkers.length; ++j) {
                     $scope.areaMarkers[j].remove = true;
                 }
                 
+                showInfo = function() {
+                    $scope.infoWindow.setContent(this.getTitle());
+                    $scope.infoWindow.open($scope.map.control.getGMap(), this);
+                };
+
+                zMinus = function() {
+                    this.setZIndex(0);
+                };
+
+                zPlus = function() {
+                    this.setZIndex(1000);
+                };
+
                 add = [];
                 for (i = 0; i < $scope.tacticalAreas.length; ++i) {
                     area = $scope.tacticalAreas[i];
@@ -105,16 +118,9 @@ angular.module(
                             icon: getIcon32(area.icon),
                             clickable: true
                         });
-                        google.maps.event.addListener(marker, 'mouseover', function() {
-                            this.setZIndex(1000);
-                        });
-                        google.maps.event.addListener(marker, 'mouseout', function() {
-                            this.setZIndex(0);
-                        });
-                        google.maps.event.addListener(marker, 'click', function() {
-                            $scope.infoWindow.setContent(this.getTitle());
-                            $scope.infoWindow.open($scope.map.control.getGMap(), this);
-                        });
+                        google.maps.event.addListener(marker, 'mouseover', zPlus);
+                        google.maps.event.addListener(marker, 'mouseout', zMinus);
+                        google.maps.event.addListener(marker, 'click', showInfo);
                         add.push(marker);
                     }
                 }
