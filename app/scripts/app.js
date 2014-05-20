@@ -4,6 +4,21 @@ angular.module(
         'eu.crismaproject.pilotE.controllers',
         'eu.crismaproject.pilotE.directives',
         'eu.crismaproject.pilotE.services',
-        'ui.bootstrap'
+        'ui.bootstrap',
+        'mgcrea.ngStrap'
+    ]
+).config(
+    [
+        '$timepickerProvider',
+        function ($timepickerProvider) {
+            angular.extend(
+                $timepickerProvider.defaults, 
+                {
+                    timeFormat: 'HH:mm',
+                    timeType: 'iso',
+                    minuteStep: '1'
+                }
+            );
+        }
     ]
 );

@@ -17,18 +17,20 @@
             </div>
             <div class="row">
                 <div class='col-lg-4'>
-                    Latitude: 
+                    <span style="height: 34px; display: table-cell; vertical-align: middle;">Latitude:</span>
                 </div>
                 <div class='col-lg-8'>
-                    <input class="width100perc" type="number" ng-model="latitude" ng-change="createLatLng()">
+                    <input class="form-control width100perc" type="number" ng-model="latitude" ng-change="createLatLng()">
+                    <span class='glyphicon glyphicon-globe' style="position: absolute; padding: 9px 40px; right: 0px; pointer-events: none;"></span>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" style='margin-top: 3px;'>
                 <div class='col-lg-4'>
-                    Longitude: 
+                    <span style="height: 34px; display: table-cell; vertical-align: middle;">Longitude:</span>
                 </div>
                 <div class='col-lg-8'>
-                    <input class="width100perc" type="number" ng-model="longitude" ng-change="createLatLng()">
+                    <input class="form-control width100perc" type="number" ng-model="longitude" ng-change="createLatLng()">
+                    <span class='glyphicon glyphicon-globe' style="position: absolute; padding: 9px 40px; right: 0px; pointer-events: none;"></span>
                 </div>
             </div>
         </div>
@@ -36,10 +38,21 @@
             <div class="row">
                 <div class='col-lg-4'>
                     <!-- hack to have the text centered vertically, actually we don't really know the height oO -->
-                    <span style="height: 102px; display: table-cell; vertical-align: middle;">When:</span>
+                    <span style="height: 34px; display: table-cell; vertical-align: middle;">When:</span>
                 </div>
                 <div class='col-lg-8'>
-                    <timepicker ng-model="timestamp" show-meridian="false" required="true"></timepicker>
+                    <form name="timepickerForm" class="form-inline timepicker" role="form">
+                        <div class="form-group" ng-class="{'has-error': timepickerForm.time.$invalid}">
+                            <input 
+                                class="form-control"
+                                size="5"
+                                ng-model="timestamp" 
+                                name="time"
+                                bs-timepicker 
+                                type="text">
+                            <span class='glyphicon glyphicon-time' style="position: absolute; padding: 9px 58px; pointer-events: none;"></span>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -72,6 +85,7 @@
                     </div>
                     <div class="col-lg-7">
                         {{area.time | date:'HH:mm'}}
+                        <span class='glyphicon glyphicon-time' style="margin-left: 3px;"></span>
                     </div>
                 </div>
                 <div class="row margintop10">
@@ -87,6 +101,7 @@
                 </div>
                 <div class='col-lg-7'>
                     {{area.coordinates[0]}}
+                    <span class='glyphicon glyphicon-globe' style="margin-left: 3px;"></span>
                 </div>
             </div>
             <div class="row">
@@ -95,6 +110,7 @@
                 </div>
                 <div class='col-lg-7'>
                     {{area.coordinates[1]}}
+                    <span class='glyphicon glyphicon-globe' style="margin-left: 3px;"></span>
                 </div>
             </div>
             </div>
