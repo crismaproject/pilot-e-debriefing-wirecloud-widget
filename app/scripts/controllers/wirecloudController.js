@@ -23,13 +23,42 @@ angular.module(
                 $scope.patients = null;
                 $scope.exercise = null;
                 $scope.apiurl = null;
+                $scope.allTacticalAreas = [
+                    {
+                        'name': 'Area of danger',
+                        'icon': 'img/area_of_danger_16.png'
+                    },
+                    {
+                        'name': 'Advanced Medical Post',
+                        'icon': 'img/advanced_medical_post_16.png'
+                    },
+                    {
+                        'name': 'Treatment Area',
+                        'icon': 'img/treatment_area_16.png'
+                    },
+                    {
+                        'name': 'Staging Area',
+                        'icon': 'img/staging_area_16.png'
+                    },
+                    {
+                        'name': 'Helicopter Landing Area',
+                        'icon': 'img/helicopter_landing_area_16.png'
+                    },
+                    {
+                        'name': 'Collecting Space',
+                        'icon': 'img/collecting_space_16.png'
+                    },
+                    {
+                        'name': 'Loading Area',
+                        'icon': 'img/loading_area_16.png'
+                    }
+                ];
             };
 
             initScope();
 
             $scope.processWorldstate = function () {
                 var cats, dai, i, item, items, j, res;
-
 
                 if (DEBUG) {
                     console.log('parse dataitem and fetch patients');

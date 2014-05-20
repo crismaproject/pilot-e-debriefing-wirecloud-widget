@@ -1,10 +1,6 @@
 /* Services */
 angular.module(
-    'eu.crismaproject.pilotE.services',
-    [
-        'ngResource',
-        'eu.crismaproject.pilotE.configuration'
-    ]
+    'eu.crismaproject.pilotE.services'
 ).factory(
     'eu.crismaproject.pilotE.services.OoI',
     [

@@ -1,0 +1,119 @@
+<div collapse="availableAreas.length === 0">
+    <div ng-show='editing' class='well'>
+        <div class="container-fluid">
+            <div class="row">
+                <select class="col-lg-12" data-ui-select2="select2Options" data-ng-model="selectedArea">
+                    <option ng-repeat="area in availableAreas" value="{{area}}">{{area.name}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="container-fluid margintop10">
+            <div class="row">
+                <div class='col-lg-4'>
+                    <b>Coordinates</b>
+                </div>
+                <div class='col-lg-8'>
+                </div>
+            </div>
+            <div class="row">
+                <div class='col-lg-4'>
+                    <span style="height: 34px; display: table-cell; vertical-align: middle;">Latitude:</span>
+                </div>
+                <div class='col-lg-8'>
+                    <input class="form-control width100perc" type="number" ng-model="latitude" ng-change="createLatLng()">
+                    <span class='glyphicon glyphicon-globe' style="position: absolute; padding: 9px 40px; right: 0px; pointer-events: none;"></span>
+                </div>
+            </div>
+            <div class="row" style='margin-top: 3px;'>
+                <div class='col-lg-4'>
+                    <span style="height: 34px; display: table-cell; vertical-align: middle;">Longitude:</span>
+                </div>
+                <div class='col-lg-8'>
+                    <input class="form-control width100perc" type="number" ng-model="longitude" ng-change="createLatLng()">
+                    <span class='glyphicon glyphicon-globe' style="position: absolute; padding: 9px 40px; right: 0px; pointer-events: none;"></span>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid margintop10">
+            <div class="row">
+                <div class='col-lg-4'>
+                    <!-- hack to have the text centered vertically, actually we don't really know the height oO -->
+                    <span style="height: 34px; display: table-cell; vertical-align: middle;">When:</span>
+                </div>
+                <div class='col-lg-8'>
+                    <form name="timepickerForm" class="form-inline timepicker" role="form">
+                        <div class="form-group" ng-class="{'has-error': timepickerForm.time.$invalid}">
+                            <input 
+                                class="form-control"
+                                size="5"
+                                ng-model="timestamp" 
+                                name="time"
+                                bs-timepicker 
+                                type="text">
+                            <span class='glyphicon glyphicon-time' style="position: absolute; padding: 9px 58px; pointer-events: none;"></span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid margintop10">
+            <button type="button" class="pull-right btn btn-success ng-class:{'disabled': availableAreas.length === 0}" ng-click="createArea()">Create Area</button>
+        </div>
+    </div>
+</div>
+<div>
+    <accordion close-others="false">
+        <accordion-group is-open="isopen" ng-repeat='area in areas'>
+            <accordion-heading>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-10">
+                            <span style="margin: 10px;"><img src="{{area.icon}}" alt=''/></span><span class="underline">{{area.name}}</span>
+                        </div>
+                        <div class="col-lg-2">
+                            <button type='button' class='btn btn-xs btn-link pull-right' ng-show="editing" ng-click="removeArea($index)">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </accordion-heading>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-5">
+                        Created:
+                    </div>
+                    <div class="col-lg-7">
+                        {{area.time | date:'HH:mm'}}
+                        <span class='glyphicon glyphicon-time' style="margin-left: 3px;"></span>
+                    </div>
+                </div>
+                <div class="row margintop10">
+                <div class='col-lg-5'>
+                    <b>Coordinates</b>
+                </div>
+                <div class='col-lg-7'>
+                </div>
+            </div>
+            <div class="row">
+                <div class='col-lg-5'>
+                    Latitude: 
+                </div>
+                <div class='col-lg-7'>
+                    {{area.coordinates[0]}}
+                    <span class='glyphicon glyphicon-globe' style="margin-left: 3px;"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class='col-lg-5'>
+                    Longitude: 
+                </div>
+                <div class='col-lg-7'>
+                    {{area.coordinates[1]}}
+                    <span class='glyphicon glyphicon-globe' style="margin-left: 3px;"></span>
+                </div>
+            </div>
+            </div>
+        </accordion-group>
+    </accordion>
+</div>

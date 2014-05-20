@@ -1,0 +1,15 @@
+.margintop10 {
+    margin-top: 10px;
+}
+
+.width100perc {
+    width: 100%;
+}
+
+.underline:hover {
+    text-decoration: underline
+}
+
+.timepicker .btn-default {
+    border: none;
+}

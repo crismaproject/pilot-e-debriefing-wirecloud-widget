@@ -1,13 +1,24 @@
-angular.module('eu.crismaproject.pilotE', ['eu.crismaproject.pilotE.controllers', 'eu.crismaproject.pilotE.directives', 'ngRoute', 'ngAnimate', 'ui.bootstrap.tpls', 'ui.bootstrap.tabs'])
-    .config(['$routeProvider', function ($routeProvider) {
-        'use strict';
-
-        $routeProvider
-            .when('/', {
-                templateUrl: 'views/main.html',
-                controller: 'captureViewController'
-            })
-            .otherwise({
-                redirectTo: '/'
-            });
-    }]);
+angular.module(
+    'eu.crismaproject.pilotE',
+    [
+        'eu.crismaproject.pilotE.controllers',
+        'eu.crismaproject.pilotE.directives',
+        'eu.crismaproject.pilotE.services',
+        'ui.bootstrap',
+        'mgcrea.ngStrap'
+    ]
+).config(
+    [
+        '$timepickerProvider',
+        function ($timepickerProvider) {
+            angular.extend(
+                $timepickerProvider.defaults, 
+                {
+                    timeFormat: 'HH:mm',
+                    timeType: 'iso',
+                    minuteStep: '1'
+                }
+            );
+        }
+    ]
+);
