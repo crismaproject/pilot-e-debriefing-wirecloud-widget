@@ -33,18 +33,23 @@
                 <tr>
                     <td class="defaultinsets">Classification:</td>
                     <td class="text-right defaultinsets">
-                         <triage-select selected-triage="patient.preTriage.classification"></triage-select>
+                         <triage-select ng-show="editing" selected-triage="patient.preTriage.classification"></triage-select>
+                         <span ng-show="!editing" class="triage ng-class:{'T1': patient.preTriage.classification === 'T1', 'T2': patient.preTriage.classification === 'T2', 'T3': patient.preTriage.classification === 'T3'};">{{patient.preTriage.classification}}</span>
                     </td>
                 </tr>
                 <tr>
                     <td class="defaultinsets">When:</td>
                     <td class="text-right defaultinsets">
-                        <timepicker ng-model="patient.preTriage.timestamp" show-meridian="false" required="false"></timepicker>
+                        <timepicker ng-show="editing" ng-model="patient.preTriage.timestamp" show-meridian="false" required="false"></timepicker>
+                        <span ng-show="!editing" >{{patient.preTriage.timestamp | date:'HH:mm' }}</span>
                     </td>
                 </tr>
                 <tr>
                     <td class="defaultinsets">Responder ID:</td>
-                    <td class="text-right defaultinsets"><input ng-model="patient.preTriage.treatedBy" class="responder"></td>
+                    <td class="text-right defaultinsets">
+                        <input ng-show="editing" ng-model="patient.preTriage.treatedBy" class="responder">
+                        <span ng-show="!editing" class="responder">{{patient.preTriage.treatedBy}}</span>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -60,18 +65,23 @@
                 <tr>
                     <td class="defaultinsets">Classification:</td>
                     <td class="text-right defaultinsets">
-                         <triage-select selected-triage="patient.triage.classification"></triage-select>
+                         <triage-select ng-show="editing" selected-triage="patient.triage.classification"></triage-select>
+                         <span ng-show="!editing" class="triage ng-class:{'T1': patient.triage.classification === 'T1', 'T2': patient.triage.classification === 'T2', 'T3': patient.triage.classification === 'T3'};">{{patient.triage.classification}}</span>
                     </td>
                 </tr>
                 <tr>
                     <td class="defaultinsets">When:</td>
                     <td class="text-right defaultinsets">
-                        <timepicker ng-model="patient.triage.timestamp" show-meridian="false" required="false"></timepicker>
+                        <timepicker ng-show="editing" ng-model="patient.triage.timestamp" show-meridian="false" required="false"></timepicker>
+                        <span ng-show="!editing">{{patient.triage.timestamp | date:'HH:mm' }}</span>
                     </td>
                 </tr>
                 <tr>
                     <td class="defaultinsets">Responder ID:</td>
-                    <td class="text-right defaultinsets"><input ng-model="patient.triage.treatedBy" class="responder"></td>
+                    <td class="text-right defaultinsets">
+                        <input ng-show="editing" ng-model="patient.triage.treatedBy" class="responder">
+                        <span ng-show="!editing" class="responder">{{patient.triage.treatedBy}}</span>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -87,7 +97,8 @@
                 <tr>
                     <td colspan="2" class="defaultinsets">Treatment begin:</td>
                     <td class="text-right defaultinsets">
-                        <timepicker ng-model="patient.treatment_timestamp" show-meridian="false" required="false"></timepicker>
+                        <timepicker ng-show="editing" ng-model="patient.treatment_timestamp" show-meridian="false" required="false"></timepicker>
+                        <span ng-show="!editing">{{patient.triage.timestamp | date:'HH:mm' }}</span>
                     </td>
                 </tr>
                 <tr>
@@ -98,13 +109,18 @@
                 <!-- assumes care measures available -->
                 <tr data-ng-repeat="cm in patient.careMeasures | orderBy:'measure'" ng-controller="detailPatientDirectiveCareMeasureController">
                     <td class="defaultinsets">{{cm.measure}}:</td>
-                    <td class="text-right defaultinsets"><input ng-model="cm.treatedBy" class="responder"></td>
-                    <td class="text-right defaultinsets"><select ng-model="cm.rating" class="rating">
+                    <td class="text-right defaultinsets">
+                        <input ng-show="editing" ng-model="cm.treatedBy" class="responder">
+                        <span ng-show="!editing" class="responder">{{cm.treatedBy}}</span>
+                    </td>
+                    <td class="text-right defaultinsets">
+                        <select ng-show="editing" ng-model="cm.rating" class="rating">
                             <option value=""></option>
                             <option value="1">1</option>
                             <option value="3">3</option>
                             <option value="6">6</option>
                         </select>
+                        <span ng-show="!editing" class="rating">{{cm.rating}}</span>
                     </td>
                 </tr>
             </tbody>

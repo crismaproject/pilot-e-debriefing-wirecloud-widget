@@ -312,6 +312,26 @@ module.exports = function (grunt) {
           createDirectories: true
         }
       }
+    },
+    compress: {
+        main: {
+            options: {
+                mode: 'zip',
+                archive: 'crisma-pilot-e-capture-widget-wirecloud.min.wgt'
+            },
+            files: [
+                {expand: true, src: '**/*', cwd: 'dist'}
+            ]
+        },
+        nomin: {
+            options: {
+                mode: 'zip',
+                archive: 'crisma-pilot-e-capture-widget-wirecloud.wgt'
+            },
+            files: [
+                {expand: true, src: '**/*', cwd: 'app'}
+            ]
+        }
     }
   });
 
@@ -349,7 +369,8 @@ module.exports = function (grunt) {
     'cssmin',
     'uglify',
     'rev',
-    'usemin'
+    'usemin',
+    'compress:nomin'
   ]);
 
   grunt.registerTask('default', [

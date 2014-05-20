@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- The Template core element. This element is mandatory -->
+<Template xmlns="http://wirecloud.conwet.fi.upm.es/ns/template#">
+
+    <!-- Catalog.ResourceDescription element. This element defines the core metadata of the widget -->
+    <Catalog.ResourceDescription>
+        <!-- Vendor: Company that distributes the widget -->
+        <Vendor>cismet GmbH</Vendor>
+        <!-- Name: Name of the widget -->
+        <Name>pilot-e-capture-widget</Name>
+        <!-- Version: Current widget version number-->
+        <!-- we include a build # to prevent caching by wirecloud -->
+        <Version>0.1.0.1</Version>
+        <!-- DisplayName: Name shown in the UI of the widget -->
+        <DisplayName>CRISMA Pilot E Capture Widget</DisplayName>
+        <!-- Author: Widget developer(s) -->
+        <Author>Martin Scholl (cismet)</Author>
+        <!-- Mail: Developer's email address -->
+        <Mail>martin.scholl@cismet.de</Mail>
+        <!-- Description: Full widget description to be shown in the catalogue -->
+        <Description>This widget implements the Pilot E capute views</Description>
+        <!-- Absolute or template-relative path to the image shown in the catalogue -->
+        <ImageURI>images/preview.png</ImageURI>
+        <!-- Absolute or template-relative path to the image to be used in smartphones -->
+        <iPhoneImageURI></iPhoneImageURI>
+        <!-- Absolute or template-relative path to the widget's documentation -->
+        <WikiURI>doc/index.html</WikiURI>
+    </Catalog.ResourceDescription>
+
+    <!-- Platform.Preferences element. It defines user preferences -->
+    <Platform.Preferences>
+        <Preference 
+            name="DEBUG" 
+            type="text" 
+            description="Toggle debug mode" 
+            label="DEBUG toggle" default="true"/>
+<!--        <Preference 
+            name="CRISMA_DOMAIN" 
+            type="text" 
+            description="The CRISMA domain this widget lives in" 
+            label="CRISMA domain" 
+            default="CRISMA"/>
+        <Preference 
+            name="CRISMA_ICMM_API" 
+            type="text" 
+            description="The URL to the ICMM API instance" 
+            label="CRISMA ICMM API" 
+            default="http://crisma.cismet.de/pilotE/icmm_api"/>-->
+    </Platform.Preferences>
+
+    <!-- Platform.StateProperties element. It defines user preferences -->
+    <Platform.StateProperties>
+    </Platform.StateProperties>
+
+    <!-- Platform.Wiring element. It defines both the widget inputs and outputs -->
+    <Platform.Wiring>
+        <InputEndpoint
+            name="setWorldstate"
+            type="text"
+            label="Set Worldstate"
+            description="Sets a worldstate (JSON-String, min level 3) to be displayed or edited. However, if the widget is currently editing (see set/isEditing) it will prompt the user if he wants to discard changes. If the user is positive about discard then the new worldstate data is loaded and an 'isEditing' event with the value 'false' is issued, otherwise the worldstate will remain the old one and an 'isEditing' event with value 'false' is issued."
+            friendcode="worldstate_json_expanded"/>
+        <InputEndpoint
+            name="setEditing"
+            type="text"
+            label="Set Editing"
+            description="Toggle editing mode. If the provided value is 'true' the widget will switch to editing mode. If the provided value is 'false' and the widget is currently in editing mode the widget will probably stop editing: The user is asked if he wants to stop editing. If his answer is 'No' an 'isEditing' event with the value 'true' is issued. If his answer is 'Yes' the current values will be pushed to the backend and a 'getDataitem' event with a transient dataitem will be issued. This dataitem is not stored by the component (thus transient) and does not contain an 'id' or '$self' property as the widget does not know the origin of the worldstate and thus cannot fetch a proper id."
+            friendcode="boolean"/>
+        <OutputEndpoint
+            name="getDataitem"
+            type="text"
+            label="Get the newly created Dataitem"
+            description="Event that is issued if editing mode was started and stopped successfully (without user veto or discard). Provides a transient dataitem that does not contain 'id' or '$self'."
+            friendcode="dataslot_json_expanded"/>
+        <OutputEndpoint
+            name="isEditing"
+            type="text"
+            label="Is in editing mode"
+            description="Event that is issued on varous occasions, see input endpoints"
+            friendcode="boolean"/>
+    </Platform.Wiring>
+
+    <!-- Platform.Link element. It binds the template with the actual widget's source code. -->
+    <Platform.Link>
+        <!-- XHTML element. It has the href attribute that links to the source code of the widget. -->
+        <!--                contenttype and cacheable attributes are optional -->
+        <XHTML href="index.html"/>
+
+    </Platform.Link>
+
+    <!-- Platform.Rendering element. It specifies the default width and height of the widget -->
+    <Platform.Rendering width="15" height="50"/>
+
+</Template>
