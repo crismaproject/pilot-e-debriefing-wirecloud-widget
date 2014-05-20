@@ -40,8 +40,22 @@
                 <tr>
                     <td class="defaultinsets">When:</td>
                     <td class="text-right defaultinsets">
-                        <timepicker ng-show="editing" ng-model="patient.preTriage.timestamp" show-meridian="false" required="false"></timepicker>
-                        <span ng-show="!editing" >{{patient.preTriage.timestamp | date:'HH:mm' }}</span>
+                        <div style="position: relative">
+                            <form ng-show="editing" name="timepickerForm2" class="form-inline timepicker" role="form">
+                                <div class="form-group" ng-class="{'has-error': timepickerForm2.time.$invalid}">
+                                    <input 
+                                        class="form-control"
+                                        size="5"
+                                        ng-model="patient.preTriage.timestamp" 
+                                        name="time"
+                                        bs-timepicker 
+                                        type="text">
+                                    <span class='glyphicon glyphicon-time' style="position: absolute; padding: 9px; margin-left: -37px; pointer-events: none;"></span>
+                                </div>
+                            </form>
+                            <span ng-show="!editing" >{{patient.preTriage.timestamp | date:'HH:mm' }}</span>
+                            <span ng-show="!editing" class='glyphicon glyphicon-time' style="margin-left: 3px;"></span>
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -72,8 +86,22 @@
                 <tr>
                     <td class="defaultinsets">When:</td>
                     <td class="text-right defaultinsets">
-                        <timepicker ng-show="editing" ng-model="patient.triage.timestamp" show-meridian="false" required="false"></timepicker>
-                        <span ng-show="!editing">{{patient.triage.timestamp | date:'HH:mm' }}</span>
+                        <div style="position: relative">
+                            <form ng-show="editing" name="timepickerForm3" class="form-inline timepicker" role="form">
+                                <div class="form-group" ng-class="{'has-error': timepickerForm3.time.$invalid}">
+                                    <input 
+                                        class="form-control"
+                                        size="5"
+                                        ng-model="patient.triage.timestamp" 
+                                        name="time"
+                                        bs-timepicker 
+                                        type="text">
+                                    <span class='glyphicon glyphicon-time' style="position: absolute; padding: 9px; margin-left: -37px; pointer-events: none;"></span>
+                                </div>
+                            </form>
+                            <span ng-show="!editing" >{{patient.triage.timestamp | date:'HH:mm' }}</span>
+                            <span ng-show="!editing" class='glyphicon glyphicon-time' style="margin-left: 3px;"></span>
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -97,8 +125,22 @@
                 <tr>
                     <td colspan="2" class="defaultinsets">Treatment begin:</td>
                     <td class="text-right defaultinsets">
-                        <timepicker ng-show="editing" ng-model="patient.treatment_timestamp" show-meridian="false" required="false"></timepicker>
-                        <span ng-show="!editing">{{patient.triage.timestamp | date:'HH:mm' }}</span>
+                        <div style="position: relative">
+                            <form ng-show="editing" name="timepickerForm4" class="form-inline timepicker" role="form">
+                                <div class="form-group" ng-class="{'has-error': timepickerForm4.time.$invalid}">
+                                    <input 
+                                        class="form-control"
+                                        size="5"
+                                        ng-model="patient.treatment_timestamp" 
+                                        name="time"
+                                        bs-timepicker 
+                                        type="text">
+                                    <span class='glyphicon glyphicon-time' style="position: absolute; padding: 9px; margin-left: -37px; pointer-events: none;"></span>
+                                </div>
+                            </form>
+                            <span ng-show="!editing" >{{patient.treatment_timestamp | date:'HH:mm' }}</span>
+                            <span ng-show="!editing" class='glyphicon glyphicon-time' style="margin-left: 3px;"></span>
+                        </div>
                     </td>
                 </tr>
                 <tr>
