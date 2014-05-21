@@ -7,8 +7,9 @@ angular.module(
         '$modal',
         '$q',
         '$resource',
+        'de.cismet.commons.angular.angularTools.AngularTools',
         'DEBUG',
-        function ($scope, $modal, $q, $resource, DEBUG) {
+        function ($scope, $modal, $q, $resource, angularTools, DEBUG) {
             'use strict';
 
             var dialog, initScope, mashupPlatform;
@@ -139,8 +140,10 @@ angular.module(
 
                 mashupPlatform.wiring.registerCallback('setEditing', function (nuu) {
 
-                    if (nuu && $scope.worldstate !== null) {
-                        $scope.editing = true;
+                    if (nuu && nuu.toLowerCase() === 'true' && $scope.worldstate !== null) {
+                        angularTools.safeApply($scope, function() {
+                            $scope.editing = true;
+                        });
                     } else {
                         if ($scope.editing) {
                             // modal dialog: veto finish editing
@@ -201,7 +204,9 @@ angular.module(
 //                                    $scope.exercise.save({id: id});
 
                                     // save current state and create the dataslot without self and id
-                                    $scope.editing = false;
+                                    angularTools.safeApply($scope, function() {
+                                        $scope.editing = false;
+                                    });
                                     mashupPlatform.wiring.pushEvent('getDataitem', JSON.stringify({
                                         'name': 'Exercise Data',
                                         'description': 'Data relevant for the exercise',
@@ -244,13 +249,13 @@ angular.module(
                         });
 
                         dialog.result.then(function () {
-                            console.log('ok');
-                            $scope.editing = false;
+                            angularTools.safeApply($scope, function() {
+                                $scope.editing = false;
+                            });
                             $scope.worldstate = JSON.parse(ws);
                             $scope.processWorldstate();
                             mashupPlatform.wiring.pushEvent('isEditing', 'false');
                         }, function () {
-                            console.log('cancel');
                             mashupPlatform.wiring.pushEvent('isEditing', 'true');
                         });
                     } else {

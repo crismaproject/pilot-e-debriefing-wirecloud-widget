@@ -44,7 +44,7 @@
                                 <master-patient-widget patients="patients" selected-patient="selectedPatient"></master-patient-widget>
                             </div>
                             <div class='col-lg-4'>
-                                <detail-patient-widget patient="selectedPatient" editing="true"></detail-patient-widget>
+                                <detail-patient-widget patient="selectedPatient" editing="editing"></detail-patient-widget>
                             </div>
                         </div>
                     </div>
@@ -58,7 +58,7 @@
                                     location-title="Exercise location"
                                     tactical-areas="exercise.tacticalAreas"
                                     visible="siteVisible"
-                                    editing="true"
+                                    editing="editing"
                                     selected-coordinate="selectedCoordinate">
                                 </site-map-widget>
                             </div>
@@ -67,7 +67,7 @@
                                 <site-detail-widget 
                                     areas="exercise.tacticalAreas"
                                     all-areas="allTacticalAreas"
-                                    editing="true"
+                                    editing="editing"
                                     selected-coordinate="selectedCoordinate">
                                 </site-detail-widget>
                             </div>
@@ -158,7 +158,7 @@
             }, 2000);
 //            window.setTimeout(function() {
 //                console.log("set editing");
-//                MashupPlatform.setEditing(true);
+//                MashupPlatform.setEditing('true');
 //            }, 3000);
 //            
 //            window.setTimeout(function() {
@@ -171,7 +171,7 @@
 //            }, 5000);
 //            window.setTimeout(function() {
 //                console.log("set editing");
-//                MashupPlatform.setEditing(false);
+//                MashupPlatform.setEditing('false');
 //            }, 10000);
 //            window.setTimeout(function() {
 //                console.log("set editing");

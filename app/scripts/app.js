@@ -5,7 +5,8 @@ angular.module(
         'eu.crismaproject.pilotE.directives',
         'eu.crismaproject.pilotE.services',
         'ui.bootstrap',
-        'mgcrea.ngStrap'
+        // might clash with ui.bootstrap thus only declaring the used modules instead of the whole bunch
+        'mgcrea.ngStrap.timepicker'
     ]
 ).config(
     [
