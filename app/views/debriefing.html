@@ -1,5 +1,10 @@
 <div>
     <div id="debriefing">
         <div care-measures-widget patients-data="patients" kpi-list-data="cmKpiData"></div>
+        <br>
+        StepMinutes:
+        <input type="text" ng-model="stepMinutesData">
+        <br>
+        <div pre-triage-widget patients-data="patients" step-minutes="stepMinutesData" kpi-list-data="ptrKpiData"></div>
     </div>
 </div>

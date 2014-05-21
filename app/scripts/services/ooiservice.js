@@ -76,13 +76,10 @@ angular.module(
 
                             return res;
                         }},
-                        'getAll':  {method: 'GET', isArray: true, transformResponse: function (data) {
-                          // we strip the ids of the objects only
+                        'getAll' : {method : 'GET', isArray : true, transformResponse : function(data) {
                           var col, res;
-
                           col = JSON.parse(data).$collection;
                           res = col;
-
                           return res;
                         }},
                         'remove': {method: 'DELETE', cache: true},

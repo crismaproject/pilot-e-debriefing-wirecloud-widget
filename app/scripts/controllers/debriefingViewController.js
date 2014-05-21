@@ -13,6 +13,8 @@ angular.module('eu.crismaproject.pilotE.controllers')
 
                 $scope.patients = ooi.getCapturePatients().getAll();
                 
+                //Data for Care-Measures-Widget:
+                
                 $scope.cmKpiData = [ {
                   value : '35min',
                   key : 'average time until care measures start'
@@ -20,6 +22,24 @@ angular.module('eu.crismaproject.pilotE.controllers')
                   value : '0',
                   key : 'number of peoples died'
                 } ];
+                
+                
+                //Data for Pre-Triage-Widget:
+                
+                $scope.stepMinutesData = 10;
+                                
+                $scope.ptrKpiData = [ {
+                  value : '6min',
+                  key : 'time until pre-triage starts'
+                }, {
+                  value : '30min',
+                  key : 'max time until pre-triage starts'
+                }, {
+                  value : '4',
+                  key : 'number of classification errors'
+                } ];
+                
+                
                 
             }
         ]);
