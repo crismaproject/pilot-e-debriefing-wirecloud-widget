@@ -39,6 +39,19 @@ angular.module('eu.crismaproject.pilotE.controllers')
                   key : 'number of classification errors'
                 } ];
                 
+                //Data for Triage-Widget:
+                
+                $scope.trKpiData = [ {
+                  value : '11min',
+                  key : 'time until triage starts'
+                }, {
+                  value : '60min',
+                  key : 'max time until triage starts'
+                }, {
+                  value : '3',
+                  key : 'number of classification errors'
+                } ];
+                
                 
                 
             }
