@@ -23,7 +23,6 @@ angular.module('eu.crismaproject.pilotE.controllers')
                   key : 'number of peoples died'
                 } ];
                 
-                
                 //Data for Pre-Triage-Widget:
                 
                 $scope.stepMinutesData = 10;
@@ -52,6 +51,18 @@ angular.module('eu.crismaproject.pilotE.controllers')
                   key : 'number of classification errors'
                 } ];
                 
+                //Data for Transportation-Widget:
+                
+                $scope.transpKpiData = [ {
+                  value : '70min',
+                  key : 'max time last red patient is transported'
+                }, {
+                  value : '43min',
+                  key : 'time first red patient is transported'
+                }, {
+                  value : '0',
+                  key : 'number of people died'
+                } ];
                 
                 
             }
