@@ -18,6 +18,8 @@ angular.module('eu.crismaproject.pilotE.controllers')
                 $scope.itemClicked = function(index) {
                   console.info('ResponsePhasesNav2Controller - item with index: ' + index + ' has been clicked!');
                   $scope.$emit('requestElemSelectedFromNav1', index);
+                  
+                  $scope.$parent.hideResponsePhasesNav = true;
                };
                 
                 $scope.$on('executeElemSelectedNav2', function(event, msg) {

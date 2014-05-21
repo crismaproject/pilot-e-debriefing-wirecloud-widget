@@ -51,6 +51,8 @@ angular.module('eu.crismaproject.pilotE.controllers')
                   }
                 ];
                 
+                $scope.hideResponsePhasesNav = false;
+                
                 
                 
             }

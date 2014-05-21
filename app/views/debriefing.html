@@ -1,6 +1,6 @@
 <div>
     <div id="debriefing">
-        <div care-measures-widget patients-data="patients" kpi-list-data="cmKpiData"></div>
+<!--         <div care-measures-widget patients-data="patients" kpi-list-data="cmKpiData"></div> -->
         <br>
         <br>
     </div>
@@ -68,9 +68,40 @@
                         </tbody>
                     </table>
                 </div>
-            <div class="col-md-3 column">
-                <div response-phases-nav list-header={{listHeaderData}} list-items="listItemsData"></div>
-                <div response-phases-nav2 list-header={{listHeaderData}} list-items="listItemsData"></div>
+            <div class="col-md-4 column">
+                <div class="panel panel-default">
+                    <div class="panel panel-heading">Inspect</div>
+                    <div class="panel panel-body">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li><a href="/#debriefing">Response
+                                    - Exercise Run 2<i
+                                    class="pull-left glyphicon glyphicon-chevron-left"></i>
+                            </a></li>
+                            <li><a href="/#debriefing">Transportation
+                                    of Patients</a></li>
+                        </ul>
+
+                        <div care-measures-widget
+                            patients-data="patients"
+                            kpi-list-data="cmKpiData"
+                            ng-hide="hideResponsePhasesNav"></div>
+                        <div care-measures-widget
+                            patients-data="patients"
+                            kpi-list-data="cmKpiData"
+                            ng-hide="! hideResponsePhasesNav"></div>
+                        <br> <br>
+                        <div response-phases-nav2
+                            list-header={{listHeaderData}}
+                            list-items="listItemsData"></div>
+                        <div response-phases-nav
+                            list-header={{listHeaderData}}
+                            list-items="listItemsData"></div>
+                    </div>
+
+                    <!--                     <div response-phases-nav2 list-header={{listHeaderData}} list-items="listItemsData"></div> -->
+
+
+                </div>
             </div>
         </div>
     </div>
