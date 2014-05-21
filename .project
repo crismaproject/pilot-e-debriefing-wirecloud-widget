@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>pilot-e-application</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>com.eclipsesource.jshint.ui.builder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.angularjs.core.angularnature</nature>
+		<nature>tern.eclipse.ide.core.ternnature</nature>
+	</natures>
+</projectDescription>
