@@ -20,6 +20,8 @@
         <link rel="stylesheet" href="styles/masterPatientDirective.css">
         <link rel="stylesheet" href="styles/detailPatientDirective.css">
         <link rel="stylesheet" href="bower_components/jqplot/jquery.jqplot.css"/>
+<!--         <link rel="stylesheet" href="styles/siteMapDirective.css"> -->
+<!--         <link rel="stylesheet" href="styles/siteDetailsDirective.css"> -->
         <!-- endbuild -->
     </head>
     <body ng-app="eu.crismaproject.pilotE">
@@ -34,6 +36,51 @@
 
         <!-- Add your site or application content here -->
         <div class="container" ng-view></div>
+        
+<!--         <div ng-controller="eu.crismaproject.pilotE.controllers.WirecloudController"> -->
+<!--             <div class="ex-header"><h3>Exercise {{worldstate.name}}</h3></div> -->
+<!--             <tabset> -->
+<!--                 <tab heading='Patients'> -->
+<!--                     <div class="margintop10"></div> -->
+<!--                     <div class="container-fluid"> -->
+<!--                         <div class="row"> -->
+<!--                             <div class='col-lg-8'> -->
+<!--                                 <master-patient-widget patients="patients" selected-patient="selectedPatient"></master-patient-widget> -->
+<!--                             </div> -->
+<!--                             <div class='col-lg-4'> -->
+<!--                                 <detail-patient-widget patient="selectedPatient" editing="editing"></detail-patient-widget> -->
+<!--                             </div> -->
+<!--                         </div> -->
+<!--                     </div> -->
+<!--                 </tab> -->
+<!--                 <tab heading='Site' select="siteVisible=true" deselect="siteVisible=false"> -->
+<!--                     <div class="container-fluid"> -->
+<!--                         <div class="row"> -->
+<!--                             <div class='col-lg-8'> -->
+<!--                                 <site-map-widget  -->
+<!--                                     location="exercise.location" -->
+<!--                                     location-title="Exercise location" -->
+<!--                                     tactical-areas="exercise.tacticalAreas" -->
+<!--                                     visible="siteVisible" -->
+<!--                                     editing="editing" -->
+<!--                                     selected-coordinate="selectedCoordinate"> -->
+<!--                                 </site-map-widget> -->
+<!--                             </div> -->
+<!--                             <div class='col-lg-4'> -->
+<!--                                 <div class="margintop10"></div> -->
+<!--                                 <site-detail-widget  -->
+<!--                                     areas="exercise.tacticalAreas" -->
+<!--                                     all-areas="allTacticalAreas" -->
+<!--                                     editing="editing" -->
+<!--                                     selected-coordinate="selectedCoordinate"> -->
+<!--                                 </site-detail-widget> -->
+<!--                             </div> -->
+<!--                         </div> -->
+<!--                     </div> -->
+<!--                 </tab> -->
+<!--                 <tab heading='Alerts & Requests'></tab> -->
+<!--             </tabset> -->
+<!--         </div> -->
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
         <!--script>
@@ -49,6 +96,7 @@
         <script src="bower_components/jquery/dist/jquery.js"></script>
         <script src="bower_components/jqplot/jquery.jqplot.js"></script>
         <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/angular-commons/dist/scripts/angular-commons.js"></script>
         <script src="bower_components/angular-ui-chart/src/chart.js"></script>
         <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
         <script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
@@ -59,6 +107,13 @@
         <script src="bower_components/select2/select2.js"></script>
         <script src="bower_components/angular-ui-select2/src/select2.js"></script>
         <script src="bower_components/momentjs/moment.js"></script>
+<!--         <script src='https://maps.googleapis.com/maps/api/js?sensor=false'></script> -->
+        <script src='bower_components/underscore/underscore.js'></script>
+<!--         <script src='bower_components/angular-google-maps/dist/angular-google-maps.js'></script> -->
+        <script src='bower_components/terraformer/terraformer.js'></script>
+        <script src='bower_components/terraformer-wkt-parser/terraformer-wkt-parser.js'></script>
+        <script src='bower_components/angular-strap/dist/angular-strap.js'></script>
+        <script src='bower_components/angular-strap/dist/angular-strap.tpl.js'></script>
         
         <!-- new libs for jqplot -->
         <script src="bower_components/jqplot/plugins/jqplot.pieRenderer.js"></script>
@@ -77,14 +132,21 @@
 
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
+        <script src="scripts/services/initialiserService.js"></script>
+<!--         <script src="scripts/configuration.js"></script> -->
+        <script src="scripts/controllers/initialiserController.js"></script>
+        <script src="scripts/controllers/wirecloudController.js"></script>
+<!--         <script src="scripts/controllers/masterPatientDirectiveController.js"></script> -->
+<!--         <script src="scripts/controllers/detailPatientDirectiveController.js"></script> -->
+<!--         <script src="scripts/controllers/siteMapDirectiveController.js"></script> -->
+<!--         <script src="scripts/controllers/siteDetailsDirectiveController.js"></script> -->
         <script src="scripts/directives/initialiserDirective.js"></script>
-        <script src="scripts/controllers/captureViewController.js"></script>
-        <script src="scripts/controllers/masterPatientDirectiveController.js"></script>
-        <script src="scripts/directives/masterPatientDirective.js"></script>
-        <script src="scripts/controllers/detailPatientDirectiveController.js"></script>
-        <script src="scripts/directives/detailPatientDirective.js"></script>
+<!--         <script src="scripts/controllers/captureViewController.js"></script> -->
+<!--         <script src="scripts/directives/masterPatientDirective.js"></script> -->
+<!--         <script src="scripts/directives/detailPatientDirective.js"></script> -->
+<!--         <script src="scripts/directives/siteMapDirective.js"></script> -->
+<!--         <script src="scripts/directives/siteDetailsDirective.js"></script> -->
         <script src="scripts/services/ooiservice.js"></script>
-        <script src="scripts/configuration.js"></script>
         
         <script src="scripts/controllers/debriefingViewController.js"></script>
         <script src="scripts/controllers/careMeasuresWidgetDirectiveController.js"></script>
@@ -96,5 +158,69 @@
         <script src="scripts/controllers/transportationWidgetDirectiveController.js"></script>
         <script src="scripts/directives/transportationWidgetDirective.js"></script>
         <!-- endbuild -->
+        
+        <script type="text/javascript" >
+        
+        
+            angular.module('eu.crismaproject.pilotE').config(
+                [
+                    '$provide',
+                    function ($provide) {
+                        'use strict';
+
+                        $provide.constant('DEBUG', true);
+                        $provide.constant('CRISMA_DOMAIN', 'CRISMA');
+                        $provide.constant('CRISMA_ICMM_API', 'http://crisma.cismet.de/pilotE/icmm_api');
+//                         $provide.constant('OOI_API', 'http://crisma.cismet.de/pilotE/icmm_api');
+                        $provide.constant('OOI_API', 'http://crisma.cismet.de/pilotE/dev/icmm_api');
+
+                    }
+                ]
+            );
+    
+//             MashupPlatform = {
+//                 wiring: {
+//                     registerCallback: function (name, func) {
+//                         console.log("registerCallback: [name=" + name + "]");
+//                         MashupPlatform[name] = func;
+//                     },
+//                     pushEvent: function (name, value) {
+//                         console.log("pushEvent: [name=" + name + "|value=" + value + "]");
+//                     }
+//                 }
+//             };
+            
+//             window.setTimeout(function() {
+//                 console.log("push ws");
+//                 $.getJSON('http://crisma.cismet.de/pilotE/icmm_api/CRISMA.worldstates/1?omitNullValues=true&deduplicate=true', function (data) {
+//                     MashupPlatform.setWorldstate(JSON.stringify(data));
+//                 })
+//             }, 2000);
+            
+            
+            
+//            window.setTimeout(function() {
+//                console.log("set editing");
+//                MashupPlatform.setEditing('true');
+//            }, 3000);
+//            
+//            window.setTimeout(function() {
+//                console.log("push ws");
+//                MashupPlatform.setWorldstate('{}');
+//            }, 4000);
+//            window.setTimeout(function() {
+//                console.log("set editing");
+//                MashupPlatform.setEditing(false);
+//            }, 5000);
+//            window.setTimeout(function() {
+//                console.log("set editing");
+//                MashupPlatform.setEditing('false');
+//            }, 10000);
+//            window.setTimeout(function() {
+//                console.log("set editing");
+//                MashupPlatform.setEditing(false);
+//            }, 20000);
+        </script>        
+        
     </body>
 </html>

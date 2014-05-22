@@ -22,6 +22,9 @@
     "angular": false,
     "jQuery": false,
 	"moment": false,
-	"$": false
+	"$": false,
+	"MashupPlatform": false,
+    "Terraformer": false,
+    "google": false
   }
 }
