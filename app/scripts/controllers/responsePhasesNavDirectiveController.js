@@ -20,10 +20,11 @@ angular.module('eu.crismaproject.pilotE.controllers')
                   $scope.$emit('requestElemSelectedFromNav2', index);
                 };
                 
-                $scope.$on('executeElemSelectedNav1', function(event, msg) {
-                  console.info('ResponsePhasesNavController - received elemSelected event. value: ' + msg);
-                  if( !(msg === null || msg === undefined || parseInt(msg, 10) < 0 ) ){
-                    $scope.selectedItemIndex = msg;
+                $scope.$on('executeElemSelectedNav1', function(event, index) {
+                  console.info('ResponsePhasesNavController - received elemSelected event. value: ' + index);
+                  if( !(index === null || index === undefined || parseInt(index, 10) < 0 ) ){
+                    $scope.selectedItemIndex = index;
+                    $scope.$parent.selectedItemIndexNav1 = index;
                   }
                 });
                 

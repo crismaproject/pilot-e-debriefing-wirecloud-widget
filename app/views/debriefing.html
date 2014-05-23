@@ -12,6 +12,13 @@
         <div transportation-widget step-minutes="stepMinutesData" patients-data="patients" kpi-list-data="transpKpiData"></div>
     </div>
     
+    <div>
+        selectedItemIndexNav1:{{selectedItemIndexNav1}}
+    </div>
+    <div>
+        selectedItemIndexNav2:{{selectedItemIndexNav2}}
+    </div>
+    
     <div class="container">
         <div class="row clearfix">
             <div class="col-md-2 column">
@@ -79,30 +86,66 @@
                 <div class="panel panel-default">
                     <div class="panel panel-heading">Inspect</div>
                     <div class="panel panel-body">
-                        <ul class="nav nav-pills nav-stacked">
-                            <li><a href="/#debriefing">Response
-                                    - Exercise Run 2<i
-                                    class="pull-left glyphicon glyphicon-chevron-left"></i>
-                            </a></li>
-                            <li><a href="/#debriefing">Transportation
-                                    of Patients</a></li>
-                        </ul>
+                    
+                        <div id="stacknav" class="list-group">
+                            <a href="/#debriefing" class="list-group-item" ng-click="navigateBack()">Response - Exercise Run 2
+                                <i class="pull-left glyphicon glyphicon-chevron-left"></i>
+                            </a>
+                            <a href="/#debriefing" class="list-group-item">Transportation of Patients
+                            </a>
+                        </div>
+                        
+<!--                         <div class="list-group"> -->
+<!--                             <a href="/#debriefing" class="list-group-item" ng-click="itemClicked($index)">Response - Exercise Run 2 -->
+<!--                                 <i class="pull-left glyphicon glyphicon-chevron-left"></i> -->
+<!--                             </a> -->
+<!--                             <a href="/#debriefing" class="list-group-item" ng-click="itemClicked($index)">Transportation of Patients -->
+<!--                                 <i class="pull-left glyphicon glyphicon-chevron-left"></i> -->
+<!--                             </a> -->
+<!--                         </div> -->
 
                         <div care-measures-widget
                             patients-data="patients"
                             kpi-list-data="cmKpiData"
-                            ng-hide="hideResponsePhasesNav"></div>
+                            ng-hide="hideResponsePhasesNav">
+                        </div>
+                        
+
+                        <div pre-triage-widget
+                            patients-data="patients"
+                            step-minutes="stepMinutesData"
+                            kpi-list-data="ptrKpiData"
+                            ng-if="selectedItemIndexNav1 == 3">
+                        </div>
+                        <div triage-widget
+                            patients-data="patients"
+                            step-minutes="stepMinutesData"
+                            kpi-list-data="trKpiData"
+                            ng-if="selectedItemIndexNav1 == 4">
+                        </div>
+                        <div transportation-widget
+                            step-minutes="stepMinutesData"
+                            patients-data="patients"
+                            kpi-list-data="transpKpiData"
+                            ng-if="selectedItemIndexNav1 == 5">
+                        </div>
                         <div care-measures-widget
                             patients-data="patients"
                             kpi-list-data="cmKpiData"
-                            ng-hide="! hideResponsePhasesNav"></div>
-                        <br> <br>
+                            ng-if="selectedItemIndexNav1 == 6">
+                        </div>
+                            
+                        <br>
+                        <br>
+                        
                         <div response-phases-nav2
                             list-header={{listHeaderData}}
-                            list-items="listItemsData"></div>
+                            list-items="listItemsData">
+                        </div>
                         <div response-phases-nav
                             list-header={{listHeaderData}}
-                            list-items="listItemsData"></div>
+                            list-items="listItemsData">
+                        </div>
                     </div>
 
                     <!--                     <div response-phases-nav2 list-header={{listHeaderData}} list-items="listItemsData"></div> -->

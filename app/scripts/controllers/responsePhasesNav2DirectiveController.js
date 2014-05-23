@@ -22,10 +22,11 @@ angular.module('eu.crismaproject.pilotE.controllers')
                   $scope.$parent.hideResponsePhasesNav = true;
                };
                 
-                $scope.$on('executeElemSelectedNav2', function(event, msg) {
-                  console.info('ResponsePhasesNav2Controller - received elemSelected event. value: ' + msg);
-                  if( !(msg === null || msg === undefined || parseInt(msg, 10) < 0 ) ){
-                    $scope.selectedItemIndex = msg;
+                $scope.$on('executeElemSelectedNav2', function(event, index) {
+                  console.info('ResponsePhasesNav2Controller - received elemSelected event. value: ' + index);
+                  if( !(index === null || index === undefined || parseInt(index, 10) < 0 ) ){
+                    $scope.selectedItemIndex = index;
+                    $scope.$parent.selectedItemIndexNav2 = index;
                   }
                 });
                 

@@ -1,0 +1,21 @@
+#tr-widget .chartsize {
+    
+    margin-top: 20px;
+    margin-left: 0px;
+    width: 250px;
+    height: 200px;
+    
+/*     margin-left: 40px; */
+/*     width: 400px; */
+/*     height: 300px; */
+
+}
+
+
+#tr-widget .tablestyle {
+    margin: 0px auto;
+}
+
+#tr-widget .tabledatastyle {
+    width: 30%;
+}
