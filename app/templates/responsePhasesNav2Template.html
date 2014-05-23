@@ -1,0 +1,16 @@
+<table class="table" ng-hide="$parent.hideResponsePhasesNav">
+    <thead>
+        <tr>
+            <th>{{listHeader}}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr data-ng-repeat="entry in listItems" class="" ng-class="{active : $index===selectedItemIndex, '' : !($index===selectedItemIndex)}">
+            <td>
+                <a ng-href="{{currentLocation}}" ng-click="itemClicked($index)">{{entry.value}}
+                    <i class="pull-right glyphicon glyphicon-chevron-right"></i>
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</table>

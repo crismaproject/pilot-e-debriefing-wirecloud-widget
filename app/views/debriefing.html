@@ -11,4 +11,106 @@
         <br>
         <div transportation-widget step-minutes="stepMinutesData" patients-data="patients" kpi-list-data="transpKpiData"></div>
     </div>
+    
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-2 column">
+                <div class="row-fluid">
+                    <div class="span3">
+                      <div class="well sidebar-nav">
+                        <ul class="nav nav-list">
+                          <li class="nav-header">Exercise Capture</li>
+                          <li><a href="#">Master Data</a></li>
+                          <li><a href="#">Exercise Run</a></li>
+                          <li class="nav-header">Inspect</li>
+                          <li><a href="#">Incidence</a></li>
+                          <li><a href="#">Response</a></li>
+                          <li class="nav-header">Compare</li>
+                       </ul>
+                      </div><!--/.well -->
+                    </div><!--/span-->
+                </div>
+            </div>
+            <div class="col-md-5 column">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Product</th>
+                                <th>Payment Taken</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>TB - Monthly</td>
+                                <td>01/04/2012</td>
+                                <td>Default</td>
+                            </tr>
+                            <tr class="active">
+                                <td>1</td>
+                                <td>TB - Monthly</td>
+                                <td>01/04/2012</td>
+                                <td>Approved</td>
+                            </tr>
+                            <tr class="success">
+                                <td>2</td>
+                                <td>TB - Monthly</td>
+                                <td>02/04/2012</td>
+                                <td>Declined</td>
+                            </tr>
+                            <tr class="warning">
+                                <td>3</td>
+                                <td>TB - Monthly</td>
+                                <td>03/04/2012</td>
+                                <td>Pending</td>
+                            </tr>
+                            <tr class="danger">
+                                <td>4</td>
+                                <td>TB - Monthly</td>
+                                <td>04/04/2012</td>
+                                <td>Call in to confirm</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            <div class="col-md-4 column">
+                <div class="panel panel-default">
+                    <div class="panel panel-heading">Inspect</div>
+                    <div class="panel panel-body">
+                        <ul class="nav nav-pills nav-stacked">
+                            <li><a href="/#debriefing">Response
+                                    - Exercise Run 2<i
+                                    class="pull-left glyphicon glyphicon-chevron-left"></i>
+                            </a></li>
+                            <li><a href="/#debriefing">Transportation
+                                    of Patients</a></li>
+                        </ul>
+
+                        <div care-measures-widget
+                            patients-data="patients"
+                            kpi-list-data="cmKpiData"
+                            ng-hide="hideResponsePhasesNav"></div>
+                        <div care-measures-widget
+                            patients-data="patients"
+                            kpi-list-data="cmKpiData"
+                            ng-hide="! hideResponsePhasesNav"></div>
+                        <br> <br>
+                        <div response-phases-nav2
+                            list-header={{listHeaderData}}
+                            list-items="listItemsData"></div>
+                        <div response-phases-nav
+                            list-header={{listHeaderData}}
+                            list-items="listItemsData"></div>
+                    </div>
+
+                    <!--                     <div response-phases-nav2 list-header={{listHeaderData}} list-items="listItemsData"></div> -->
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>

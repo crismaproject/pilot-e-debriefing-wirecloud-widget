@@ -65,5 +65,38 @@ angular.module('eu.crismaproject.pilotE.controllers')
                 } ];
                 
                 
+                //Data for Breadcrumb-Stack-Widget
+                
+                $scope.$on('requestElemSelectedFromNav1', function(event, msg) {
+                  console.info('ResponsePhasesNavDataController received elemSelected event, now broadcasting it to child controllers. value: ' + msg);
+                  $scope.$broadcast('executeElemSelectedNav1', msg);
+                });
+                $scope.$on('requestElemSelectedFromNav2', function(event, msg) {
+                  console.info('ResponsePhasesNavDataController received elemSelected event, now broadcasting it to child controllers. value: ' + msg);
+                  $scope.$broadcast('executeElemSelectedNav2', msg);
+                });
+
+                
+                $scope.listHeaderData = 'Response Phases';
+                
+                $scope.listItemsData = [ {
+                    value : 'Alerts and Requests'
+                  }, {
+                    value : 'Resources on site'
+                  }, {
+                    value : 'Spatial Planing'
+                  }, {
+                    value : 'Pre-Triage'
+                  }, {
+                    value : 'Triage'
+                  }, {
+                    value : 'Transportation of Patients'
+                  }, {
+                    value : 'Care Measures'
+                  }
+                ];
+                
+                $scope.hideResponsePhasesNav = false;
+                
             }
         ]);
