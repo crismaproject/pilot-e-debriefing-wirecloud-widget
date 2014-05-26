@@ -67,6 +67,26 @@ angular.module('eu.crismaproject.pilotE.controllers')
                 
                 //Data for Breadcrumb-Stack-Widget
                 
+                $scope.stackNavData = [ {
+                    value : 'Inspect'
+                  }, {
+                    value : 'Response - Exercise Run 2'
+                  }
+                ];
+                
+                $scope.breadcrumbKpiHeaderData = 'Key Performance Indicators';
+                
+                $scope.breadcrumbKpiData = [ {
+                  value : '70min',
+                  key : 'last red patient is transported'
+                }, {
+                  value : '80min',
+                  key : 'first red patient is transported'
+                }, {
+                  value : '3,157',
+                  key : 'medical responders per patient'
+                } ];
+                
                 $scope.listHeaderData = 'Response Phases';
                 
                 $scope.listItemsData = [ {
@@ -88,19 +108,20 @@ angular.module('eu.crismaproject.pilotE.controllers')
                 
                 $scope.hideResponsePhasesNav = false;
                 $scope.selectedItemIndexNav1 = -1;
-                $scope.selectedItemIndexNav2 = -1;
+                
+//                $scope.selectedItemIndexNav2 = -1;
                 
                 
-                $scope.$on('requestElemSelectedFromNav1', function(event, index) {
-                  console.info('ResponsePhasesNavDataController received elemSelected event, now broadcasting it to child controllers. index: ' + index);
-                  console.info('$scope.listItemsData[' + index + ']: ' + $scope.listItemsData[index].value);
-                  $scope.$broadcast('executeElemSelectedNav1', index);
-                });
-                $scope.$on('requestElemSelectedFromNav2', function(event, index) {
-                  console.info('ResponsePhasesNavDataController received elemSelected event, now broadcasting it to child controllers. index: ' + index);
-                  console.info('$scope.listItemsData[' + index + ']: ' + $scope.listItemsData[index].value);
-                  $scope.$broadcast('executeElemSelectedNav2', index);
-                });
+//                $scope.$on('requestElemSelectedFromNav1', function(event, index) {
+//                  console.info('ResponsePhasesNavDataController received elemSelected event, now broadcasting it to child controllers. index: ' + index);
+//                  console.info('$scope.listItemsData[' + index + ']: ' + $scope.listItemsData[index].value);
+//                  $scope.$broadcast('executeElemSelectedNav1', index);
+//                });
+//                $scope.$on('requestElemSelectedFromNav2', function(event, index) {
+//                  console.info('ResponsePhasesNavDataController received elemSelected event, now broadcasting it to child controllers. index: ' + index);
+//                  console.info('$scope.listItemsData[' + index + ']: ' + $scope.listItemsData[index].value);
+//                  $scope.$broadcast('executeElemSelectedNav2', index);
+//                });
                 
                 $scope.navigateBack = function() {
                   console.info('Navigate back has been clicked!');

@@ -17,16 +17,23 @@ angular.module('eu.crismaproject.pilotE.controllers')
                 
                 $scope.itemClicked = function(index) {
                   console.info('ResponsePhasesNavController - item with index: ' + index + ' has been clicked!');
-                  $scope.$emit('requestElemSelectedFromNav2', index);
-                };
-                
-                $scope.$on('executeElemSelectedNav1', function(event, index) {
-                  console.info('ResponsePhasesNavController - received elemSelected event. value: ' + index);
+//                  $scope.$emit('requestElemSelectedFromNav2', index);
+                  
                   if( !(index === null || index === undefined || parseInt(index, 10) < 0 ) ){
                     $scope.selectedItemIndex = index;
                     $scope.$parent.selectedItemIndexNav1 = index;
                   }
-                });
+                  
+                  $scope.$parent.hideResponsePhasesNav = true;
+                };
+                
+//                $scope.$on('executeElemSelectedNav1', function(event, index) {
+//                  console.info('ResponsePhasesNavController - received elemSelected event. value: ' + index);
+//                  if( !(index === null || index === undefined || parseInt(index, 10) < 0 ) ){
+//                    $scope.selectedItemIndex = index;
+//                    $scope.$parent.selectedItemIndexNav1 = index;
+//                  }
+//                });
                 
             }
         ]);
