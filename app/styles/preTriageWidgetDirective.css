@@ -1,9 +1,13 @@
+#pre-tr-widget .chartpos {
+    margin-left: 12%;
+}
+
 #pre-tr-widget .chartsize {
     
-    margin-top: 20px;
+    margin-top: 10px;
     margin-left: 0px;
     width: 250px;
-    height: 200px;
+    height: 350px;
     
 /*     margin-left: 40px; */
 /*     width: 400px; */
