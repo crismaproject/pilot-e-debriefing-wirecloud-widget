@@ -10,9 +10,9 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
        console.log('initialising pre triage widget directive controller');
      }
 
-     if (!$scope.patientsData) {
-         throw 'IllegalStateException: patientsData not provided by directive user';
-     }
+//     if (!$scope.patientsData) {
+//         throw 'IllegalStateException: patientsData not provided by directive user';
+//     }
      
      if (!$scope.kpiListData) {
          throw 'IllegalStateException: kpiListData not provided by directive user';
@@ -101,15 +101,25 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
       var patientDataForChart = [];
       var numberOfPatients = 0;
       
-      $scope.patientsData.$promise
-          .then(function(resp) {
+      $scope.$watch('patientsData', function () {
+        if (DEBUG) {
+          console.log('pre triage: patientsData changed!');
+          console.log('pre triage: paintChart()!');
+        }
+        paintChart();
+      });
+      
+      var paintChart = function() {
+        
+        if($scope.patientsData){
             // Get number of all patients.
-            numberOfPatients = resp.length;
+            numberOfPatients = $scope.patientsData.length;
             
             if (DEBUG) {
               console.log('Number of Patients: ' + numberOfPatients);
-              console.log('Response: ' + resp[0].toSource());
-              console.log('Response: ' + resp[3].toSource());
+            //toSource() only works for firefox
+//              console.log('Response: ' + $scope.patientsData[0].toSource());
+//              console.log('Response: ' + $scope.patientsData[3].toSource());
             }
 
             // Get pre-triage classification of all patients and put the
@@ -121,23 +131,23 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
 
             for (var currPat = 0; currPat < numberOfPatients; currPat++) {
                if (DEBUG) {
-                 console.log(resp[currPat]);
-                 console.log(resp[currPat].correctTriage);
-                 console.log(resp[currPat].preTriage.classification);
+                 console.log($scope.patientsData[currPat]);
+                 console.log($scope.patientsData[currPat].correctTriage);
+                 console.log($scope.patientsData[currPat].preTriage.classification);
                }
                
-               var correctPreTriage = resp[currPat].correctTriage === resp[currPat].preTriage.classification;
+               var correctPreTriage = $scope.patientsData[currPat].correctTriage === $scope.patientsData[currPat].preTriage.classification;
                if (DEBUG) {
                  console.log('correctPreTriage: ' + correctPreTriage);
                }
                
-               patientPreTriageCheck.push([ resp[currPat].id, correctPreTriage, resp[currPat].preTriage.timestamp ]);
-               if (moment(resp[currPat].preTriage.timestamp).isValid()) {
+               patientPreTriageCheck.push([ $scope.patientsData[currPat].id, correctPreTriage, $scope.patientsData[currPat].preTriage.timestamp ]);
+               if (moment($scope.patientsData[currPat].preTriage.timestamp).isValid()) {
                  $scope.patientPreTriageCheckCorrectTimestamp.push([
-                     moment(resp[currPat].preTriage.timestamp).format('YYYY-MM-DD HH:mm:ss'),
+                     moment($scope.patientsData[currPat].preTriage.timestamp).format('YYYY-MM-DD HH:mm:ss'),
                      correctPreTriage ]);
                }else {
-                 patientPreTriageCheckIncorrectTimestamp.push([ resp[currPat].preTriage.timestamp, correctPreTriage ]);
+                 patientPreTriageCheckIncorrectTimestamp.push([ $scope.patientsData[currPat].preTriage.timestamp, correctPreTriage ]);
                }
             }
 
@@ -172,6 +182,27 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
                 $scope.patientPreTriageCheckCorrectTimestamp[$scope.patientPreTriageCheckCorrectTimestamp.length - 1][0]).format('YYYY-MM-DD HH:mm:ss');
             if (DEBUG) {
               console.log('timePeriodEnd: ' +  $scope.timePeriodEnd);
+            }
+            
+            //Check if the timeperiod defined by start and endtime is realistic for an exercise (i.e. is not longer than 5 days).
+            //Otherwise take the precalculated bounds (temporalcoveragefrom /-to) and set them as start-/endtime.
+            //If flag "useprecalculatedbounds" is true in parent controller, use the bounds as start-/endtime.
+            
+            var perioddays = moment($scope.timePeriodEnd).diff(moment($scope.timePeriodStart), 'days');
+            
+            if (DEBUG) {
+              console.log('perioddays: ' + perioddays);
+            }
+            
+            if(perioddays > 5 || $scope.$parent.useprecalculatedbounds){
+              $scope.timePeriodStart = moment($scope.$parent.tempcoveragefrom).format('YYYY-MM-DD HH:mm:ss');
+              $scope.timePeriodEnd = moment($scope.$parent.tempcoverageto).format('YYYY-MM-DD HH:mm:ss');
+              
+              if (DEBUG) {
+                console.log('pre triage widget is now using precalculated bounds for start and endtime.');
+                console.log('timePeriodStart (new): ' + $scope.timePeriodStart);
+                console.log('timePeriodEnd (new): ' + $scope.timePeriodEnd);
+              }
             }
 
             $scope.calculatePreTriagedPatients = function(
@@ -244,7 +275,9 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
             
             $scope.chartData = patientDataForChart;
             $scope.chartSettings = chartOpts.barChartOptions;
-          });
+            
+          }
+        };
       
       
       $scope.$watch('stepMinutes', function() {

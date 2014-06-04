@@ -24,6 +24,9 @@ angular.module(
                 $scope.patients = null;
                 $scope.exercise = null;
                 $scope.apiurl = null;
+                $scope.tempcoveragefrom = null;
+                $scope.tempcoverageto = null;
+                $scope.tempcoverageperiod = null;
                 $scope.allTacticalAreas = [
                     {
                         'name': 'Area of danger',
@@ -80,6 +83,12 @@ angular.module(
                 }
 
                 if (item) {
+                    $scope.tempcoveragefrom = item.temporalcoveragefrom;
+                    $scope.tempcoverageto = item.temporalcoverageto;
+                    if(moment($scope.tempcoveragefrom).isValid() && moment( $scope.tempcoverageto).isValid()){
+                      $scope.tempcoverageperiod = moment( $scope.tempcoveragefrom).from(moment( $scope.tempcoverageto), true);
+                    }
+                  
                     dai = item.datadescriptor.defaultaccessinfo;
                     res = $resource(dai);
                     $scope.apiurl = dai.substr(0, dai.indexOf('icmm_api') + 8);

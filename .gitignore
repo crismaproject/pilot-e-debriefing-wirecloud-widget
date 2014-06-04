@@ -6,3 +6,5 @@ app/bower_components
 /nbproject/private/
 secret.json
 *.wgt
+/npm-debug.log.old
+/npm-debug.log.old2

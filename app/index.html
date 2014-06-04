@@ -40,52 +40,18 @@
         <![endif]-->
 
         <!-- Add your site or application content here -->
-        <div class="container" ng-view></div>
         
-<!--         <div ng-controller="eu.crismaproject.pilotE.controllers.WirecloudController"> -->
-<!--             <div class="ex-header"><h3>Exercise {{worldstate.name}}</h3></div> -->
-<!--             <tabset> -->
-<!--                 <tab heading='Patients'> -->
-<!--                     <div class="margintop10"></div> -->
-<!--                     <div class="container-fluid"> -->
-<!--                         <div class="row"> -->
-<!--                             <div class='col-lg-8'> -->
-<!--                                 <master-patient-widget patients="patients" selected-patient="selectedPatient"></master-patient-widget> -->
-<!--                             </div> -->
-<!--                             <div class='col-lg-4'> -->
-<!--                                 <detail-patient-widget patient="selectedPatient" editing="editing"></detail-patient-widget> -->
-<!--                             </div> -->
-<!--                         </div> -->
-<!--                     </div> -->
-<!--                 </tab> -->
-<!--                 <tab heading='Site' select="siteVisible=true" deselect="siteVisible=false"> -->
-<!--                     <div class="container-fluid"> -->
-<!--                         <div class="row"> -->
-<!--                             <div class='col-lg-8'> -->
-<!--                                 <site-map-widget  -->
-<!--                                     location="exercise.location" -->
-<!--                                     location-title="Exercise location" -->
-<!--                                     tactical-areas="exercise.tacticalAreas" -->
-<!--                                     visible="siteVisible" -->
-<!--                                     editing="editing" -->
-<!--                                     selected-coordinate="selectedCoordinate"> -->
-<!--                                 </site-map-widget> -->
-<!--                             </div> -->
-<!--                             <div class='col-lg-4'> -->
-<!--                                 <div class="margintop10"></div> -->
-<!--                                 <site-detail-widget  -->
-<!--                                     areas="exercise.tacticalAreas" -->
-<!--                                     all-areas="allTacticalAreas" -->
-<!--                                     editing="editing" -->
-<!--                                     selected-coordinate="selectedCoordinate"> -->
-<!--                                 </site-detail-widget> -->
-<!--                             </div> -->
-<!--                         </div> -->
-<!--                     </div> -->
-<!--                 </tab> -->
-<!--                 <tab heading='Alerts & Requests'></tab> -->
-<!--             </tabset> -->
-<!--         </div> -->
+        
+         <div ng-controller="eu.crismaproject.pilotE.controllers.WirecloudController">
+            <div class="ex-header"><h3>Exercise {{worldstate.name}}</h3></div>
+            <p>temporalcoveragefrom: {{tempcoveragefrom}}</p>
+            <p>temporalcoverageto: {{tempcoverageto}}</p>
+            <p>temporalcoverageperiod: {{tempcoverageperiod}}</p>
+            <p>patients.length: {{patients.length}}</p>
+            
+            <div class="container" ng-view></div>
+        
+         </div>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
         <!--script>
@@ -188,48 +154,31 @@
                 ]
             );
     
-//             MashupPlatform = {
-//                 wiring: {
-//                     registerCallback: function (name, func) {
-//                         console.log("registerCallback: [name=" + name + "]");
-//                         MashupPlatform[name] = func;
-//                     },
-//                     pushEvent: function (name, value) {
-//                         console.log("pushEvent: [name=" + name + "|value=" + value + "]");
-//                     }
-//                 }
-//             };
+            MashupPlatform = {
+                wiring: {
+                    registerCallback: function (name, func) {
+                        console.log("registerCallback: [name=" + name + "]");
+                        MashupPlatform[name] = func;
+                    },
+                    pushEvent: function (name, value) {
+                        console.log("pushEvent: [name=" + name + "|value=" + value + "]");
+                    }
+                }
+            };
             
-//             window.setTimeout(function() {
-//                 console.log("push ws");
-//                 $.getJSON('http://crisma.cismet.de/pilotE/icmm_api/CRISMA.worldstates/1?omitNullValues=true&deduplicate=true', function (data) {
-//                     MashupPlatform.setWorldstate(JSON.stringify(data));
-//                 })
-//             }, 2000);
+            window.setTimeout(function() {
+                console.log("push ws");
+                $.getJSON('http://crisma.cismet.de/pilotE/icmm_api/CRISMA.worldstates/1?omitNullValues=true&deduplicate=true', function (data) {
+                    MashupPlatform.setWorldstate(JSON.stringify(data));
+                })
+            }, 2000);
             
             
-            
-//            window.setTimeout(function() {
-//                console.log("set editing");
-//                MashupPlatform.setEditing('true');
-//            }, 3000);
-//            
 //            window.setTimeout(function() {
 //                console.log("push ws");
 //                MashupPlatform.setWorldstate('{}');
 //            }, 4000);
-//            window.setTimeout(function() {
-//                console.log("set editing");
-//                MashupPlatform.setEditing(false);
-//            }, 5000);
-//            window.setTimeout(function() {
-//                console.log("set editing");
-//                MashupPlatform.setEditing('false');
-//            }, 10000);
-//            window.setTimeout(function() {
-//                console.log("set editing");
-//                MashupPlatform.setEditing(false);
-//            }, 20000);
+
         </script>        
         
     </body>
