@@ -6,20 +6,20 @@
     <!-- Catalog.ResourceDescription element. This element defines the core metadata of the widget -->
     <Catalog.ResourceDescription>
         <!-- Vendor: Company that distributes the widget -->
-        <Vendor>cismet_GmbH</Vendor>
+        <Vendor>CASSIDIAN</Vendor>
         <!-- Name: Name of the widget -->
-        <Name>pilot-e-capture-widget</Name>
+        <Name>pilot-e-debriefing-widget</Name>
         <!-- Version: Current widget version number-->
         <!-- we include a build # to prevent caching by wirecloud -->
         <Version>0.1.0.3</Version>
         <!-- DisplayName: Name shown in the UI of the widget -->
-        <DisplayName>CRISMA Pilot E Capture Widget</DisplayName>
+        <DisplayName>CRISMA Pilot E Debriefing Widget</DisplayName>
         <!-- Author: Widget developer(s) -->
-        <Author>Martin Scholl (cismet)</Author>
+        <Author>Christian Rinner (Cassidian)</Author>
         <!-- Mail: Developer's email address -->
-        <Mail>martin.scholl@cismet.de</Mail>
+        <Mail>christian.rinner@cassidian.com</Mail>
         <!-- Description: Full widget description to be shown in the catalogue -->
-        <Description>This widget implements the Pilot E capute views</Description>
+        <Description>This widget implements the Pilot E debriefing views</Description>
         <!-- Absolute or template-relative path to the image shown in the catalogue -->
         <ImageURI>images/preview.png</ImageURI>
         <!-- Absolute or template-relative path to the image to be used in smartphones -->
@@ -61,24 +61,24 @@
             label="Set Worldstate"
             description="See https://github.com/crismaproject/pilot-e-application"
             friendcode="worldstate_json_expanded"/>
-        <InputEndpoint
-            name="setEditing"
-            type="text"
-            label="Set Editing"
-            description="See https://github.com/crismaproject/pilot-e-application"
-            friendcode="boolean"/>
+<!--         <InputEndpoint -->
+<!--             name="setEditing" -->
+<!--             type="text" -->
+<!--             label="Set Editing" -->
+<!--             description="See https://github.com/crismaproject/pilot-e-application" -->
+<!--             friendcode="boolean"/> -->
         <OutputEndpoint
             name="getDataitem"
             type="text"
             label="Get the newly created Dataitem"
             description="See https://github.com/crismaproject/pilot-e-application"
             friendcode="dataslot_json_expanded"/>
-        <OutputEndpoint
-            name="isEditing"
-            type="text"
-            label="Is in editing mode"
-            description="See https://github.com/crismaproject/pilot-e-application"
-            friendcode="boolean"/>
+<!--         <OutputEndpoint -->
+<!--             name="isEditing" -->
+<!--             type="text" -->
+<!--             label="Is in editing mode" -->
+<!--             description="See https://github.com/crismaproject/pilot-e-application" -->
+<!--             friendcode="boolean"/> -->
     </Platform.Wiring>
 
     <!-- Platform.Link element. It binds the template with the actual widget's source code. -->

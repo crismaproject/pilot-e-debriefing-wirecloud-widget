@@ -317,7 +317,7 @@ module.exports = function (grunt) {
         main: {
             options: {
                 mode: 'zip',
-                archive: 'crisma-pilot-e-capture-widget-wirecloud.min.wgt'
+                archive: 'crisma-pilot-e-debriefing-widget-wirecloud.min.wgt'
             },
             files: [
                 {expand: true, src: '**/*', cwd: 'dist'}
@@ -326,7 +326,7 @@ module.exports = function (grunt) {
         nomin: {
             options: {
                 mode: 'zip',
-                archive: 'crisma-pilot-e-capture-widget-wirecloud.wgt'
+                archive: 'crisma-pilot-e-debriefing-widget-wirecloud.wgt'
             },
             files: [
                 {expand: true, src: '**/*', cwd: 'app'}
