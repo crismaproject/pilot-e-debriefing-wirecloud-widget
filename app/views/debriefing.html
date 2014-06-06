@@ -1,95 +1,95 @@
 <div>
-    <div id="debriefing">
-        <div care-measures-widget patients-data="patients" kpi-list-data="cmKpiData"></div>
-        <br>
-        StepMinutes:
-        <input type="text" ng-model="stepMinutesData">
-        <br>
-        <div pre-triage-widget patients-data="patients" step-minutes="stepMinutesData" kpi-list-data="ptrKpiData"></div>
-        <br>
-        <div triage-widget patients-data="patients" step-minutes="stepMinutesData" kpi-list-data="trKpiData"></div>
-        <br>
-        <div transportation-widget step-minutes="stepMinutesData" patients-data="patients" kpi-list-data="transpKpiData"></div>
-    </div>
+<!--     <div id="debriefing"> -->
+<!--         <div care-measures-widget patients-data="patients" kpi-list-data="cmKpiData"></div> -->
+<!--         <br> -->
+<!--         StepMinutes: -->
+<!--         <input type="text" ng-model="stepMinutesData"> -->
+<!--         <br> -->
+<!--         <div pre-triage-widget patients-data="patients" step-minutes="stepMinutesData" kpi-list-data="ptrKpiData"></div> -->
+<!--         <br> -->
+<!--         <div triage-widget patients-data="patients" step-minutes="stepMinutesData" kpi-list-data="trKpiData"></div> -->
+<!--         <br> -->
+<!--         <div transportation-widget step-minutes="stepMinutesData" patients-data="patients" kpi-list-data="transpKpiData"></div> -->
+<!--     </div> -->
     
-    <div>
-        selectedItemIndexNav1:{{selectedItemIndexNav1}}
-    </div>
-    <div>
-        selectedItemIndexNav2:{{selectedItemIndexNav2}}
-    </div>
-    <div>
-        Exercise {{worldstate.name}}
-        patients.length: {{patients.length}}
-        parent.patients.length: {{$parent.patients.length}}
-    </div>
+<!--     <div> -->
+<!--         selectedItemIndexNav1:{{selectedItemIndexNav1}} -->
+<!--     </div> -->
+<!--     <div> -->
+<!--         selectedItemIndexNav2:{{selectedItemIndexNav2}} -->
+<!--     </div> -->
+<!--     <div> -->
+<!--         Exercise {{worldstate.name}} -->
+<!--         patients.length: {{patients.length}} -->
+<!--         parent.patients.length: {{$parent.patients.length}} -->
+<!--     </div> -->
     
     
     <div class="container">
         <div class="row clearfix">
-            <div class="col-md-2 column">
-                <div class="row-fluid">
-                    <div class="span3">
-                      <div class="well sidebar-nav">
-                        <ul class="nav nav-list">
-                          <li class="nav-header">Exercise Capture</li>
-                          <li><a href="#">Master Data</a></li>
-                          <li><a href="#">Exercise Run</a></li>
-                          <li class="nav-header">Inspect</li>
-                          <li><a href="#">Incidence</a></li>
-                          <li><a href="#">Response</a></li>
-                          <li class="nav-header">Compare</li>
-                       </ul>
-                      </div><!--/.well -->
-                    </div><!--/span-->
-                </div>
-            </div>
-            <div class="col-md-5 column">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Product</th>
-                                <th>Payment Taken</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>TB - Monthly</td>
-                                <td>01/04/2012</td>
-                                <td>Default</td>
-                            </tr>
-                            <tr class="active">
-                                <td>1</td>
-                                <td>TB - Monthly</td>
-                                <td>01/04/2012</td>
-                                <td>Approved</td>
-                            </tr>
-                            <tr class="success">
-                                <td>2</td>
-                                <td>TB - Monthly</td>
-                                <td>02/04/2012</td>
-                                <td>Declined</td>
-                            </tr>
-                            <tr class="warning">
-                                <td>3</td>
-                                <td>TB - Monthly</td>
-                                <td>03/04/2012</td>
-                                <td>Pending</td>
-                            </tr>
-                            <tr class="danger">
-                                <td>4</td>
-                                <td>TB - Monthly</td>
-                                <td>04/04/2012</td>
-                                <td>Call in to confirm</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            <div class="col-md-4 column">
-            
+<!--             <div class="col-md-2 column"> -->
+<!--                 <div class="row-fluid"> -->
+<!--                     <div class="span3"> -->
+<!--                       <div class="well sidebar-nav"> -->
+<!--                         <ul class="nav nav-list"> -->
+<!--                           <li class="nav-header">Exercise Capture</li> -->
+<!--                           <li><a href="#">Master Data</a></li> -->
+<!--                           <li><a href="#">Exercise Run</a></li> -->
+<!--                           <li class="nav-header">Inspect</li> -->
+<!--                           <li><a href="#">Incidence</a></li> -->
+<!--                           <li><a href="#">Response</a></li> -->
+<!--                           <li class="nav-header">Compare</li> -->
+<!--                        </ul> -->
+<!--                       </div>/.well -->
+<!--                     </div>/span -->
+<!--                 </div> -->
+<!--             </div> -->
+<!--             <div class="col-md-5 column"> -->
+<!--                     <table class="table"> -->
+<!--                         <thead> -->
+<!--                             <tr> -->
+<!--                                 <th>#</th> -->
+<!--                                 <th>Product</th> -->
+<!--                                 <th>Payment Taken</th> -->
+<!--                                 <th>Status</th> -->
+<!--                             </tr> -->
+<!--                         </thead> -->
+<!--                         <tbody> -->
+<!--                             <tr> -->
+<!--                                 <td>1</td> -->
+<!--                                 <td>TB - Monthly</td> -->
+<!--                                 <td>01/04/2012</td> -->
+<!--                                 <td>Default</td> -->
+<!--                             </tr> -->
+<!--                             <tr class="active"> -->
+<!--                                 <td>1</td> -->
+<!--                                 <td>TB - Monthly</td> -->
+<!--                                 <td>01/04/2012</td> -->
+<!--                                 <td>Approved</td> -->
+<!--                             </tr> -->
+<!--                             <tr class="success"> -->
+<!--                                 <td>2</td> -->
+<!--                                 <td>TB - Monthly</td> -->
+<!--                                 <td>02/04/2012</td> -->
+<!--                                 <td>Declined</td> -->
+<!--                             </tr> -->
+<!--                             <tr class="warning"> -->
+<!--                                 <td>3</td> -->
+<!--                                 <td>TB - Monthly</td> -->
+<!--                                 <td>03/04/2012</td> -->
+<!--                                 <td>Pending</td> -->
+<!--                             </tr> -->
+<!--                             <tr class="danger"> -->
+<!--                                 <td>4</td> -->
+<!--                                 <td>TB - Monthly</td> -->
+<!--                                 <td>04/04/2012</td> -->
+<!--                                 <td>Call in to confirm</td> -->
+<!--                             </tr> -->
+<!--                         </tbody> -->
+<!--                     </table> -->
+<!--                 </div> -->
+
+            <div class="col-md-4 column">            
                 <div id="breadcrumb-stack-comnponent">
                   <div class="panel panel-default">
                         <div id="stacknav" class="list-group">

@@ -66,7 +66,7 @@ angular.module('eu.crismaproject.pilotE.controllers')
 //                $scope.patients = ooi.getCapturePatients().getAll();
 //                $scope.patients = $scope.$parent.patients;
                 
-                $scope.useprecalculatedbounds = false;
+                $scope.useprecalculatedbounds = true;
 
                 
                 //Data for Care-Measures-Widget:
