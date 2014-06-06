@@ -43,13 +43,82 @@
         
         
          <div ng-controller="eu.crismaproject.pilotE.controllers.WirecloudController">
-<!--             <div class="ex-header"><h3>Exercise {{worldstate.name}}</h3></div> -->
-<!--             <p>temporalcoveragefrom: {{tempcoveragefrom}}</p> -->
-<!--             <p>temporalcoverageto: {{tempcoverageto}}</p> -->
-<!--             <p>temporalcoverageperiod: {{tempcoverageperiod}}</p> -->
-<!--             <p>patients.length: {{patients.length}}</p> -->
+            <div class="ex-header"><h3>Exercise {{worldstate.name}}</h3></div>
+            <p>temporalcoveragefrom: {{tempcoveragefrom}}</p>
+            <p>temporalcoverageto: {{tempcoverageto}}</p>
+            <p>temporalcoverageperiod: {{tempcoverageperiod}}</p>
+            <p>patients.length: {{patients.length}}</p>
             
-            <div class="container" ng-view></div>
+<!--             <div class="container" ng-view></div> -->
+
+                <div class="container" ng-controller="debriefingViewController">
+                    <div class="row clearfix">
+                        <div class="col-md-4 column">            
+                            <div id="breadcrumb-stack-comnponent">
+                              <div class="panel panel-default">
+                                    <div id="stacknav" class="list-group">
+                                        <a class="list-group-item backwardnav">{{stackNavData[0].value}}
+                                            <i class="pull-left glyphicon glyphicon-chevron-left gap backwardnav"></i>
+                                        </a>
+                                        <a class="list-group-item" ng-click="navigateBack()">{{stackNavData[1].value}}
+                                            <i class="pull-left glyphicon glyphicon-chevron-left gap" ng-hide="! hideResponsePhasesNav"></i>
+                                        </a>
+                                        <a class="list-group-item" ng-hide="! hideResponsePhasesNav">
+                                        {{selectedItemIndexNav1 > -1 ? listItemsData[selectedItemIndexNav1].value : ""}}
+                                        </a>
+                                    </div>
+                                    <br>
+                                    <br>
+                                    <div id="kpi-section" ng-hide="hideResponsePhasesNav">
+                                        <table class="tablestyle">
+                                            <tr>
+                                                <td colspan="2"><b>{{breadcrumbKpiHeaderData}}</b></td>
+                                            </tr>
+                                            <tr ng-repeat="obj in breadcrumbKpiData">
+                                                <td class="tabledatastyle">{{ obj.value }}</td>
+                                                <td>{{ obj.key }}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div pre-triage-widget
+                                        patients-data="patients"
+                                        step-minutes="stepMinutesData"
+                                        kpi-list-data="ptrKpiData"
+                                        ng-if="selectedItemIndexNav1 == 3">
+                                    </div>
+                                    <div triage-widget
+                                        patients-data="patients"
+                                        step-minutes="stepMinutesData"
+                                        kpi-list-data="trKpiData"
+                                        ng-if="selectedItemIndexNav1 == 4">
+                                    </div>
+                                    <div transportation-widget
+                                        step-minutes="stepMinutesData"
+                                        patients-data="patients"
+                                        kpi-list-data="transpKpiData"
+                                        ng-if="selectedItemIndexNav1 == 5">
+                                    </div>
+                                    <div care-measures-widget
+                                        patients-data="patients"
+                                        kpi-list-data="cmKpiData"
+                                        ng-if="selectedItemIndexNav1 == 6">
+                                    </div>
+                                    <br>
+                                    <br>
+                                <div class="panel panel-body">
+                                    <div response-phases-nav
+                                        list-header={{listHeaderData}}
+                                        list-items="listItemsData">
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                          
+                        </div>
+                    </div>
+                </div>
+        
+        
         
          </div>
 

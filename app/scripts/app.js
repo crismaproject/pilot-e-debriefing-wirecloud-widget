@@ -15,16 +15,16 @@ angular.module(
 // consistent defaults for the whole app
         'use strict';
 
-        $routeProvider
-            .when('/', {
-                templateUrl: 'views/debriefing.html',
-                controller: 'debriefingViewController'
-            }).when('/debriefing', {
-                templateUrl : 'views/debriefing.html',
-                controller : 'debriefingViewController'
-            }).otherwise({
-                redirectTo: '/'
-            });
+//        $routeProvider
+//            .when('/', {
+//                templateUrl: 'views/debriefing.html',
+//                controller: 'debriefingViewController'
+//            }).when('/debriefing', {
+//                templateUrl : 'views/debriefing.html',
+//                controller : 'debriefingViewController'
+//            }).otherwise({
+//                redirectTo: '/'
+//            });
             
        
         angular.extend(

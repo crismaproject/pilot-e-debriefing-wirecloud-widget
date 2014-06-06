@@ -98,8 +98,7 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
         };
       
       
-      var patientDataForChart = [];
-      var numberOfPatients = 0;
+
       
       $scope.$watch('patientsData', function () {
         if (DEBUG) {
@@ -110,6 +109,9 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
       });
       
       var paintChart = function() {
+        
+        var patientDataForChart = [];
+        var numberOfPatients = 0;
         
         if($scope.patientsData){
             // Get number of all patients.
