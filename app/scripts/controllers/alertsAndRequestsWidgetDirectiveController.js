@@ -10,9 +10,6 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
        console.log('initialising alerts and requests widget directive controller');
      }
 
-     if (!$scope.patientsData) {
-         throw 'IllegalStateException: patientsData not provided by directive user';
-     }
      
      if (!$scope.kpiListData) {
          throw 'IllegalStateException: kpiListData not provided by directive user';
@@ -36,7 +33,7 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
              fontSize : '14pt',
              show : true,
            },
-           seriesColors : [ '#800000', '#008000', '#000080', '#00FFFF', 'FF8230' ],
+//           seriesColors : [ '#800000', '#008000', '#000080', '#00FFFF', 'FF8230' ],
            seriesDefaults : {
              renderer : $.jqplot.BarRenderer,
              rendererOptions : {
@@ -93,12 +90,13 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
                         'KID', //crisis intervention service, for the care of posttraumatic stressed persons
                         'KDOW', //command vehicle
                         'KTW', //patient transport ambulance
-                        'PC', //police vehicle
+                        'PV', //police vehicle
                         'FT', //fire truck
                         'TRV'], //technical rescue vehicle
              renderer : $.jqplot.EnhancedLegendRenderer,
              rendererOptions : {
-               rowSpacing : '4.0em',
+               rowSpacing : '0.5em',
+//               numberRows: 6
              }
            },
            cursor : {
@@ -109,164 +107,368 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
         };
       
       
-      var patientDataForChart = [];
-      var numberOfPatients = 0;
+      var alertsAndRequestsDataForChart = [];
+      var numberOfAlertsRequests = 0;
       
-      $scope.patientsData.$promise
-          .then(function(resp) {
-            // Get number of all patients.
-            numberOfPatients = resp.length;
-            
-            if (DEBUG) {
-              console.log('Number of Patients: ' + numberOfPatients);
-              console.log('Response: ' + resp[0].toSource());
-              console.log('Response: ' + resp[3].toSource());
+      
+      
+    $scope.alertsAndRequestsData.$promise
+    .then(function(resp) {
+      // Get number of all patients.
+      numberOfAlertsRequests = resp.alertsRequests.length;
+      
+      if (DEBUG) {
+//        console.log('Response: ' + resp.toSource());
+        console.log('Number of Alerts: ' + numberOfAlertsRequests);
+      }
+
+      // Get requested vehicles of all alerts and put the
+      // data into a map.
+
+      $scope.alertsRequestsCheckCorrectTimestamp = [];
+      var alertsRequestsCheckIncorrectTimestamp = [];
+//      var alertsRequestsCheck = [];
+
+      for (var currAlert = 0; currAlert < numberOfAlertsRequests; currAlert++) {
+         var numerOfRescueMeans = resp.alertsRequests[currAlert].rescueMeans.length;
+         if (DEBUG) {
+           console.log('time: ' + resp.alertsRequests[currAlert].time);
+           console.log('alert: ' + resp.alertsRequests[currAlert].alert);
+           console.log('#rescueMeans: ' + numerOfRescueMeans);
+         }
+         var vehicles = [];
+         
+         if (moment(resp.alertsRequests[currAlert].time).isValid()) {
+           $scope.alertsRequestsCheckCorrectTimestamp[currAlert] =
+             [moment(resp.alertsRequests[currAlert].time).format('YYYY-MM-DD HH:mm:ss'), vehicles];
+         }else {
+           alertsRequestsCheckIncorrectTimestamp[currAlert] = [resp.alertsRequests[currAlert].time, vehicles];
+         }
+         
+         
+         for (var currRescueMeans = 0; currRescueMeans < numerOfRescueMeans; currRescueMeans++) {
+           var vehicleType = resp.alertsRequests[currAlert].rescueMeans[currRescueMeans].type;
+           var vehicleQuantity = resp.alertsRequests[currAlert].rescueMeans[currRescueMeans].quantity;
+           if (DEBUG) {
+             console.log('rescueMeans index: ' + currRescueMeans);
+             console.log('type: ' + vehicleType);
+             console.log('quantity: ' + vehicleQuantity);
+           }
+           
+           var vehicle = {
+               type: vehicleType,
+               quantity: vehicleQuantity
+           };
+           
+           $scope.alertsRequestsCheckCorrectTimestamp[currAlert][1].push(vehicle);
+         }
+     }
+      
+//      var testvehicle = {
+//          type: 'RTW',
+//          quantity: 6
+//      };
+//      var testvehicle2 = {
+//          type: 'KID',
+//          quantity: 2
+//      };
+//      
+//      $scope.alertsRequestsCheckCorrectTimestamp.push(['2014-05-27 18:33:03', [testvehicle, testvehicle2]]);
+      
+         
+      if (DEBUG) {
+//        console.log('$scope.alertsRequestsCheckCorrectTimestamp: ' + $scope.alertsRequestsCheckCorrectTimestamp.toSource());
+      }
+         
+
+
+      
+      
+      
+      
+      // Sort array by date ascending.
+      $scope.alertsRequestsCheckCorrectTimestamp
+          .sort(function(a, b) {
+            // a < b
+            if (moment(a[0]).diff(moment(b[0])) < 0) {
+              return -1;
             }
-
-            // Get pre-triage classification of all patients and put the
-            // data into a map.
-
-            $scope.patientPreTriageCheckCorrectTimestamp = [];
-            var patientPreTriageCheckIncorrectTimestamp = [];
-            var patientPreTriageCheck = [];
-
-            for (var currPat = 0; currPat < numberOfPatients; currPat++) {
-               if (DEBUG) {
-                 console.log(resp[currPat]);
-                 console.log(resp[currPat].correctTriage);
-                 console.log(resp[currPat].preTriage.classification);
-               }
-               
-               var correctPreTriage = resp[currPat].correctTriage === resp[currPat].preTriage.classification;
-               if (DEBUG) {
-                 console.log('correctPreTriage: ' + correctPreTriage);
-               }
-               
-               patientPreTriageCheck.push([ resp[currPat].id, correctPreTriage, resp[currPat].preTriage.timestamp ]);
-               if (moment(resp[currPat].preTriage.timestamp).isValid()) {
-                 $scope.patientPreTriageCheckCorrectTimestamp.push([
-                     moment(resp[currPat].preTriage.timestamp).format('YYYY-MM-DD HH:mm:ss'),
-                     correctPreTriage ]);
-               }else {
-                 patientPreTriageCheckIncorrectTimestamp.push([ resp[currPat].preTriage.timestamp, correctPreTriage ]);
-               }
+            // a > b
+            if (moment(b[0]).diff(moment(a[0])) < 0) {
+              return 1;
             }
+            // a must be equal to b
+            return 0;
+          });
+      
+      if (DEBUG) {
+        console.log('alertsRequestsCheckCorrectTimestamp: ' + $scope.alertsRequestsCheckCorrectTimestamp);
+        console.log('alertsRequestsCheckIncorrectTimestamp: ' + alertsRequestsCheckIncorrectTimestamp);
+      }
+      
+      
+      
 
-            // Sort array by date ascending.
-            $scope.patientPreTriageCheckCorrectTimestamp
-                .sort(function(a, b) {
-                  // a < b
-                  if (moment(a[0]).diff(moment(b[0])) < 0) {
-                    return -1;
-                  }
-                  // a > b
-                  if (moment(b[0]).diff(moment(a[0])) < 0) {
-                    return 1;
-                  }
-                  // a must be equal to b
-                  return 0;
-                });
-            
-            if (DEBUG) {
-              console.log($scope.patientPreTriageCheckCorrectTimestamp);
-            }
+      // Starttime for the chart.
+      $scope.timePeriodStart = moment(
+          $scope.alertsRequestsCheckCorrectTimestamp[0][0]).format('YYYY-MM-DD HH:mm:ss');
+      if (DEBUG) {
+        console.log('timePeriodStart: ' + $scope.timePeriodStart);
+      }
 
-            // Starttime for the chart.
-            $scope.timePeriodStart = moment(
-                $scope.patientPreTriageCheckCorrectTimestamp[0][0]).format('YYYY-MM-DD HH:mm:ss');
-            if (DEBUG) {
-              console.log('timePeriodStart: ' + $scope.timePeriodStart);
-            }
+      // Endtime for the chart.
+      $scope.timePeriodEnd = moment(
+          $scope.alertsRequestsCheckCorrectTimestamp[$scope.alertsRequestsCheckCorrectTimestamp.length - 1][0]).format('YYYY-MM-DD HH:mm:ss');
+      if (DEBUG) {
+        console.log('timePeriodEnd: ' +  $scope.timePeriodEnd);
+      }
+      
+      
+      
+      
 
-            // Endtime for the chart.
-            $scope.timePeriodEnd = moment(
-                $scope.patientPreTriageCheckCorrectTimestamp[$scope.patientPreTriageCheckCorrectTimestamp.length - 1][0]).format('YYYY-MM-DD HH:mm:ss');
-            if (DEBUG) {
-              console.log('timePeriodEnd: ' +  $scope.timePeriodEnd);
-            }
+      $scope.calculateAlertsAndRequests = function(
+          startDateTimeStamp, endDateTimeStamp, dataArray, iterStepMinutes) {
+        
+        var arrRtw = [];
+        var arrNef = [];
+        var arrMtw = [];
+        var arrRth = [];
+        var arrGwSan = [];
+        var arrSanEl = [];
+        var arrUgSanEl = [];
+        var arrKid = [];
+        var arrKdow = [];
+        var arrKtw = [];
+        var arrPv = [];
+        var arrFt = [];
+        var arrTrv = [];
+        
+        var currIter = 0;
+        var currIterTimeStamp = moment(startDateTimeStamp);
+        
+        while (!currIterTimeStamp.isAfter(moment(endDateTimeStamp))){
+        currIterTimeStamp = moment(startDateTimeStamp)
+        .add('minutes', iterStepMinutes * currIter);
 
-            $scope.calculatePreTriagedPatients = function(
-                startDateTimeStamp, endDateTimeStamp, dataArray, iterStepMinutes) {
-              var arrWrongClassifiedPatients = [];
-              var arrCorrectClassifiedPatients = [];
+          var nbrRtw = 0;
+          var nbrNef = 0;
+          var nbrMtw = 0;
+          var nbrRth = 0;
+          var nbrGwSan = 0;
+          var nbrSanEl = 0;
+          var nbrUgSanEl = 0;
+          var nbrKid = 0;
+          var nbrKdow = 0;
+          var nbrKtw = 0;
+          var nbrPv = 0;
+          var nbrFt = 0;
+          var nbrTrv = 0;
 
-              var currIter = 0;
-              var currIterTimeStamp = moment(startDateTimeStamp);
+          for (var i = 0; i < dataArray.length; i++) {
+            // Only consider time until dateTimeStamp.
+            if (moment(dataArray[i][0]).diff(
+                currIterTimeStamp) <= 0) {
               
-              while (!currIterTimeStamp.isAfter(moment(endDateTimeStamp))){
-              currIterTimeStamp = moment(startDateTimeStamp)
-              .add('minutes', iterStepMinutes * currIter);
-
-                var nbrWrongClassifiedPatients = 0;
-                var nbrCorrectClassifiedPatients = 0;
-
-                for (var i = 0; i < dataArray.length; i++) {
-                  // Only consider time until dateTimeStamp.
-                  if (moment(dataArray[i][0]).diff(
-                      currIterTimeStamp) <= 0) {
-                    if (dataArray[i][1] === true) {
-                      // Triage classification is correct.
-                      nbrCorrectClassifiedPatients++;
-                    } else {
-                      // Triage classification is wrong.
-                      nbrWrongClassifiedPatients++;
-                    }
+              //TODO: switch vehicle type
+              var vehicles = dataArray[i][1];
+              for (var j = 0; j < vehicles.length; j++) {
+                if (vehicles[j] !== null){
+                  switch (vehicles[j].type.toUpperCase()){
+                    case 'RTW'.toUpperCase():
+                      nbrRtw += vehicles[j].quantity;
+                      break;
+                    case 'NEF'.toUpperCase():
+                      nbrNef += vehicles[j].quantity;
+                      break;
+                    case 'MTW'.toUpperCase():
+                      nbrMtw += vehicles[j].quantity;
+                    break;
+                    case 'RTH'.toUpperCase():
+                      nbrRth += vehicles[j].quantity;
+                    break;
+                    case 'GW-SAN'.toUpperCase():
+                      nbrGwSan += vehicles[j].quantity;
+                    break;
+                    case 'SAN-EL'.toUpperCase():
+                      nbrSanEl += vehicles[j].quantity;
+                    break;
+                    case 'UG-SAN-EL'.toUpperCase():
+                      nbrUgSanEl += vehicles[j].quantity;
+                    break;
+                    case 'KID'.toUpperCase():
+                      nbrKid += vehicles[j].quantity;
+                    break;
+                    case 'KDOW'.toUpperCase():
+                      nbrKdow += vehicles[j].quantity;
+                    break;
+                    case 'KTW'.toUpperCase():
+                      nbrKtw += vehicles[j].quantity;
+                    break;
+                    case 'PV'.toUpperCase():
+                      nbrPv += vehicles[j].quantity;
+                    break;
+                    case 'FT'.toUpperCase():
+                      nbrFt += vehicles[j].quantity;
+                    break;
+                    case 'TRV'.toUpperCase():
+                      nbrTrv += vehicles[j].quantity;
+                    break;
+                    default:
+                      //no match
+                      if (DEBUG) {
+                        console.log('Vehicle type unknown!');
+                      }
+                      break;
                   }
                 }
-
-                arrWrongClassifiedPatients.push([
-                    currIterTimeStamp
-                        .format('YYYY-MM-DD HH:mm:ss'),
-                    nbrWrongClassifiedPatients ]);
-                arrCorrectClassifiedPatients.push([
-                    currIterTimeStamp
-                        .format('YYYY-MM-DD HH:mm:ss'),
-                    nbrCorrectClassifiedPatients]);
-                
-                currIter++;
               }
-
-              return [ arrCorrectClassifiedPatients,
-                  arrWrongClassifiedPatients ];
-            };
-
-            if (DEBUG) {
-             console.log('WrongClassifiedPatients: ');
-             console.log($scope.calculatePreTriagedPatients(
-                 $scope.timePeriodStart,
-                 $scope.timePeriodEnd, $scope.patientPreTriageCheckCorrectTimestamp, $scope.stepMinutes)[1]);
-             console.log('CorrectClassifiedPatients: ');
-             console.log($scope.calculatePreTriagedPatients(
-                 $scope.timePeriodStart,
-                 $scope.timePeriodEnd, $scope.patientPreTriageCheckCorrectTimestamp, $scope.stepMinutes)[0]);
             }
+          }
 
-            patientDataForChart = $scope.calculatePreTriagedPatients(
-                $scope.timePeriodStart,
-                $scope.timePeriodEnd,
-                $scope.patientPreTriageCheckCorrectTimestamp,
-                $scope.stepMinutes);
+          var currIterTimeStampFormatted = currIterTimeStamp.format('YYYY-MM-DD HH:mm:ss');
+          
+          arrRtw.push([currIterTimeStampFormatted, nbrRtw ]);
+          arrNef.push([currIterTimeStampFormatted, nbrNef]);
+          arrMtw.push([currIterTimeStampFormatted, nbrMtw]);
+          arrRth.push([currIterTimeStampFormatted, nbrRth]);
+          arrGwSan.push([currIterTimeStampFormatted, nbrGwSan]);
+          arrSanEl.push([currIterTimeStampFormatted, nbrSanEl]);
+          arrUgSanEl.push([currIterTimeStampFormatted, nbrUgSanEl]);
+          arrKid.push([currIterTimeStampFormatted, nbrKid]);
+          arrKdow.push([currIterTimeStampFormatted, nbrKdow]);
+          arrKtw.push([currIterTimeStampFormatted, nbrKtw]);
+          arrPv.push([currIterTimeStampFormatted, nbrPv]);
+          arrFt.push([currIterTimeStampFormatted, nbrFt]);
+          arrTrv.push([currIterTimeStampFormatted, nbrTrv]);
+          
+          currIter++;
+        }
+        
+        
+        var result = [];
+        var legendlabels = [];
+        
+        var hasValToDisplay = function(arr){
+          if (arr instanceof Array){
+            for (var i = 0; i < arr.length; i++) {
+              if (arr[i][1] > 0){
+                return true;
+              }
+            }
+            return false;
+          }else{
+            return false;
+          }
+        };
+        
+        if(hasValToDisplay(arrRtw)){ result.push(arrRtw); legendlabels.push('RTW');}
+        if(hasValToDisplay(arrNef)){ result.push(arrNef); legendlabels.push('NEF');}
+        if(hasValToDisplay(arrMtw)){ result.push(arrMtw); legendlabels.push('MTW');}
+        if(hasValToDisplay(arrRth)){ result.push(arrRth); legendlabels.push('RTH');}
+        if(hasValToDisplay(arrGwSan)){ result.push(arrGwSan); legendlabels.push('GW-SAN');}
+        if(hasValToDisplay(arrSanEl)){ result.push(arrSanEl); legendlabels.push('SAN-EL');}
+        if(hasValToDisplay(arrUgSanEl)){ result.push(arrUgSanEl); legendlabels.push('UG-SAN-EL');}
+        if(hasValToDisplay(arrKid)){ result.push(arrKid); legendlabels.push('KID');}
+        if(hasValToDisplay(arrKdow)){ result.push(arrKdow); legendlabels.push('KDOW');}
+        if(hasValToDisplay(arrKtw)){ result.push(arrKtw); legendlabels.push('KTW');}
+        if(hasValToDisplay(arrPv)){ result.push(arrPv); legendlabels.push('PV');}
+        if(hasValToDisplay(arrFt)){ result.push(arrFt); legendlabels.push('FT');}
+        if(hasValToDisplay(arrTrv)){ result.push(arrTrv); legendlabels.push('TRV');}
+        
+        //Only show legend labels of data series, that has values.
+        chartOpts.barChartOptions.legend.labels = legendlabels;
 
-            // Finally set start date to chart options.
-            chartOpts.barChartOptions.axes.xaxis.min = moment($scope.timePeriodStart).subtract('minutes', 30).format('YYYY-MM-DD HH:mm:ss');
+        return result;
+      };
+      
+      
+      
 
-            // Finally set end date to chart options.
-            chartOpts.barChartOptions.axes.xaxis.max = moment($scope.timePeriodEnd).add('minutes', 30).format('YYYY-MM-DD HH:mm:ss');
-            
-            $scope.chartData = patientDataForChart;
-            $scope.chartSettings = chartOpts.barChartOptions;
-          });
+      if (DEBUG) {
+       console.log('RTW: ');
+       console.log($scope.calculateAlertsAndRequests(
+           $scope.timePeriodStart,
+           $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[0]);
+       console.log('NEF: ');
+       console.log($scope.calculateAlertsAndRequests(
+           $scope.timePeriodStart,
+           $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[1]);
+       console.log('MTW: ');
+       console.log($scope.calculateAlertsAndRequests(
+           $scope.timePeriodStart,
+           $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[2]);
+       console.log('RTH: ');
+       console.log($scope.calculateAlertsAndRequests(
+           $scope.timePeriodStart,
+           $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[3]);
+       console.log('GW-SAN: ');
+       console.log($scope.calculateAlertsAndRequests(
+           $scope.timePeriodStart,
+           $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[4]);
+       console.log('SAN-EL: ');
+       console.log($scope.calculateAlertsAndRequests(
+           $scope.timePeriodStart,
+           $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[5]);
+       console.log('UG-SAN-EL: ');
+       console.log($scope.calculateAlertsAndRequests(
+           $scope.timePeriodStart,
+           $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[6]);
+       console.log('KID: ');
+       console.log($scope.calculateAlertsAndRequests(
+           $scope.timePeriodStart,
+           $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[7]);
+       console.log('KDOW: ');
+       console.log($scope.calculateAlertsAndRequests(
+           $scope.timePeriodStart,
+           $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[8]);
+       console.log('KTW: ');
+       console.log($scope.calculateAlertsAndRequests(
+           $scope.timePeriodStart,
+           $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[9]);
+       console.log('PV: ');
+       console.log($scope.calculateAlertsAndRequests(
+           $scope.timePeriodStart,
+           $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[10]);
+       console.log('FT: ');
+       console.log($scope.calculateAlertsAndRequests(
+           $scope.timePeriodStart,
+           $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[11]);
+       console.log('TRV: ');
+       console.log($scope.calculateAlertsAndRequests(
+           $scope.timePeriodStart,
+           $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[12]);
+      }
+
+      
+      
+      
+      alertsAndRequestsDataForChart = $scope.calculateAlertsAndRequests(
+          $scope.timePeriodStart,
+          $scope.timePeriodEnd,
+          $scope.alertsRequestsCheckCorrectTimestamp,
+          $scope.stepMinutes);
+
+      // Finally set start date to chart options.
+      chartOpts.barChartOptions.axes.xaxis.min = moment($scope.timePeriodStart).subtract('minutes', 30).format('YYYY-MM-DD HH:mm:ss');
+
+      // Finally set end date to chart options.
+      chartOpts.barChartOptions.axes.xaxis.max = moment($scope.timePeriodEnd).add('minutes', 30).format('YYYY-MM-DD HH:mm:ss');
+      
+      $scope.chartData = alertsAndRequestsDataForChart;
+      $scope.chartSettings = chartOpts.barChartOptions;
+    });
       
       
       $scope.$watch('stepMinutes', function() {
         if (parseInt($scope.stepMinutes, 10) > 0) {
-          var patientDataForChart = [];
-          patientDataForChart = $scope.calculatePreTriagedPatients(
+          var alertsAndRequestsDataForChart = [];
+          alertsAndRequestsDataForChart = $scope.calculateAlertsAndRequests(
               $scope.timePeriodStart,
               $scope.timePeriodEnd,
-              $scope.patientPreTriageCheckCorrectTimestamp,
+              $scope.alertsRequestsCheckCorrectTimestamp,
               $scope.stepMinutes);
-          $scope.chartData = patientDataForChart;
+          $scope.chartData = alertsAndRequestsDataForChart;
         }
       });
     

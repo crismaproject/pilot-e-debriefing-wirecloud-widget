@@ -4,7 +4,7 @@ angular.module('eu.crismaproject.pilotE.directives').directive(
         'use strict';
 
         var scope = {
-                patientsData: '=',
+                alertsAndRequestsData: '=',
                 kpiListData: '=',
                 stepMinutes: '='
             };
