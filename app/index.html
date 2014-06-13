@@ -69,39 +69,49 @@
                                     </div>
                                     <br>
                                     <br>
-                                    <div id="kpi-section" ng-hide="hideResponsePhasesNav">
-                                        <table class="tablestyle">
-                                            <tr>
-                                                <td colspan="2"><b>{{breadcrumbKpiHeaderData}}</b></td>
-                                            </tr>
-                                            <tr ng-repeat="obj in breadcrumbKpiData">
-                                                <td class="tabledatastyle">{{ obj.value }}</td>
-                                                <td>{{ obj.key }}</td>
-                                            </tr>
-                                        </table>
+                                    
+                                    <div id="main-chart" ng-hide="hideResponsePhasesNav">
+                                        <div transportation-widget
+                                            step-minutes="stepMinutesData"
+                                            patients-data="patients"
+                                            list-header={{breadcrumbKpiHeaderData}}
+                                            kpi-list-data="breadcrumbKpiData">
+                                        </div>
                                     </div>
+<!--                                     <div id="kpi-section" ng-hide="hideResponsePhasesNav"> -->
+<!--                                         <table class="tablestyle"> -->
+<!--                                             <tr> -->
+<!--                                                 <td colspan="2"><b>{{breadcrumbKpiHeaderData}}</b></td> -->
+<!--                                             </tr> -->
+<!--                                             <tr ng-repeat="obj in breadcrumbKpiData"> -->
+<!--                                                 <td class="tabledatastyle">{{ obj.value }}</td> -->
+<!--                                                 <td>{{ obj.key }}</td> -->
+<!--                                             </tr> -->
+<!--                                         </table> -->
+<!--                                     </div> -->
                                     <div pre-triage-widget
                                         patients-data="patients"
                                         step-minutes="stepMinutesData"
                                         kpi-list-data="ptrKpiData"
-                                        ng-if="selectedItemIndexNav1 == 3">
+                                        ng-if="selectedItemIndexNav1 == 0">
                                     </div>
                                     <div triage-widget
                                         patients-data="patients"
                                         step-minutes="stepMinutesData"
                                         kpi-list-data="trKpiData"
-                                        ng-if="selectedItemIndexNav1 == 4">
+                                        ng-if="selectedItemIndexNav1 == 1">
                                     </div>
                                     <div transportation-widget
                                         step-minutes="stepMinutesData"
                                         patients-data="patients"
+                                        list-header='General'
                                         kpi-list-data="transpKpiData"
-                                        ng-if="selectedItemIndexNav1 == 5">
+                                        ng-if="selectedItemIndexNav1 == 2">
                                     </div>
                                     <div care-measures-widget
                                         patients-data="patients"
                                         kpi-list-data="cmKpiData"
-                                        ng-if="selectedItemIndexNav1 == 6">
+                                        ng-if="selectedItemIndexNav1 == 3">
                                     </div>
                                     <br>
                                     <br>

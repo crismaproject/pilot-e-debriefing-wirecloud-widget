@@ -7,7 +7,7 @@
     </div>
     <br>
       <table class="tablestyle">
-          <tr><td><b>General</b></td></tr>
+          <tr><td colspan="2"><b>{{listHeader}}</b></td></tr>
           <tr ng-repeat="obj in kpiListData">
               <td class="tabledatastyle">{{ obj.value }}</td>
               <td>{{ obj.key }}</td>
