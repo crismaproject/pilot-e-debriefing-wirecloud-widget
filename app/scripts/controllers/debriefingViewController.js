@@ -11,57 +11,6 @@ angular.module('eu.crismaproject.pilotE.controllers')
                     console.log('initialising debriefing view controller');
                 }
                 
-                
-                //------------
-                
-
-                $scope.getKpiData = function () {
-                    var cats, i, items, j, res;
-                    var kpiItems = [];
-
-                    if (DEBUG) {
-                        console.log('parse dataitem and fetch kpi data');
-                    }
-                    
-                    
-                    res = $resource('http://crisma.cismet.de/pilotE/icmm_api/CRISMA.worldstates/1?omitNullValues=true&deduplicate=true');
-                    $scope.wsData = res.get();
-                    $scope.wsData.$promise.then(function () {
-                      $scope.worldstatedata = $scope.wsData.worldstatedata;
-                      
-                      items = $scope.worldstatedata;
-                      if (items) {
-                          for (i = 0; i < items.length; ++i) {
-                              cats = items[i].categories;
-                              if (cats) {
-                                  for (j = 0; j < cats.length; ++j) {
-                                      if (cats[j].key === 'capture_data') {
-                                        kpiItems.push(items[i].actualaccessinfo);
-                                      }
-                                  }
-                              }
-                          }
-                      }
-
-                      if (kpiItems.length === 0) {
-                          throw 'the worldstate has to have a proper capture_data dataitem';
-                      }
-                      
-                      if (DEBUG) {
-                        console.log(kpiItems);
-                        for (var idx = 0; idx < kpiItems.length; ++idx) {
-                          console.log(JSON.parse(kpiItems[idx]).name);
-                        }
-                        
-                      }
-                    });
-
-                };
-                
-                //------------
-                
-                $scope.getKpiData();
-                
 
 //                $scope.patients = ooi.getCapturePatients().getAll();
 //                $scope.patients = $scope.$parent.patients;

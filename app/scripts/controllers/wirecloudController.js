@@ -63,6 +63,55 @@ angular.module(
 
             $scope.processWorldstate = function () {
                 var cats, dai, i, item, items, j, res;
+                
+                //--------
+                
+                var kpiItems = [];
+                
+                if (DEBUG) {
+                  console.log('parse dataitem and fetch kpi data');
+                }
+                
+                items = $scope.worldstate.worldstatedata;
+                
+                if (items) {
+                  for (i = 0; i < items.length; ++i) {
+                    cats = items[i].categories;
+                    if (cats) {
+                      for (j = 0; j < cats.length; ++j) {
+                        if (cats[j].key === 'capture_data') {
+                          kpiItems.push(items[i].actualaccessinfo);
+                        }
+                      }
+                    }
+                  }
+                }
+                
+                if (kpiItems.length === 0) {
+                    if (DEBUG) {
+                      console.warn('the worldstate has to have a proper capture_data dataitem');
+                    }
+                    //throw 'the worldstate has to have a proper capture_data dataitem';
+                } else {
+                  if (DEBUG) {
+                    console.log('# kpi items: ' + kpiItems.length);
+                    console.log('kpiItems[0]: ' + kpiItems[0]);
+                    for (var idx = 0; idx < kpiItems.length; ++idx) {
+                        var kpiItem = JSON.parse(kpiItems[idx]);
+                      console.log('kpiItem.name: ' + kpiItem.name + ' | ' + 'kpiItem.type: ' + kpiItem.type);
+                      if( kpiItem.type === 'timeintervals' &&
+                          moment(kpiItem.data.intervals[0].endTime).isValid() &&
+                          moment(kpiItem.data.intervals[0].starTtime).isValid()){
+                        var periodminutes = moment(kpiItem.data.intervals[0].endTime).diff(moment(kpiItem.data.intervals[0].startTime), 'minutes');
+                        console.log('timeperiod: ' + periodminutes + ' min');
+                      }
+                    }
+                  }
+                }
+                
+                  
+                //--------
+                
 
                 if (DEBUG) {
                     console.log('parse dataitem and fetch patients');
@@ -102,6 +151,9 @@ angular.module(
                 }
 
             };
+            
+            
+            
             $scope.getNextId = function (classkey) {
                 var def, Resource, objects;
                 def = $q.defer();
