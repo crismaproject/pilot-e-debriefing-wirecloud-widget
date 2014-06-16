@@ -32,6 +32,8 @@ angular.module(
                 $scope.kpi3a = '??'; // Ratio of medical responders per patient
                 $scope.kpi4a = '??'; // Time until all patients are pretriaged
                 $scope.kpi4b = '??'; // Time until all patients are triaged
+                $scope.kpi6a = '??'; // Number of application of basic measures on scene
+                $scope.kpi6b = '??'; // Patient / mime assessment of basic measures 
                 $scope.transportationStartTime = '';
                 $scope.transportationEndTime = '';
                 $scope.preTriageStartTime = '';
@@ -180,7 +182,7 @@ angular.module(
                         $scope.patients = $scope.exercise.patients;
                         //compute further kpis
                         computeKpi2();
-                        computeKpi3a();
+                        computeKpi3aAnd6aAnd6b();
                     });
                 } else {
                     initScope();
@@ -225,7 +227,7 @@ angular.module(
             };
             
             
-            var computeKpi3a = function(){
+            var computeKpi3aAnd6aAnd6b = function(){
               var numberOfPatients = $scope.patients.length;
               var nuberOfResponders = 0;
               var ratioRespPerPat = null;
@@ -237,7 +239,8 @@ angular.module(
               }
               
               var responders = new MiniSet();
-              
+              var numberOfCareMeasures = 0;
+              var sumOfRatings = 0;
               
               for (var currPat = 0; currPat < numberOfPatients; currPat++) {
                 if($scope.patients[currPat].preTriage.treatedBy !== null &&
@@ -253,6 +256,13 @@ angular.module(
                   if($scope.patients[currPat].careMeasures[currCm].treatedBy !== null &&
                       $scope.patients[currPat].careMeasures[currCm].treatedBy !== ''){
                     responders.add($scope.patients[currPat].careMeasures[currCm].treatedBy);
+                    
+                    //count number of care measures for kpi6a and add ratings for kpi6b
+                    if($scope.patients[currPat].careMeasures[currCm].rating !== null &&
+                        $scope.patients[currPat].careMeasures[currCm].rating !== ''){
+                      numberOfCareMeasures++;
+                      sumOfRatings += parseInt($scope.patients[currPat].careMeasures[currCm].rating, 10);
+                    }
                   }
                 }
                 
@@ -278,6 +288,43 @@ angular.module(
                 console.log('$scope.kpi3a: ' + $scope.kpi3a);
               }
               
+              $scope.kpi6a = numberOfCareMeasures;
+              
+              if (DEBUG) {
+                console.log('$scope.kpi6a: ' + $scope.kpi6a);
+              }
+              
+              
+              var averageRating = Math.round((sumOfRatings / numberOfCareMeasures) * 100) / 100;
+              $scope.kpi6b = getAverageRatingString(averageRating);
+              
+              if (DEBUG) {
+                console.log('sumOfRatings: ' + sumOfRatings);
+                console.log('averageRating: ' + averageRating);
+                console.log('$scope.kpi6b: ' + $scope.kpi6b);
+              }
+              
+            };
+            
+            
+            var getAverageRatingString = function (rating) {
+                if (!rating) {
+                  return '';
+              }
+  
+              if (rating <= 1.5) {
+                  return '++';
+              } else if (rating <= 2.5) {
+                  return '+';
+              } else if (rating <= 3.5) {
+                  return '0';
+              } else if (rating <= 4.5) {
+                  return '-';
+              } else if (rating <= 6) {
+                  return '--';
+              }
+  
+              return '';
             };
             
             

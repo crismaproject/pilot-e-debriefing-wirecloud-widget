@@ -28,6 +28,14 @@ angular.module('eu.crismaproject.pilotE.controllers')
                   key : 'Patient / mime assessment of basic measures '
                 } ];
                 
+                $scope.$watch('kpi6a', function() {
+                  $scope.cmKpiData[0].value =  $scope.$parent.kpi6a;
+                });
+                
+                $scope.$watch('kpi6b', function() {
+                  $scope.cmKpiData[1].value =  $scope.$parent.kpi6b;
+                });
+                
                 //Data for Pre-Triage-Widget:
                 
                 $scope.stepMinutesData = 10;
@@ -85,7 +93,7 @@ angular.module('eu.crismaproject.pilotE.controllers')
                 
                 $scope.breadcrumbKpiData = [ {
                   value : '??',
-                  key : 'Ratio of medical responders  per patient'
+                  key : 'Ratio of medical responders per patient'
                 }];
                 
                 $scope.$watch('kpi3a', function() {
