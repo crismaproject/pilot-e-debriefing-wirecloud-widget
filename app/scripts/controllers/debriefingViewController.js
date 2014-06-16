@@ -21,11 +21,11 @@ angular.module('eu.crismaproject.pilotE.controllers')
                 //Data for Care-Measures-Widget:
                 
                 $scope.cmKpiData = [ {
-                  value : '14',
+                  value : '??',
                   key : 'Number of application of basic measures on scene'
                 }, {
-                  value : '3',
-                  key : 'Patient/ mime assessment of basic measures '
+                  value : '??',
+                  key : 'Patient / mime assessment of basic measures '
                 } ];
                 
                 //Data for Pre-Triage-Widget:
@@ -33,26 +33,43 @@ angular.module('eu.crismaproject.pilotE.controllers')
                 $scope.stepMinutesData = 10;
                                 
                 $scope.ptrKpiData = [ {
-                  value : '6min',
+                  value : '??min',
                   key : 'Time until all patients are pretriaged'
                 } ];
+                
+                $scope.$watch('kpi4a', function() {
+                  $scope.ptrKpiData[0].value =  $scope.$parent.kpi4a;
+                });
                 
                 //Data for Triage-Widget:
                 
                 $scope.trKpiData = [ {
-                  value : '11min',
+                  value : '??min',
                   key : 'Time until all patients are triaged'
                 } ];
                 
+                $scope.$watch('kpi4b', function() {
+                  $scope.trKpiData[0].value =  $scope.$parent.kpi4b;
+                });
+                
                 //Data for Transportation-Widget:
                 
+                
                 $scope.transpKpiData = [ {
-                  value : '70min',
+                  value : '??min',
                   key : 'Time until last patient is transported to the hospital'
                 }, {
-                  value : '43min',
+                  value : '??min',
                   key : 'Time until red patients are away from the incident scene'
                 } ];
+                
+                $scope.$watch('kpi1', function() {
+                  $scope.transpKpiData[0].value =  $scope.$parent.kpi1;
+                });
+                
+                $scope.$watch('kpi2', function() {
+                  $scope.transpKpiData[1].value =  $scope.$parent.kpi2;
+                });
                 
                 
                 //Data for Breadcrumb-Stack-Widget
@@ -67,9 +84,13 @@ angular.module('eu.crismaproject.pilotE.controllers')
                 $scope.breadcrumbKpiHeaderData = 'Key Performance Indicators';
                 
                 $scope.breadcrumbKpiData = [ {
-                  value : '1,5',
+                  value : '??',
                   key : 'Ratio of medical responders  per patient'
                 }];
+                
+                $scope.$watch('kpi3a', function() {
+                  $scope.breadcrumbKpiData[0].value =  $scope.$parent.kpi3a;
+                });
                 
                 $scope.listHeaderData = 'Response Phases';
                 

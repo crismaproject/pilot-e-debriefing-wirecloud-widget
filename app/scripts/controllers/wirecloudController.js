@@ -27,6 +27,17 @@ angular.module(
                 $scope.tempcoveragefrom = null;
                 $scope.tempcoverageto = null;
                 $scope.tempcoverageperiod = null;
+                $scope.kpi1 = '??min'; // Time until last patient is transported to the hospital
+                $scope.kpi2 = '??min'; // Time until red patients are away from the incident scene
+                $scope.kpi3a = '??'; // Ratio of medical responders per patient
+                $scope.kpi4a = '??'; // Time until all patients are pretriaged
+                $scope.kpi4b = '??'; // Time until all patients are triaged
+                $scope.transportationStartTime = '';
+                $scope.transportationEndTime = '';
+                $scope.preTriageStartTime = '';
+                $scope.preTriageEndTime = '';
+                $scope.triageStartTime = '';
+                $scope.triageEndTime = '';
                 $scope.allTacticalAreas = [
                     {
                         'name': 'Area of danger',
@@ -93,20 +104,43 @@ angular.module(
                     }
                     //throw 'the worldstate has to have a proper capture_data dataitem';
                 } else {
+                  
                   if (DEBUG) {
                     console.log('# kpi items: ' + kpiItems.length);
                     console.log('kpiItems[0]: ' + kpiItems[0]);
+                  }
                     for (var idx = 0; idx < kpiItems.length; ++idx) {
                         var kpiItem = JSON.parse(kpiItems[idx]);
-                      console.log('kpiItem.name: ' + kpiItem.name + ' | ' + 'kpiItem.type: ' + kpiItem.type);
+                      if (DEBUG) {
+                        console.log('kpiItem.name: ' + kpiItem.name + ' | ' + 'kpiItem.type: ' + kpiItem.type);
+                      }
                       if( kpiItem.type === 'timeintervals' &&
                           moment(kpiItem.data.intervals[0].endTime).isValid() &&
                           moment(kpiItem.data.intervals[0].starTtime).isValid()){
                         var periodminutes = moment(kpiItem.data.intervals[0].endTime).diff(moment(kpiItem.data.intervals[0].startTime), 'minutes');
-                        console.log('timeperiod: ' + periodminutes + ' min');
+                        if (DEBUG) {
+                          console.log('timeperiod: ' + periodminutes + ' min');
+                        }
+                        //compute kpi1
+                        if(kpiItem.id === 'TransportationTime'){
+                          $scope.kpi1 = periodminutes + 'min';
+                          $scope.transportationStartTime = kpiItem.data.intervals[0].startTime;
+                          $scope.transportationEndTime = kpiItem.data.intervals[0].endTime;
+                        }
+                        //compute kpi4a
+                        if(kpiItem.id === 'PreTriageTime'){
+                          $scope.kpi4a = periodminutes + 'min';
+                          $scope.preTriageStartTime = kpiItem.data.intervals[0].startTime;
+                          $scope.preTriageEndTime = kpiItem.data.intervals[0].endTime;
+                        }
+                        //compute kpi4b
+                        if(kpiItem.id === 'TriageTime'){
+                          $scope.kpi4b = periodminutes + 'min';
+                          $scope.triageStartTime = kpiItem.data.intervals[0].startTime;
+                          $scope.triageEndTime = kpiItem.data.intervals[0].endTime;
+                        }
                       }
                     }
-                  }
                 }
                 
                   
@@ -144,13 +178,108 @@ angular.module(
                     $scope.exercise = res.get({id: item.actualaccessinfo});
                     $scope.exercise.$promise.then(function () {
                         $scope.patients = $scope.exercise.patients;
+                        //compute further kpis
+                        computeKpi2();
+                        computeKpi3a();
                     });
                 } else {
                     initScope();
                     throw 'the worldstate has to have a proper exercise_data dataitem';
                 }
-
             };
+            
+            
+            var computeKpi2 = function(){
+              if( $scope.patients !== null){
+                var numberOfPatients = $scope.patients.length;
+                if (DEBUG) {
+                  console.log('numberOfPatients: ' + numberOfPatients);
+                }
+                var maxTime = null;
+                for (var currPat = 0; currPat < numberOfPatients; currPat++) {
+                  if($scope.patients[currPat].correctTriage === 'T1'){
+                    if (DEBUG) {
+                      console.log('$scope.patients[currPat].transportation_timestamp: ' + $scope.patients[currPat].transportation_timestamp);
+                    }
+                    if(moment($scope.patients[currPat].transportation_timestamp).isValid()){
+                      if(maxTime !== null){
+                        if(moment($scope.patients[currPat].transportation_timestamp).isAfter(moment(maxTime))){
+                          maxTime = $scope.patients[currPat].transportation_timestamp;
+                        }
+                      }else{
+                        maxTime = $scope.patients[currPat].transportation_timestamp;
+                      }
+                    }
+                  }
+                }
+                
+                var periodminutes = moment(maxTime).diff(moment($scope.transportationStartTime), 'minutes');
+                $scope.kpi2 = periodminutes + 'min';
+                
+                if (DEBUG) {
+                  console.log('$scope.transportationStartTime: ' + $scope.transportationStartTime);
+                  console.log('maxTime: ' + maxTime);
+                  console.log('kpi2_period: ' + periodminutes + 'min');
+                }
+              }
+            };
+            
+            
+            var computeKpi3a = function(){
+              var numberOfPatients = $scope.patients.length;
+              var nuberOfResponders = 0;
+              var ratioRespPerPat = null;
+              
+              if (DEBUG) {
+                console.log('numberOfPatients: ' + numberOfPatients);
+                console.log('$scope.exercise.incidentTime: ' + $scope.exercise.incidentTime);
+                console.log('$scope.transportationEndTime: ' + $scope.transportationEndTime);
+              }
+              
+              var responders = new MiniSet();
+              
+              
+              for (var currPat = 0; currPat < numberOfPatients; currPat++) {
+                if($scope.patients[currPat].preTriage.treatedBy !== null &&
+                    $scope.patients[currPat].preTriage.treatedBy !== ''){
+                  responders.add($scope.patients[currPat].preTriage.treatedBy);
+                }
+                if($scope.patients[currPat].triage.treatedBy !== null &&
+                    $scope.patients[currPat].triage.treatedBy !== ''){
+                  responders.add($scope.patients[currPat].triage.treatedBy);
+                }
+                
+                for (var currCm = 0; currCm < $scope.patients[currPat].careMeasures.length; currCm++) {
+                  if($scope.patients[currPat].careMeasures[currCm].treatedBy !== null &&
+                      $scope.patients[currPat].careMeasures[currCm].treatedBy !== ''){
+                    responders.add($scope.patients[currPat].careMeasures[currCm].treatedBy);
+                  }
+                }
+                
+              }
+              
+              if (DEBUG) {
+                console.log('responders.isEmpty(): ' + responders.isEmpty());
+                console.log('responders.keys(): ' + responders.keys());
+              }
+              
+              if(!responders.isEmpty()){
+                nuberOfResponders = responders.keys().length;
+              }
+              
+              if (DEBUG) {
+                console.log('nuberOfResponders: ' + nuberOfResponders);
+              }
+              
+              ratioRespPerPat = Math.round((nuberOfResponders / numberOfPatients) * 100) / 100;
+              $scope.kpi3a = ratioRespPerPat;
+              
+              if (DEBUG) {
+                console.log('$scope.kpi3a: ' + $scope.kpi3a);
+              }
+              
+            };
+            
             
             
             
