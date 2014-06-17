@@ -59,6 +59,13 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
           
           var patientDataForChart = [];
           var numberOfPatients = 0;
+          
+          var colorsMap = {
+              T1: '#FF0000',
+              T2: '#FFFF00',
+              T3: '#66FF66',
+              unclassified: '#C0C0C0'
+          };
         
           if($scope.patientsData){
           
@@ -111,9 +118,40 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
              console.log(classificationMap);
              console.log('classificationMap.T2: ' + classificationMap.T2);
             }
-    
+            
+            
+            var seriesColors = [];
+            
+//            classificationMap = {
+//                T1: 5,
+//                T2: 3,
+//                T3: 2,
+//                unclassified: 1
+//            };
+
             for ( var key in classificationMap) {
               patientDataForChart.push([ key, classificationMap[key] ]);
+            }
+            
+            if(classificationMap.T1 !== null && classificationMap.T1 !== undefined){
+              seriesColors.push(colorsMap.T1);
+            }
+            if(classificationMap.T2 !== null && classificationMap.T2 !== undefined){
+              seriesColors.push(colorsMap.T2);
+            }
+            if(classificationMap.T3 !== null && classificationMap.T3 !== undefined){
+              seriesColors.push(colorsMap.T3);
+            }
+            if(classificationMap.unclassified !== null && classificationMap.unclassified !== undefined){
+              seriesColors.push(colorsMap.unclassified);
+            }
+            
+            //set correct colors (according to labels)
+            chartOpts.pieChartOptions.seriesColors = seriesColors;
+            
+            if (DEBUG) {
+              console.log('classificationMap: '+ classificationMap.toSource());
+              console.log('seriesColors: '+ seriesColors);
             }
             
             if (DEBUG) {
