@@ -198,6 +198,9 @@ angular.module(
                   console.log('numberOfPatients: ' + numberOfPatients);
                 }
                 var maxTime = null;
+                var preTriageTimes = [];
+                var triageTimes = [];
+                
                 for (var currPat = 0; currPat < numberOfPatients; currPat++) {
                   if($scope.patients[currPat].correctTriage === 'T1'){
                     if (DEBUG) {
@@ -213,7 +216,38 @@ angular.module(
                       }
                     }
                   }
+                  
+                  if(moment($scope.patients[currPat].preTriage.timestamp).isValid()){
+                    preTriageTimes.push($scope.patients[currPat].preTriage.timestamp);
+                  }
+                  
+                  if(moment($scope.patients[currPat].triage.timestamp).isValid()){
+                    triageTimes.push($scope.patients[currPat].triage.timestamp);
+                  }
+                  
+                  
+                  
                 }
+                
+//                //------ calculate kpi4a and kpi4b ------
+//                preTriageTimes.sort(sortDates);
+//                triageTimes.sort(sortDates);
+//                
+//                var ptrPeriodMinutes = moment(preTriageTimes[preTriageTimes.length - 1]).diff(moment(preTriageTimes[0]), 'minutes');
+//                var trPeriodMinutes = moment(triageTimes[triageTimes.length - 1]).diff(moment(triageTimes[0]), 'minutes');
+//                
+//                if (DEBUG) {
+//                  console.log('preTriageTimes: ' + preTriageTimes);
+//                  console.log('preTriageStart: ' + preTriageTimes[0]);
+//                  console.log('preTriageEnd: ' + preTriageTimes[preTriageTimes.length - 1]);
+//                  console.log('preTriagePeriod: ' + ptrPeriodMinutes + 'min');
+//                  
+//                  console.log('triageTimes: ' + triageTimes);
+//                  console.log('triageStart: ' + triageTimes[0]);
+//                  console.log('triageEnd: ' + triageTimes[triageTimes.length - 1]);
+//                  console.log('triagePeriod: ' + trPeriodMinutes + 'min');
+//                }
+//                //-----------------------------------------
                 
                 var periodminutes = moment(maxTime).diff(moment($scope.transportationStartTime), 'minutes');
                 $scope.kpi2 = periodminutes + 'min';
@@ -325,6 +359,19 @@ angular.module(
               }
   
               return '';
+            };
+            
+            var sortDates = function(a, b) {
+              // a < b
+              if (moment(a).diff(moment(b)) < 0) {
+                return -1;
+              }
+              // a > b
+              if (moment(b).diff(moment(a)) < 0) {
+                return 1;
+              }
+              // a must be equal to b
+              return 0;
             };
             
             
