@@ -108,7 +108,7 @@ angular.module(
                     cats = items[i].categories;
                     if (cats) {
                       for (j = 0; j < cats.length; ++j) {
-                        if (cats[j].key === 'capture_data') {
+                        if (cats[j].key === 'capture_data' || cats[j].key === 'indicator-value') {
                           kpiItems.push(items[i].actualaccessinfo);
                         }
                       }
