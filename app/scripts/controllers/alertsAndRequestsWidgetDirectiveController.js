@@ -244,31 +244,25 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
         var arrFt = [];
         var arrTrv = [];
         
-        var currIter = 0;
         var currIterTimeStamp = moment(startDateTimeStamp);
-        
-        while (!currIterTimeStamp.isAfter(moment(endDateTimeStamp))){
-        currIterTimeStamp = moment(startDateTimeStamp)
-        .add('minutes', iterStepMinutes * currIter);
-
-          var nbrRtw = 0;
-          var nbrNef = 0;
-          var nbrMtw = 0;
-          var nbrRth = 0;
-          var nbrGwSan = 0;
-          var nbrSanEl = 0;
-          var nbrUgSanEl = 0;
-          var nbrKid = 0;
-          var nbrKdow = 0;
-          var nbrKtw = 0;
-          var nbrPv = 0;
-          var nbrFt = 0;
-          var nbrTrv = 0;
 
           for (var i = 0; i < dataArray.length; i++) {
-            // Only consider time until dateTimeStamp.
-            if (moment(dataArray[i][0]).diff(
-                currIterTimeStamp) <= 0) {
+            
+            var nbrRtw = 0;
+            var nbrNef = 0;
+            var nbrMtw = 0;
+            var nbrRth = 0;
+            var nbrGwSan = 0;
+            var nbrSanEl = 0;
+            var nbrUgSanEl = 0;
+            var nbrKid = 0;
+            var nbrKdow = 0;
+            var nbrKtw = 0;
+            var nbrPv = 0;
+            var nbrFt = 0;
+            var nbrTrv = 0;
+            
+            currIterTimeStamp = moment(dataArray[i][0]);
               
               //TODO: switch vehicle type
               var vehicles = dataArray[i][1];
@@ -323,8 +317,6 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
                   }
                 }
               }
-            }
-          }
 
           var currIterTimeStampFormatted = currIterTimeStamp.format('YYYY-MM-DD HH:mm:ss');
           
@@ -342,9 +334,8 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
           arrFt.push([currIterTimeStampFormatted, nbrFt]);
           arrTrv.push([currIterTimeStampFormatted, nbrTrv]);
           
-          currIter++;
-        }
-        
+          }
+
         
         var result = [];
         var legendlabels = [];
