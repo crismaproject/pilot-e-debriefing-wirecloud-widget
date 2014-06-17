@@ -70,6 +70,22 @@ angular.module(
                         'icon': 'img/loading_area_16.png'
                     }
                 ];
+                $scope.stepMinutesInterval = 10;
+                
+                if (typeof MashupPlatform === 'undefined') {
+                  if (DEBUG) {
+                      console.log('mashup platform not available');
+                  }
+                } else {
+                  // enable minification
+                  mashupPlatform = MashupPlatform;
+                  var stepMinInt = mashupPlatform.prefs.get('STEP_MINUTES');
+                  if(stepMinInt !== null){
+                   if(parseInt(stepMinInt, 10) > 0){
+                     $scope.stepMinutesInterval = parseInt(stepMinInt, 10);
+                   }
+                  }
+                }
             };
 
             initScope();
@@ -277,30 +293,49 @@ angular.module(
               var sumOfRatings = 0;
               
               for (var currPat = 0; currPat < numberOfPatients; currPat++) {
+                
                 if($scope.patients[currPat].preTriage.treatedBy !== null &&
                     $scope.patients[currPat].preTriage.treatedBy !== ''){
                   responders.add($scope.patients[currPat].preTriage.treatedBy);
                 }
+                
                 if($scope.patients[currPat].triage.treatedBy !== null &&
                     $scope.patients[currPat].triage.treatedBy !== ''){
                   responders.add($scope.patients[currPat].triage.treatedBy);
                 }
                 
-                for (var currCm = 0; currCm < $scope.patients[currPat].careMeasures.length; currCm++) {
-                  if($scope.patients[currPat].careMeasures[currCm].treatedBy !== null &&
-                      $scope.patients[currPat].careMeasures[currCm].treatedBy !== ''){
-                    responders.add($scope.patients[currPat].careMeasures[currCm].treatedBy);
-                    
-                    //count number of care measures for kpi6a and add ratings for kpi6b
-                    if($scope.patients[currPat].careMeasures[currCm].rating !== null &&
-                        $scope.patients[currPat].careMeasures[currCm].rating !== ''){
-                      numberOfCareMeasures++;
-                      sumOfRatings += parseInt($scope.patients[currPat].careMeasures[currCm].rating, 10);
-                    }
-                  }
+                if($scope.patients[currPat].treatment_by !== null &&
+                    $scope.patients[currPat].treatment_by !== ''){
+                  responders.add($scope.patients[currPat].treatment_by);
                 }
                 
-              }
+                for (var currCm = 0; currCm < $scope.patients[currPat].careMeasures.length; currCm++) {
+//                  if($scope.patients[currPat].careMeasures[currCm].treatedBy !== null &&
+//                      $scope.patients[currPat].careMeasures[currCm].treatedBy !== ''){
+//                    responders.add($scope.patients[currPat].careMeasures[currCm].treatedBy);
+                  
+                    
+//                    //count number of care measures for kpi6a and add ratings for kpi6b
+//                    if($scope.patients[currPat].careMeasures[currCm].rating !== null &&
+//                        $scope.patients[currPat].careMeasures[currCm].rating !== ''){
+//                      numberOfCareMeasures++;
+//                      sumOfRatings += parseInt($scope.patients[currPat].careMeasures[currCm].rating, 10);
+//                    }
+                    
+                    
+                    //count number of care measures for kpi6a
+                    if($scope.patients[currPat].careMeasures.treatment_by !== null &&
+                        $scope.patients[currPat].careMeasures.treatment_by !== ''){
+                      
+                      if($scope.patients[currPat].careMeasures[currCm].value === true){
+                        numberOfCareMeasures++;
+                      }
+                    }
+                    
+                
+                  }
+                }
+
               
               if (DEBUG) {
                 console.log('responders.isEmpty(): ' + responders.isEmpty());

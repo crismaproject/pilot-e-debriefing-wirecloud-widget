@@ -225,6 +225,7 @@
                         'use strict';
 
                         $provide.constant('DEBUG', true);
+                        $provide.constant('STEP_MINUTES', '10');
                         $provide.constant('CRISMA_DOMAIN', 'CRISMA');
                         $provide.constant('CRISMA_ICMM_API', 'http://crisma.cismet.de/pilotE/icmm_api');
 //                         $provide.constant('OOI_API', 'http://crisma.cismet.de/pilotE/icmm_api');
@@ -243,12 +244,18 @@
                     pushEvent: function (name, value) {
                         console.log("pushEvent: [name=" + name + "|value=" + value + "]");
                     }
-                }
+                },
+               prefs: {
+                    get: function (prefId){
+//                       return '5';
+                      return '10';
+                    }
+               }
             };
             
             window.setTimeout(function() {
                 console.log("push ws");
-                $.getJSON('http://crisma.cismet.de/pilotE/icmm_api/CRISMA.worldstates/1?omitNullValues=true&deduplicate=true', function (data) {
+                $.getJSON('http://crisma.cismet.de/pilotE/icmm_api/CRISMA.worldstates/71?omitNullValues=true&deduplicate=true', function (data) {
                     MashupPlatform.setWorldstate(JSON.stringify(data));
                 })
             }, 2000);

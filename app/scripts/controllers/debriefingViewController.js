@@ -4,7 +4,8 @@ angular.module('eu.crismaproject.pilotE.controllers')
             '$scope',
             'eu.crismaproject.pilotE.services.OoI',
             'DEBUG',
-            function ($resource, $scope, ooi, DEBUG) {
+            'STEP_MINUTES',
+            function ($resource, $scope, ooi, DEBUG, STEP_MINUTES) {
                 'use strict';
 
                 if (DEBUG) {
@@ -23,22 +24,30 @@ angular.module('eu.crismaproject.pilotE.controllers')
                 $scope.cmKpiData = [ {
                   value : '??',
                   key : 'Number of application of basic measures on scene'
-                }, {
-                  value : '??',
-                  key : 'Patient / mime assessment of basic measures '
-                } ];
+                },
+//                {
+//                  value : '??',
+//                  key : 'Patient / mime assessment of basic measures '
+//                } 
+                
+                ];
                 
                 $scope.$watch('kpi6a', function() {
                   $scope.cmKpiData[0].value =  $scope.$parent.kpi6a;
                 });
                 
-                $scope.$watch('kpi6b', function() {
-                  $scope.cmKpiData[1].value =  $scope.$parent.kpi6b;
-                });
+//                $scope.$watch('kpi6b', function() {
+//                  $scope.cmKpiData[1].value =  $scope.$parent.kpi6b;
+//                });
                 
                 //Data for Pre-Triage-Widget:
                 
-                $scope.stepMinutesData = 10;
+//                $scope.stepMinutesData = 10;
+//                $scope.stepMinutesData = parseInt(STEP_MINUTES, 10);
+                $scope.stepMinutesData = $scope.stepMinutesInterval;
+                
+                
+                
                                 
                 $scope.ptrKpiData = [ {
                   value : '??min',
