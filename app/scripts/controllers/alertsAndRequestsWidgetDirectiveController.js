@@ -384,62 +384,103 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
       
       
       
-
-      if (DEBUG) {
-       console.log('RTW: ');
-       console.log($scope.calculateAlertsAndRequests(
-           $scope.timePeriodStart,
-           $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[0]);
-       console.log('NEF: ');
-       console.log($scope.calculateAlertsAndRequests(
-           $scope.timePeriodStart,
-           $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[1]);
-       console.log('MTW: ');
-       console.log($scope.calculateAlertsAndRequests(
-           $scope.timePeriodStart,
-           $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[2]);
-       console.log('RTH: ');
-       console.log($scope.calculateAlertsAndRequests(
-           $scope.timePeriodStart,
-           $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[3]);
-       console.log('GW-SAN: ');
-       console.log($scope.calculateAlertsAndRequests(
-           $scope.timePeriodStart,
-           $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[4]);
-       console.log('SAN-EL: ');
-       console.log($scope.calculateAlertsAndRequests(
-           $scope.timePeriodStart,
-           $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[5]);
-       console.log('UG-SAN-EL: ');
-       console.log($scope.calculateAlertsAndRequests(
-           $scope.timePeriodStart,
-           $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[6]);
-       console.log('KID: ');
-       console.log($scope.calculateAlertsAndRequests(
-           $scope.timePeriodStart,
-           $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[7]);
-       console.log('KDOW: ');
-       console.log($scope.calculateAlertsAndRequests(
-           $scope.timePeriodStart,
-           $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[8]);
-       console.log('KTW: ');
-       console.log($scope.calculateAlertsAndRequests(
-           $scope.timePeriodStart,
-           $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[9]);
-       console.log('PV: ');
-       console.log($scope.calculateAlertsAndRequests(
-           $scope.timePeriodStart,
-           $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[10]);
-       console.log('FT: ');
-       console.log($scope.calculateAlertsAndRequests(
-           $scope.timePeriodStart,
-           $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[11]);
-       console.log('TRV: ');
-       console.log($scope.calculateAlertsAndRequests(
-           $scope.timePeriodStart,
-           $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[12]);
-      }
-
+      var logData  = function(){
+        if (DEBUG) {
+         console.log('labels: ' + chartOpts.barChartOptions.legend.labels.toSource());
+         var rtwIdx =  $.inArray('RTW', chartOpts.barChartOptions.legend.labels);
+         var nefIdx =  $.inArray('NEF', chartOpts.barChartOptions.legend.labels);
+         var mtwIdx =  $.inArray('MTW', chartOpts.barChartOptions.legend.labels);
+         var rthIdx =  $.inArray('RTH', chartOpts.barChartOptions.legend.labels);
+         var gwSanIdx =  $.inArray('GW-SAN', chartOpts.barChartOptions.legend.labels);
+         var sanElIdx =  $.inArray('SAN-EL', chartOpts.barChartOptions.legend.labels);
+         var ugSanElIdx =  $.inArray('UG-SAN-EL', chartOpts.barChartOptions.legend.labels);
+         var kidIdx =  $.inArray('KID', chartOpts.barChartOptions.legend.labels);
+         var kdowIdx =  $.inArray('KDOW', chartOpts.barChartOptions.legend.labels);
+         var ktwIdx =  $.inArray('KTW', chartOpts.barChartOptions.legend.labels);
+         var pvIdx =  $.inArray('PV', chartOpts.barChartOptions.legend.labels);
+         var ftIdx =  $.inArray('FT', chartOpts.barChartOptions.legend.labels);
+         var trvIdx =  $.inArray('TRV', chartOpts.barChartOptions.legend.labels);
+         
+         if(rtwIdx > -1){
+          console.log('RTW: ');
+          console.log($scope.calculateAlertsAndRequests(
+              $scope.timePeriodStart,
+              $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[rtwIdx]);
+         }
+         if(nefIdx > -1){
+           console.log('NEF: ');
+           console.log($scope.calculateAlertsAndRequests(
+               $scope.timePeriodStart,
+               $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[nefIdx]);
+         }
+         if(mtwIdx > -1){
+           console.log('MTW: ');
+           console.log($scope.calculateAlertsAndRequests(
+               $scope.timePeriodStart,
+               $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[mtwIdx]);
+         }
+         if(rthIdx > -1){
+           console.log('RTH: ');
+           console.log($scope.calculateAlertsAndRequests(
+               $scope.timePeriodStart,
+               $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[rthIdx]);
+         }
+         if(gwSanIdx > -1){
+           console.log('GW-SAN: ');
+           console.log($scope.calculateAlertsAndRequests(
+               $scope.timePeriodStart,
+               $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[gwSanIdx]);
+         }
+         if(sanElIdx > -1){
+           console.log('SAN-EL: ');
+           console.log($scope.calculateAlertsAndRequests(
+               $scope.timePeriodStart,
+               $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[sanElIdx]);
+         }
+         if(ugSanElIdx > -1){
+           console.log('UG-SAN-EL: ');
+           console.log($scope.calculateAlertsAndRequests(
+               $scope.timePeriodStart,
+               $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[ugSanElIdx]);
+         }
+         if(kidIdx > -1){
+           console.log('KID: ');
+           console.log($scope.calculateAlertsAndRequests(
+               $scope.timePeriodStart,
+               $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[kidIdx]);
+         }
+         if(kdowIdx > -1){
+           console.log('KDOW: ');
+           console.log($scope.calculateAlertsAndRequests(
+               $scope.timePeriodStart,
+               $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[kdowIdx]);
+         }
+         if(ktwIdx > -1){
+           console.log('KTW: ');
+           console.log($scope.calculateAlertsAndRequests(
+               $scope.timePeriodStart,
+               $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[ktwIdx]);
+         }
+         if(pvIdx > -1){
+           console.log('PV: ');
+           console.log($scope.calculateAlertsAndRequests(
+               $scope.timePeriodStart,
+               $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[pvIdx]);
+         }
+         if(ftIdx > -1){
+           console.log('FT: ');
+           console.log($scope.calculateAlertsAndRequests(
+               $scope.timePeriodStart,
+               $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[ftIdx]);
+         }
+         if(trvIdx > -1){
+           console.log('TRV: ');
+           console.log($scope.calculateAlertsAndRequests(
+               $scope.timePeriodStart,
+               $scope.timePeriodEnd, $scope.alertsRequestsCheckCorrectTimestamp, $scope.stepMinutes)[trvIdx]);
+         }
+        }
+      };
       
       
       
@@ -448,6 +489,8 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
           $scope.timePeriodEnd,
           $scope.alertsRequestsCheckCorrectTimestamp,
           $scope.stepMinutes);
+      
+      logData();
 
       // Finally set start date to chart options.
       chartOpts.barChartOptions.axes.xaxis.min = moment($scope.timePeriodStart).subtract('minutes', 30).format('YYYY-MM-DD HH:mm:ss');
