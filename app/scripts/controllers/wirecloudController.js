@@ -30,8 +30,8 @@ angular.module(
                 $scope.kpi1 = '??min'; // Time until last patient is transported to the hospital
                 $scope.kpi2 = '??min'; // Time until red patients are away from the incident scene
                 $scope.kpi3a = '??'; // Ratio of medical responders per patient
-                $scope.kpi4a = '??'; // Time until all patients are pretriaged
-                $scope.kpi4b = '??'; // Time until all patients are triaged
+                $scope.kpi4a = '??min'; // Time until all patients are pretriaged
+                $scope.kpi4b = '??min'; // Time until all patients are triaged
                 $scope.kpi6a = '??'; // Number of application of basic measures on scene
                 $scope.kpi6b = '??'; // Patient / mime assessment of basic measures 
                 $scope.transportationStartTime = '';
@@ -139,9 +139,9 @@ angular.module(
                         if (DEBUG) {
                           console.log('timeperiod: ' + periodminutes + ' min');
                         }
-                        //compute kpi1
+                        //collect data for computation of kpi1
                         if(kpiItem.id === 'TransportationTime'){
-                          $scope.kpi1 = periodminutes + 'min';
+//                          $scope.kpi1 = periodminutes + 'min';
                           $scope.transportationStartTime = kpiItem.data.intervals[0].startTime;
                           $scope.transportationEndTime = kpiItem.data.intervals[0].endTime;
                         }
@@ -197,7 +197,7 @@ angular.module(
                     $scope.exercise.$promise.then(function () {
                         $scope.patients = $scope.exercise.patients;
                         //compute further kpis
-                        computeKpi2();
+                        computeKpi2And1();
                         computeKpi3aAnd6aAnd6b();
                     });
                 } else {
@@ -207,7 +207,7 @@ angular.module(
             };
             
             
-            var computeKpi2 = function(){
+            var computeKpi2And1 = function(){
               if( $scope.patients !== null){
                 var numberOfPatients = $scope.patients.length;
                 if (DEBUG) {
@@ -265,14 +265,29 @@ angular.module(
 //                }
 //                //-----------------------------------------
                 
-                var periodminutes = moment(maxTime).diff(moment($scope.transportationStartTime), 'minutes');
+                var periodminutes = moment(maxTime).diff(moment($scope.exercise.referenceTime), 'minutes');
                 $scope.kpi2 = periodminutes + 'min';
                 
                 if (DEBUG) {
-                  console.log('$scope.transportationStartTime: ' + $scope.transportationStartTime);
+                  console.log('$scope.exercise.referenceTime: ' + $scope.exercise.referenceTime);
+//                  console.log('$scope.exercise.incidentTime: ' + $scope.exercise.incidentTime);
+//                  console.log('$scope.transportationStartTime: ' + $scope.transportationStartTime);
                   console.log('maxTime: ' + maxTime);
                   console.log('kpi2_period: ' + periodminutes + 'min');
                 }
+                
+                
+                //compute kpi1
+                periodminutes = moment($scope.transportationEndTime).diff(moment($scope.exercise.referenceTime), 'minutes');
+                $scope.kpi1 = periodminutes + 'min';
+                
+                if (DEBUG) {
+                  console.log('$scope.exercise.referenceTime: ' + $scope.exercise.referenceTime);
+//                  console.log('$scope.exercise.incidentTime: ' + $scope.exercise.incidentTime);
+                  console.log('$scope.transportationEndTime: ' + $scope.transportationEndTime);
+                  console.log('kpi1_period: ' + periodminutes + 'min');
+                }
+                
               }
             };
             

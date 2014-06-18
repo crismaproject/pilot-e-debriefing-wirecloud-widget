@@ -125,7 +125,7 @@ angular.module('eu.crismaproject.pilotE.controllers')
                   }, {
                     value : 'Triage'
                   }, {
-                    value : 'Transportation of Patients'
+                    value : 'Start of Evacuation of Patients'
                   }, {
                     value : 'Care Measures'
                   }
