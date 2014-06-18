@@ -15,12 +15,6 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
          throw 'IllegalStateException: kpiListData not provided by directive user';
      }
      
-     if (!$scope.stepMinutes) {
-       if (DEBUG) {
-         console.log('stepMinutes not provided by directive user, setting default value.');
-       }
-       $scope.stepMinutes = 10;
-     }
           
       var chartOpts = {
            barChartOptions : {
@@ -110,20 +104,35 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
       var alertsAndRequestsDataForChart = [];
       var numberOfAlertsRequests = 0;
       
+      $scope.totalNbrVehicles = {
+          rtw: 0,
+          nef: 0,
+          mtw: 0,
+          rth: 0,
+          gwSan: 0,
+          sanEl: 0,
+          ugSanEl: 0,
+          kid: 0,
+          kdow: 0,
+          ktw: 0,
+          pv: 0,
+          ft: 0,
+          trv: 0,
+          total: 0
+      };
       
-      
-    $scope.alertsAndRequestsData.$promise
-    .then(function(resp) {
-      // Get number of all patients.
-      numberOfAlertsRequests = resp.alertsRequests.length;
-      
-      if (DEBUG) {
-//        console.log('Response: ' + resp.toSource());
-        console.log('Number of Alerts: ' + numberOfAlertsRequests);
-      }
+      $scope.alertsAndRequestsData.$promise
+      .then(function(resp) {
+        // Get number of all patients.
+        numberOfAlertsRequests = resp.alertsRequests.length;
+        
+        if (DEBUG) {
+//          console.log('Response: ' + resp.toSource());
+          console.log('Number of Alerts: ' + numberOfAlertsRequests);
+        }
 
-      // Get requested vehicles of all alerts and put the
-      // data into a map.
+        // Get requested vehicles of all alerts and put the
+        // data into a map.
 
       $scope.alertsRequestsCheckCorrectTimestamp = [];
       var alertsRequestsCheckIncorrectTimestamp = [];
@@ -172,8 +181,14 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
 //          type: 'KID',
 //          quantity: 2
 //      };
+//      var testvehicle3 = {
+//          type: 'RTW',
+//          quantity: 4
+//      };
 //      
+//      $scope.alertsRequestsCheckCorrectTimestamp = [];
 //      $scope.alertsRequestsCheckCorrectTimestamp.push(['2014-05-27 18:33:03', [testvehicle, testvehicle2]]);
+//      $scope.alertsRequestsCheckCorrectTimestamp.push(['2014-05-27 18:43:03', [testvehicle, testvehicle3]]);
       
          
       if (DEBUG) {
@@ -228,7 +243,24 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
       
 
       $scope.calculateAlertsAndRequests = function(
-          startDateTimeStamp, endDateTimeStamp, dataArray, iterStepMinutes) {
+          startDateTimeStamp, endDateTimeStamp, dataArray) {
+        
+        $scope.totalNbrVehicles = {
+            rtw: 0,
+            nef: 0,
+            mtw: 0,
+            rth: 0,
+            gwSan: 0,
+            sanEl: 0,
+            ugSanEl: 0,
+            kid: 0,
+            kdow: 0,
+            ktw: 0,
+            pv: 0,
+            ft: 0,
+            trv: 0,
+            total: 0
+        };
         
         var arrRtw = [];
         var arrNef = [];
@@ -320,20 +352,19 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
 
           var currIterTimeStampFormatted = currIterTimeStamp.format('YYYY-MM-DD HH:mm:ss');
           
-          arrRtw.push([currIterTimeStampFormatted, nbrRtw ]);
-          arrNef.push([currIterTimeStampFormatted, nbrNef]);
-          arrMtw.push([currIterTimeStampFormatted, nbrMtw]);
-          arrRth.push([currIterTimeStampFormatted, nbrRth]);
-          arrGwSan.push([currIterTimeStampFormatted, nbrGwSan]);
-          arrSanEl.push([currIterTimeStampFormatted, nbrSanEl]);
-          arrUgSanEl.push([currIterTimeStampFormatted, nbrUgSanEl]);
-          arrKid.push([currIterTimeStampFormatted, nbrKid]);
-          arrKdow.push([currIterTimeStampFormatted, nbrKdow]);
-          arrKtw.push([currIterTimeStampFormatted, nbrKtw]);
-          arrPv.push([currIterTimeStampFormatted, nbrPv]);
-          arrFt.push([currIterTimeStampFormatted, nbrFt]);
-          arrTrv.push([currIterTimeStampFormatted, nbrTrv]);
-          
+          arrRtw.push([currIterTimeStampFormatted, nbrRtw ]); $scope.totalNbrVehicles.rtw += nbrRtw;
+          arrNef.push([currIterTimeStampFormatted, nbrNef]); $scope.totalNbrVehicles.nef += nbrNef;
+          arrMtw.push([currIterTimeStampFormatted, nbrMtw]); $scope.totalNbrVehicles.mtw += nbrMtw;
+          arrRth.push([currIterTimeStampFormatted, nbrRth]); $scope.totalNbrVehicles.rth += nbrRth;
+          arrGwSan.push([currIterTimeStampFormatted, nbrGwSan]); $scope.totalNbrVehicles.gwSan += nbrGwSan;
+          arrSanEl.push([currIterTimeStampFormatted, nbrSanEl]); $scope.totalNbrVehicles.sanEl += nbrSanEl;
+          arrUgSanEl.push([currIterTimeStampFormatted, nbrUgSanEl]); $scope.totalNbrVehicles.ugSanEl += nbrUgSanEl;
+          arrKid.push([currIterTimeStampFormatted, nbrKid]); $scope.totalNbrVehicles.kid += nbrKid;
+          arrKdow.push([currIterTimeStampFormatted, nbrKdow]); $scope.totalNbrVehicles.kdow += nbrKdow;
+          arrKtw.push([currIterTimeStampFormatted, nbrKtw]); $scope.totalNbrVehicles.ktw += nbrKtw;
+          arrPv.push([currIterTimeStampFormatted, nbrPv]); $scope.totalNbrVehicles.pv += nbrPv;
+          arrFt.push([currIterTimeStampFormatted, nbrFt]); $scope.totalNbrVehicles.ft += nbrFt;
+          arrTrv.push([currIterTimeStampFormatted, nbrTrv]); $scope.totalNbrVehicles.trv += nbrTrv;
           }
 
         
@@ -369,6 +400,23 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
         
         //Only show legend labels of data series, that has values.
         chartOpts.barChartOptions.legend.labels = legendlabels;
+        
+        $scope.totalNbrVehicles.total =
+          $scope.totalNbrVehicles.rtw +
+          $scope.totalNbrVehicles.nef +
+          $scope.totalNbrVehicles.mtw +
+          $scope.totalNbrVehicles.rth +
+          $scope.totalNbrVehicles.gwSan +
+          $scope.totalNbrVehicles.sanEl +
+          $scope.totalNbrVehicles.ugSanEl +
+          $scope.totalNbrVehicles.kid +
+          $scope.totalNbrVehicles.kdow +
+          $scope.totalNbrVehicles.ktw +
+          $scope.totalNbrVehicles.pv +
+          $scope.totalNbrVehicles.ft +
+          $scope.totalNbrVehicles.trv;
+
+        $scope.$parent.totNumVehicles = $scope.totalNbrVehicles;
 
         return result;
       };
@@ -377,6 +425,8 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
       
       var logData  = function(){
         if (DEBUG) {
+//         console.log('$scope.totalNbrVehicles: ' + $scope.totalNbrVehicles.toSource());
+         console.log('$scope.totalNbrVehicles.total: ' + $scope.totalNbrVehicles.total);
          console.log('labels: ' + chartOpts.barChartOptions.legend.labels.toSource());
          var rtwIdx =  $.inArray('RTW', chartOpts.barChartOptions.legend.labels);
          var nefIdx =  $.inArray('NEF', chartOpts.barChartOptions.legend.labels);
@@ -478,8 +528,7 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
       alertsAndRequestsDataForChart = $scope.calculateAlertsAndRequests(
           $scope.timePeriodStart,
           $scope.timePeriodEnd,
-          $scope.alertsRequestsCheckCorrectTimestamp,
-          $scope.stepMinutes);
+          $scope.alertsRequestsCheckCorrectTimestamp);
       
       logData();
 
@@ -500,8 +549,7 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
           alertsAndRequestsDataForChart = $scope.calculateAlertsAndRequests(
               $scope.timePeriodStart,
               $scope.timePeriodEnd,
-              $scope.alertsRequestsCheckCorrectTimestamp,
-              $scope.stepMinutes);
+              $scope.alertsRequestsCheckCorrectTimestamp);
           $scope.chartData = alertsAndRequestsDataForChart;
         }
       });
