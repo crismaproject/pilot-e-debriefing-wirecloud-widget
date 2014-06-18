@@ -5,8 +5,8 @@ angular.module('eu.crismaproject.pilotE.directives').directive(
 
         var scope = {
                 alertsAndRequestsData: '=',
-                kpiListData: '=',
-                stepMinutes: '='
+                alertsListData: '=',
+                reqVehiclesListData: '='
             };
 
         return {

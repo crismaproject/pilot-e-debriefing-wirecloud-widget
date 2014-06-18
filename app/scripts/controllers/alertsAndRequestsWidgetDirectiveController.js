@@ -11,8 +11,14 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
      }
 
      
-     if (!$scope.kpiListData) {
-         throw 'IllegalStateException: kpiListData not provided by directive user';
+     if (!$scope.alertsAndRequestsData) {
+         throw 'IllegalStateException: alertsAndRequestsData not provided by directive user';
+     }
+     if (!$scope.alertsListData) {
+       throw 'IllegalStateException: alertsListData not provided by directive user';
+     }
+     if (!$scope.reqVehiclesListData) {
+       throw 'IllegalStateException: reqVehiclesListData not provided by directive user';
      }
      
           
@@ -148,10 +154,12 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
          var vehicles = [];
          
          if (moment(resp.alertsRequests[currAlert].time).isValid()) {
+           var alertMsg = resp.alertsRequests[currAlert].alert !== null &&
+           resp.alertsRequests[currAlert].alert !== '' ? resp.alertsRequests[currAlert].alert : 'no mesage'
            $scope.alertsRequestsCheckCorrectTimestamp[currAlert] =
-             [moment(resp.alertsRequests[currAlert].time).format('YYYY-MM-DD HH:mm:ss'), vehicles];
+             [moment(resp.alertsRequests[currAlert].time).format('YYYY-MM-DD HH:mm:ss'), vehicles, alertMsg];
          }else {
-           alertsRequestsCheckIncorrectTimestamp[currAlert] = [resp.alertsRequests[currAlert].time, vehicles];
+           alertsRequestsCheckIncorrectTimestamp[currAlert] = [resp.alertsRequests[currAlert].time, vehicles, alertMsg];
          }
          
          
@@ -261,6 +269,8 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
             trv: 0,
             total: 0
         };
+        
+        $scope.alertTimesAndMessages = [];
         
         var arrRtw = [];
         var arrNef = [];
@@ -416,8 +426,23 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
           $scope.totalNbrVehicles.ft +
           $scope.totalNbrVehicles.trv;
 
+        // requested vehicles table data
         $scope.$parent.totNumVehicles = $scope.totalNbrVehicles;
+        
+        //alerts and messages table data
+        for (var k = 0; k < $scope.alertsRequestsCheckCorrectTimestamp.length; k++) {
+         var time = $scope.alertsRequestsCheckCorrectTimestamp[k][0];
+         var message = $scope.alertsRequestsCheckCorrectTimestamp[k][2];
+         var alert = {
+             message : message,
+             time : moment(time).format('HH:mm:ss')
+         };
+         $scope.alertTimesAndMessages.push(alert);
+        }
+        
+        $scope.$parent.alertsData = $scope.alertTimesAndMessages;
 
+        //chart data
         return result;
       };
       
@@ -427,7 +452,8 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
         if (DEBUG) {
 //         console.log('$scope.totalNbrVehicles: ' + $scope.totalNbrVehicles.toSource());
          console.log('$scope.totalNbrVehicles.total: ' + $scope.totalNbrVehicles.total);
-         console.log('labels: ' + chartOpts.barChartOptions.legend.labels.toSource());
+//         console.log('labels: ' + chartOpts.barChartOptions.legend.labels.toSource());
+         console.log('labels: ' + chartOpts.barChartOptions.legend.labels);
          var rtwIdx =  $.inArray('RTW', chartOpts.barChartOptions.legend.labels);
          var nefIdx =  $.inArray('NEF', chartOpts.barChartOptions.legend.labels);
          var mtwIdx =  $.inArray('MTW', chartOpts.barChartOptions.legend.labels);

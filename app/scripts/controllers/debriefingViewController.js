@@ -33,7 +33,7 @@ angular.module('eu.crismaproject.pilotE.controllers')
                 
 
 
-                $scope.stepMinutesData = 10;
+//                $scope.stepMinutesData = 10;
                                 
                 
 //                $scope.requestedVehiclesData = [ {
@@ -161,6 +161,10 @@ angular.module('eu.crismaproject.pilotE.controllers')
                       
                   }
                 });
+                
+                
+            $scope.alertsData = [];
+                
                 
             }
         ]);
