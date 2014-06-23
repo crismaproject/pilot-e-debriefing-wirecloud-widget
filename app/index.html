@@ -27,6 +27,7 @@
         <link rel="stylesheet" href="styles/triageWidgetDirective.css">
         <link rel="stylesheet" href="styles/transportationWidgetDirective.css">
         <link rel="stylesheet" href="styles/breadcrumbStackWidget.css">
+        <link rel="stylesheet" href="styles/alertsAndRequestsWidgetDirective.css">
         <!-- endbuild -->
     </head>
     <body ng-app="eu.crismaproject.pilotE">
@@ -89,29 +90,36 @@
 <!--                                             </tr> -->
 <!--                                         </table> -->
 <!--                                     </div> -->
+
+                                    <div alerts-and-requests-widget
+                                        alerts-and-requests-data="exercise"
+                                        alerts-list-data="alertsData"
+                                        req-vehicles-list-data="requestedVehiclesData"
+                                        ng-if="selectedItemIndexNav1 == 0">
+                                    </div>
                                     <div pre-triage-widget
                                         patients-data="patients"
                                         step-minutes="stepMinutesData"
                                         kpi-list-data="ptrKpiData"
-                                        ng-if="selectedItemIndexNav1 == 0">
+                                        ng-if="selectedItemIndexNav1 == 3">
                                     </div>
                                     <div triage-widget
                                         patients-data="patients"
                                         step-minutes="stepMinutesData"
                                         kpi-list-data="trKpiData"
-                                        ng-if="selectedItemIndexNav1 == 1">
+                                        ng-if="selectedItemIndexNav1 == 4">
                                     </div>
                                     <div transportation-widget
                                         step-minutes="stepMinutesData"
                                         patients-data="patients"
                                         list-header='General'
                                         kpi-list-data="transpKpiData"
-                                        ng-if="selectedItemIndexNav1 == 2">
+                                        ng-if="selectedItemIndexNav1 == 5">
                                     </div>
                                     <div care-measures-widget
                                         patients-data="patients"
                                         kpi-list-data="cmKpiData"
-                                        ng-if="selectedItemIndexNav1 == 3">
+                                        ng-if="selectedItemIndexNav1 == 6">
                                     </div>
                                     <br>
                                     <br>
@@ -209,6 +217,8 @@
         <script src="scripts/directives/triageWidgetDirective.js"></script>
         <script src="scripts/controllers/transportationWidgetDirectiveController.js"></script>
         <script src="scripts/directives/transportationWidgetDirective.js"></script>
+        <script src="scripts/controllers/alertsAndRequestsWidgetDirectiveController.js"></script>
+        <script src="scripts/directives/alertsAndRequestsWidgetDirective.js"></script>        
         <script src="scripts/controllers/responsePhasesNavDirectiveController.js"></script>
         <script src="scripts/controllers/responsePhasesNav2DirectiveController.js"></script>
         <script src="scripts/directives/responsePhasesNavDirective.js"></script>

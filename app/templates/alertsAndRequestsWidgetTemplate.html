@@ -1,0 +1,51 @@
+<div id="alerts-req-widget">
+    <div align="center">
+    <div
+            class="chartsize"
+            ui-chart="chartData" chart-options="chartSettings"></div>
+    </div>
+
+<!--     <table style="margin: 0px auto"> -->
+<!--         <tr> -->
+<!--             <td colspan="2"><b>Requested Vehicles</b></td> -->
+<!--         </tr> -->
+<!--         <tr ng-repeat="obj in reqVehiclesListData"> -->
+<!--             <td width="30%">{{ obj.value }}</td> -->
+<!--             <td>{{ obj.key }}</td> -->
+<!--         </tr> -->
+<!--     </table> -->
+
+    <div class="tableheaderstyle">
+        <table class="tableheaderstyle">
+            <tr>
+              <td colspan="2"><b>Requested Vehicles</b></td>
+            </tr>
+        </table>
+    </div>
+    <div class="vehicleslist">
+        <table class="tablestyle">
+            <tr ng-repeat="obj in reqVehiclesListData">
+                <td class="tabledatastyle">{{ obj.value }}</td>
+                <td class="tabledatastyle">{{ obj.key }}</td>
+            </tr>
+        </table>
+    </div>
+    
+    <div class="tableheaderstyle">
+        <table class="tableheaderstyle">
+            <tr>
+              <td colspan="2"><b>Alerts</b></td>
+            </tr>
+        </table>
+    </div>
+    <div class="alertslist">
+        <table class="tablestyle">
+            <tr ng-repeat="obj in alertsListData">
+                <td class="tabledatastyle">{{ obj.time }}</td>
+                <td class="tabledatastyle">{{ obj.message}}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+

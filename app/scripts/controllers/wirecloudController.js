@@ -194,8 +194,12 @@ angular.module(
                     res = $resource(dai);
                     $scope.apiurl = dai.substr(0, dai.indexOf('icmm_api') + 8);
                     $scope.exercise = res.get({id: item.actualaccessinfo});
+//                    $scope.exercise = res.get({id: 36});
+//                    $scope.exercise = res.get({id: 9});
                     $scope.exercise.$promise.then(function () {
                         $scope.patients = $scope.exercise.patients;
+                        $scope.exerc = $scope.exercise;
+                        
                         //compute further kpis
                         computeKpi2And1();
                         computeKpi3aAnd6aAnd6b();

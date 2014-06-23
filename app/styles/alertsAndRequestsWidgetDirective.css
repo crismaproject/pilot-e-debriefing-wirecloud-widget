@@ -1,0 +1,40 @@
+
+#alerts-req-widget .chartsize {
+    
+    margin-top: 10px;
+    margin-left: 0px;
+    width: 250px;
+    height: 350px;
+    
+/*     margin-left: 40px; */
+/*     width: 400px; */
+/*     height: 300px; */
+
+}
+
+#alerts-req-widget .tablestyle {
+       width: 250px;
+}
+
+#alerts-req-widget .tabledatastyle {
+/*     width: 30%; */
+}
+
+#alerts-req-widget .alertslist {
+	margin-left: 60px;
+	width: 250px;
+	max-height: 100px;
+	overflow-y: auto;
+}
+
+#alerts-req-widget .tableheaderstyle {
+	margin-left: 30px;
+	margin-top: 20px;
+}
+
+#alerts-req-widget .vehicleslist {
+	margin-left: 60px;
+	width: 250px;
+	max-height: 100px;
+	overflow-y: auto;
+}

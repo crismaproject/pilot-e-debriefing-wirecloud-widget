@@ -15,6 +15,7 @@ angular.module('eu.crismaproject.pilotE.controllers')
 
 //                $scope.patients = ooi.getCapturePatients().getAll();
 //                $scope.patients = $scope.$parent.patients;
+//                $scope.exercise = $scope.$parent.exercise;
                 
                 $scope.useprecalculatedbounds = true;
 
@@ -89,6 +90,120 @@ angular.module('eu.crismaproject.pilotE.controllers')
                 });
                 
                 
+                //Data for Alerts-and-Requests-Widget:
+                
+                $scope.totNumVehicles = null;
+                $scope.requestedVehiclesData = [];
+                
+                $scope.$watch('totNumVehicles', function() {
+                  
+                  if($scope.totNumVehicles !== null){
+                    
+                    if($scope.totNumVehicles.rtw > 0){
+                      $scope.requestedVehiclesData.push({
+                        value : $scope.totNumVehicles.rtw.toString(),
+                        key : 'RTW'
+                      });
+                    }
+                    
+                    if($scope.totNumVehicles.nef > 0){
+                      $scope.requestedVehiclesData.push({
+                        value : $scope.totNumVehicles.nef.toString(),
+                        key : 'NEF'
+                      });
+                    }
+                    
+                    if($scope.totNumVehicles.mtw > 0){
+                      $scope.requestedVehiclesData.push({
+                        value : $scope.totNumVehicles.mtw.toString(),
+                        key : 'MTW'
+                      });
+                    }
+                    
+                    if($scope.totNumVehicles.rth > 0){
+                      $scope.requestedVehiclesData.push({
+                        value : $scope.totNumVehicles.rth.toString(),
+                        key : 'RTH'
+                      });
+                    }
+                    
+                    if($scope.totNumVehicles.gwSan > 0){
+                      $scope.requestedVehiclesData.push({
+                        value : $scope.totNumVehicles.gwSan.toString(),
+                        key : 'GW-SAN'
+                      });
+                    }
+                    
+                    if($scope.totNumVehicles.sanEl > 0){
+                      $scope.requestedVehiclesData.push({
+                        value : $scope.totNumVehicles.sanEl.toString(),
+                        key : 'SAN-EL'
+                      });
+                    }
+                    
+                    if($scope.totNumVehicles.ugSanEl > 0){
+                      $scope.requestedVehiclesData.push({
+                        value : $scope.totNumVehicles.ugSanEl.toString(),
+                        key : 'UG-SAN-EL'
+                      });
+                    }
+                    
+                    if($scope.totNumVehicles.kid > 0){
+                      $scope.requestedVehiclesData.push({
+                        value : $scope.totNumVehicles.kid.toString(),
+                        key : 'KID'
+                      });
+                    }
+                    
+                    if($scope.totNumVehicles.kdow > 0){
+                      $scope.requestedVehiclesData.push({
+                        value : $scope.totNumVehicles.kdow.toString(),
+                        key : 'KDOW'
+                      });
+                    }
+                    
+                    if($scope.totNumVehicles.ktw > 0){
+                      $scope.requestedVehiclesData.push({
+                        value : $scope.totNumVehicles.ktw.toString(),
+                        key : 'KTW'
+                      });
+                    }
+                    
+                    if($scope.totNumVehicles.pv > 0){
+                      $scope.requestedVehiclesData.push({
+                        value : $scope.totNumVehicles.pv.toString(),
+                        key : 'PV'
+                      });
+                    }
+                    
+                    if($scope.totNumVehicles.ft > 0){
+                      $scope.requestedVehiclesData.push({
+                        value : $scope.totNumVehicles.ft.toString(),
+                        key : 'FT'
+                      });
+                    }
+                    
+                    if($scope.totNumVehicles.trv > 0){
+                      $scope.requestedVehiclesData.push({
+                        value : $scope.totNumVehicles.trv.toString(),
+                        key : 'TRV'
+                      });
+                    }
+                    
+                    
+                    $scope.requestedVehiclesData.push({
+                      value : $scope.totNumVehicles.total.toString(),
+                      key : 'total number'
+                    });
+                      
+                  }
+                });
+                
+                
+                $scope.alertsData = [];
+                
+                
+                
                 //Data for Breadcrumb-Stack-Widget
                 
                 $scope.stackNavData = [ {
@@ -112,13 +227,13 @@ angular.module('eu.crismaproject.pilotE.controllers')
                 $scope.listHeaderData = 'Response Phases';
                 
                 $scope.listItemsData = [
-//                  {
-//                    value : 'Alerts and Requests'
-//                  }, {
-//                    value : 'Resources on site'
-//                  }, {
-//                    value : 'Spatial Planing'
-//                  },
+                  {
+                    value : 'Alerts and Requests'
+                  }, {
+                    value : 'Resources on site'
+                  }, {
+                    value : 'Spatial Planing'
+                  },
                   
                   {
                     value : 'Pre-Triage'
