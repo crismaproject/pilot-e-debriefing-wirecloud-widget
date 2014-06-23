@@ -25,6 +25,7 @@
 	"$": false,
 	"MashupPlatform": false,
     "Terraformer": false,
-    "google": false
+    "google": false,
+	"MiniSet": false
   }
 }

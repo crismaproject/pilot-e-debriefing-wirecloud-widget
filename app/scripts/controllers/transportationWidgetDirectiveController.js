@@ -32,7 +32,7 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
         stackSeries : true,
         captureRightClick : true,
         title : {
-          text : 'Overview transportation of all patients',
+          text : 'Start of Evacuation of Patients',
           fontFamily : 'Helvetica',
           fontSize : '14pt',
           show : true,

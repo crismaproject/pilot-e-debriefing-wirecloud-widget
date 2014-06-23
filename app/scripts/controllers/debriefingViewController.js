@@ -4,63 +4,13 @@ angular.module('eu.crismaproject.pilotE.controllers')
             '$scope',
             'eu.crismaproject.pilotE.services.OoI',
             'DEBUG',
-            function ($resource, $scope, ooi, DEBUG) {
+            'STEP_MINUTES',
+            function ($resource, $scope, ooi, DEBUG, STEP_MINUTES) {
                 'use strict';
 
                 if (DEBUG) {
                     console.log('initialising debriefing view controller');
                 }
-                
-                
-//                //------------
-//                
-//
-//                $scope.getKpiData = function () {
-//                    var cats, i, items, j, res;
-//                    var kpiItems = [];
-//
-//                    if (DEBUG) {
-//                        console.log('parse dataitem and fetch kpi data');
-//                    }
-//                    
-//                    
-//                    res = $resource('http://crisma.cismet.de/pilotE/icmm_api/CRISMA.worldstates/1?omitNullValues=true&deduplicate=true');
-//                    $scope.wsData = res.get();
-//                    $scope.wsData.$promise.then(function () {
-//                      $scope.worldstatedata = $scope.wsData.worldstatedata;
-//                      
-//                      items = $scope.worldstatedata;
-//                      if (items) {
-//                          for (i = 0; i < items.length; ++i) {
-//                              cats = items[i].categories;
-//                              if (cats) {
-//                                  for (j = 0; j < cats.length; ++j) {
-//                                      if (cats[j].key === 'capture_data') {
-//                                        kpiItems.push(items[i].actualaccessinfo);
-//                                      }
-//                                  }
-//                              }
-//                          }
-//                      }
-//
-//                      if (kpiItems.length === 0) {
-//                          throw 'the worldstate has to have a proper capture_data dataitem';
-//                      }
-//                      
-//                      if (DEBUG) {
-//                        console.log(kpiItems);
-//                        for (var idx = 0; idx < kpiItems.length; ++idx) {
-//                          console.log(JSON.parse(kpiItems[idx]).name);
-//                        }
-//                        
-//                      }
-//                    });
-//
-//                };
-//                
-//                //------------
-//                
-//                $scope.getKpiData();
                 
 
 //                $scope.patients = ooi.getCapturePatients().getAll();
@@ -72,53 +22,71 @@ angular.module('eu.crismaproject.pilotE.controllers')
                 //Data for Care-Measures-Widget:
                 
                 $scope.cmKpiData = [ {
-                  value : '35min',
-                  key : 'average time until care measures start'
-                }, {
-                  value : '0',
-                  key : 'number of peoples died'
-                } ];
+                  value : '??',
+                  key : 'Number of application of basic measures on scene'
+                },
+//                {
+//                  value : '??',
+//                  key : 'Patient / mime assessment of basic measures '
+//                } 
+                
+                ];
+                
+                $scope.$watch('kpi6a', function() {
+                  $scope.cmKpiData[0].value =  $scope.$parent.kpi6a;
+                });
+                
+//                $scope.$watch('kpi6b', function() {
+//                  $scope.cmKpiData[1].value =  $scope.$parent.kpi6b;
+//                });
                 
                 //Data for Pre-Triage-Widget:
                 
-                $scope.stepMinutesData = 10;
+//                $scope.stepMinutesData = 10;
+//                $scope.stepMinutesData = parseInt(STEP_MINUTES, 10);
+                $scope.stepMinutesData = $scope.stepMinutesInterval;
+                
+                
+                
                                 
                 $scope.ptrKpiData = [ {
-                  value : '6min',
-                  key : 'time until pre-triage starts'
-                }, {
-                  value : '30min',
-                  key : 'max time until pre-triage starts'
-                }, {
-                  value : '4',
-                  key : 'number of classification errors'
+                  value : '??min',
+                  key : 'Time until all patients are pretriaged'
                 } ];
+                
+                $scope.$watch('kpi4a', function() {
+                  $scope.ptrKpiData[0].value =  $scope.$parent.kpi4a;
+                });
                 
                 //Data for Triage-Widget:
                 
                 $scope.trKpiData = [ {
-                  value : '11min',
-                  key : 'time until triage starts'
-                }, {
-                  value : '60min',
-                  key : 'max time until triage starts'
-                }, {
-                  value : '3',
-                  key : 'number of classification errors'
+                  value : '??min',
+                  key : 'Time until all patients are triaged'
                 } ];
+                
+                $scope.$watch('kpi4b', function() {
+                  $scope.trKpiData[0].value =  $scope.$parent.kpi4b;
+                });
                 
                 //Data for Transportation-Widget:
                 
+                
                 $scope.transpKpiData = [ {
-                  value : '70min',
-                  key : 'max time last red patient is transported'
+                  value : '??min',
+                  key : 'Time until last patient is transported to the hospital'
                 }, {
-                  value : '43min',
-                  key : 'time first red patient is transported'
-                }, {
-                  value : '0',
-                  key : 'number of people died'
+                  value : '??min',
+                  key : 'Time until red patients are away from the incident scene'
                 } ];
+                
+                $scope.$watch('kpi1', function() {
+                  $scope.transpKpiData[0].value =  $scope.$parent.kpi1;
+                });
+                
+                $scope.$watch('kpi2', function() {
+                  $scope.transpKpiData[1].value =  $scope.$parent.kpi2;
+                });
                 
                 
                 //Data for Breadcrumb-Stack-Widget
@@ -133,37 +101,37 @@ angular.module('eu.crismaproject.pilotE.controllers')
                 $scope.breadcrumbKpiHeaderData = 'Key Performance Indicators';
                 
                 $scope.breadcrumbKpiData = [ {
-                  value : '70min',
-                  key : 'last red patient is transported'
-                }, {
-                  value : '80min',
-                  key : 'first red patient is transported'
-                }, {
-                  value : '3,157',
-                  key : 'medical responders per patient'
-                } ];
+                  value : '??',
+                  key : 'Ratio of medical responders per patient'
+                }];
+                
+                $scope.$watch('kpi3a', function() {
+                  $scope.breadcrumbKpiData[0].value =  $scope.$parent.kpi3a;
+                });
                 
                 $scope.listHeaderData = 'Response Phases';
                 
-                $scope.listItemsData = [ {
-                    value : 'Alerts and Requests'
-                  }, {
-                    value : 'Resources on site'
-                  }, {
-                    value : 'Spatial Planing'
-                  }, {
+                $scope.listItemsData = [
+//                  {
+//                    value : 'Alerts and Requests'
+//                  }, {
+//                    value : 'Resources on site'
+//                  }, {
+//                    value : 'Spatial Planing'
+//                  },
+                  
+                  {
                     value : 'Pre-Triage'
                   }, {
                     value : 'Triage'
                   }, {
-                    value : 'Transportation of Patients'
+                    value : 'Start of Evacuation of Patients'
                   }, {
                     value : 'Care Measures'
                   }
                 ];
                 
-                $scope.hideResponsePhasesNav = false;
-                $scope.selectedItemIndexNav1 = -1;
+                
                 
 //                $scope.selectedItemIndexNav2 = -1;
                 

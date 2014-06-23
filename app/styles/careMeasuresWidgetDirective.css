@@ -13,9 +13,12 @@
 
 
 #cm-widget .tablestyle {
-    margin: 0px auto;
+/*     margin: 0px auto; */
+    margin-left: 30px;
+    margin-right: 30px;
+    margin-top: 20px;
 }
 
 #cm-widget .tabledatastyle {
-    width: 30%;
+    width: 10%;
 }
