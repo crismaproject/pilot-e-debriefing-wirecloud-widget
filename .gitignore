@@ -5,3 +5,6 @@ dist
 app/bower_components
 /nbproject/private/
 secret.json
+/crisma-pilot-e-debriefing-widget-wirecloud.wgt
+/npm-debug.log.old
+/npm-debug.log.old2
