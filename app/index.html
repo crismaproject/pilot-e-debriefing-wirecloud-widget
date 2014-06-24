@@ -92,7 +92,7 @@
 <!--                                     </div> -->
 
                                     <div alerts-and-requests-widget
-                                        alerts-and-requests-data="exercise"
+                                        alerts-and-requests-data="exerc"
                                         alerts-list-data="alertsData"
                                         req-vehicles-list-data="requestedVehiclesData"
                                         ng-if="selectedItemIndexNav1 == 0">
@@ -269,6 +269,14 @@
                     MashupPlatform.setWorldstate(JSON.stringify(data));
                 })
             }, 2000);
+            
+//             window.setTimeout(function() {
+//                 console.log("push ws");
+//                 $.getJSON('http://crisma.cismet.de/pilotE/icmm_api/CRISMA.worldstates/1?omitNullValues=true&deduplicate=true', function (data) {
+//                     MashupPlatform.setWorldstate(JSON.stringify(data));
+//                 })
+//             }, 6000);
+
             
             
 //            window.setTimeout(function() {

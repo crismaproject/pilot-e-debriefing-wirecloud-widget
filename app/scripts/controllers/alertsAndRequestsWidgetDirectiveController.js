@@ -129,6 +129,9 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
       
       var paintChart = function() {
         
+        //Reset old list entries
+        $scope.$parent.$parent.requestedVehiclesData = [];
+        
         var alertsAndRequestsDataForChart = [];
         var numberOfAlertsRequests = 0;
         

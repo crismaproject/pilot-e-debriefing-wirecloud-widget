@@ -98,6 +98,7 @@ angular.module(
                 var kpiItems = [];
                 
                 if (DEBUG) {
+                  console.log('worldstate id: ' + $scope.worldstate.id);
                   console.log('parse dataitem and fetch kpi data');
                 }
                 
