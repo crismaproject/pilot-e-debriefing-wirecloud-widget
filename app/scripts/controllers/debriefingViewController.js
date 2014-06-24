@@ -229,11 +229,13 @@ angular.module('eu.crismaproject.pilotE.controllers')
                 $scope.listItemsData = [
                   {
                     value : 'Alerts and Requests'
-                  }, {
-                    value : 'Resources on site'
-                  }, {
-                    value : 'Spatial Planing'
                   },
+                  
+//                  {
+//                    value : 'Resources on site'
+//                  }, {
+//                    value : 'Spatial Planing'
+//                  },
                   
                   {
                     value : 'Pre-Triage'
