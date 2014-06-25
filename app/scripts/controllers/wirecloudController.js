@@ -17,8 +17,28 @@ angular.module(
             if (DEBUG) {
                 console.log('initialising wirecloud controller');
             }
+            
+//            $scope.$watch('selectedWs', function () {
+//              if (DEBUG) {
+//                console.log('wirecloudController: selectedWs changed!');
+//                console.log('selectedWs: ' + $scope.selectedWs.id);
+//              }
+//              if($scope.selectedWs !== null && $scope.selectedWs.id > 0){
+//                  $.getJSON('http://crisma.cismet.de/pilotE/icmm_api/CRISMA.worldstates/' + $scope.selectedWs.id + '?omitNullValues=true&deduplicate=true', function (data) {
+//                    $scope.worldstate = data;
+//                    $scope.processWorldstate();
+//                  });
+//              }
+//            });
 
             initScope = function () {
+//                $scope.worldstates = [
+//                              { id: 1, name: 'test1' },
+//                              { id: 71, name: 'test2' },
+//                              { id: 3, name: 'test3' },
+//                              { id: 64, name: 'test4' }
+//                ];
+              
                 $scope.editing = false;
                 $scope.worldstate = null;
                 $scope.patients = null;

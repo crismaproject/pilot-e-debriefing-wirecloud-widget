@@ -52,6 +52,9 @@
 <!--             <p>$scope.kpi1: {{kpi1}}</p> -->
 <!--             <div class="container" ng-view></div> -->
 
+<!--                <select ng-model="selectedWs" ng-options="ws as ws.name for ws in worldstates"></select> -->
+<!--                <pre>{{selectedWs | json}}</pre> -->
+
                 <div class="container-fluid" ng-controller="debriefingViewController">
                     <div class="row clearfix">
                         <div class="col-md-4 column">            
@@ -71,7 +74,7 @@
                                     <br>
                                     <br>
                                     
-                                    <div id="main-chart" ng-hide="hideResponsePhasesNav">
+                                    <div id="main-chart" ng-if="!hideResponsePhasesNav">
                                         <div transportation-widget
                                             step-minutes="stepMinutesData"
                                             patients-data="patients"
@@ -79,6 +82,8 @@
                                             kpi-list-data="breadcrumbKpiData">
                                         </div>
                                     </div>
+                                    
+                                    
 <!--                                     <div id="kpi-section" ng-hide="hideResponsePhasesNav"> -->
 <!--                                         <table class="tablestyle"> -->
 <!--                                             <tr> -->

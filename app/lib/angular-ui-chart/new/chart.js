@@ -6,6 +6,7 @@ angular.module('ui.chart', [])
       replace: true,
       link: function (scope, elem, attrs) {
         var renderChart = function () {
+//          console.log("RENDER: " + new Date().getTime());
           var data = scope.$eval(attrs.uiChart);
           elem.html('');
           if (!angular.isArray(data)) {
@@ -20,14 +21,14 @@ angular.module('ui.chart', [])
             }
           }
 
-          elem.empty(); //delete children
+//          elem.empty(); //delete children
           elem.jqplot(data, opts);
           //make sure there are children or maybe .jqplot didn't render
-          if (!elem.children().length) { $timeout(renderChart, 100); }
+//          if (!elem.children().length) { $timeout(renderChart, 100); }
         };
         
         //responsive friendly
-        angular.element($window).bind('resize', renderChart);
+//        angular.element($window).bind('resize', renderChart);
 
         scope.$watch(attrs.uiChart, function () {
           renderChart();
