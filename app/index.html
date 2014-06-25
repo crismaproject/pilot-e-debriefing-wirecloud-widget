@@ -55,6 +55,8 @@
 <!--                <select ng-model="selectedWs" ng-options="ws as ws.name for ws in worldstates"></select> -->
 <!--                <pre>{{selectedWs | json}}</pre> -->
 
+<!--                 <p>$scope.selIndicator: {{selIndicator}}</p> -->
+
                 <div class="container-fluid" ng-controller="debriefingViewController">
                     <div class="row clearfix">
                         <div class="col-md-4 column">            
@@ -281,6 +283,13 @@
 //                     MashupPlatform.setWorldstate(JSON.stringify(data));
 //                 })
 //             }, 6000);
+
+
+//             window.setTimeout(function() {
+//                 console.log("push selIndicator");
+//                 var obj = '["TriageTime"]';
+//                     MashupPlatform.setSelectedIndicator(obj);
+//             }, 8000);
 
             
             

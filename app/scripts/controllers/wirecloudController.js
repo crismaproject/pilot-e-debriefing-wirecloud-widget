@@ -39,6 +39,8 @@ angular.module(
 //                              { id: 64, name: 'test4' }
 //                ];
               
+              
+                $scope.selIndicator = null; //The selected timeline phase.
                 $scope.editing = false;
                 $scope.worldstate = null;
                 $scope.patients = null;
@@ -622,6 +624,39 @@ angular.module(
                         $scope.processWorldstate();
                     }
                 });
+                
+                
+                mashupPlatform.wiring.registerCallback('setSelectedIndicator', function (si) {
+                  if(DEBUG){
+                    console.log('setSelectedIndicator has been called');
+                  }
+                  var selIndicator = null;
+                  if(si !== null && si !==''){
+//                    selIndicator = '[TriageTime]';
+                    selIndicator = si;
+                  }
+                  
+                  if(DEBUG){
+                    console.log('selIndicator: ' + selIndicator);
+                  }
+                  
+                  if(selIndicator !== null && selIndicator.length > 0){
+                    if(DEBUG){
+                      console.log('setSelectedIndicator: ' + selIndicator);
+                      //cut braces and quotation marks at the beginning and at the end
+                      selIndicator = selIndicator.substr(2, selIndicator.length -4);
+                      console.log('setSelectedIndicator cut: ' + selIndicator);
+                    }
+                    
+                    $scope.$apply(function(){ $scope.selIndicator = selIndicator; });
+                    
+                  }else{
+                    if(DEBUG){
+                      console.log('setSelectedIndicator was null!');
+                    }
+                  }
+                });
+                
             }
         }
     ]

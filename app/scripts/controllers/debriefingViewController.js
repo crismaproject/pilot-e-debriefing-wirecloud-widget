@@ -249,6 +249,61 @@ angular.module('eu.crismaproject.pilotE.controllers')
                 ];
                 
                 
+                //React when an indicator has been selected in timeline widget.
+                
+                $scope.$watch('selIndicator', function() {
+                  if(DEBUG){
+                    console.log('selIndicator has changed!');
+                  }
+                  $scope.navigateToSelIndicator();
+                });
+                
+                
+                $scope.navigateToSelIndicator = function(){
+                  if(DEBUG){
+                    console.log('Navigate to selected indicator!');
+                  }
+                  
+                  if ($scope.$parent.selIndicator !== null){
+                    
+                    if(DEBUG){
+                      console.log('$scope.$parent.selIndicator: ' + $scope.$parent.selIndicator);
+                    }
+                    
+                    switch ($scope.$parent.selIndicator){
+                      
+                      case 'OverallTime':
+                        $scope.navigateBack();
+                      break;
+                      case 'PreTriageTime':
+                        $scope.hideResponsePhasesNav = true;
+                        $scope.selectedItemIndexNav1 = 1;
+                      break;
+                      case 'TriageTime':
+                        $scope.hideResponsePhasesNav = true;
+                        $scope.selectedItemIndexNav1 = 2;
+                      break;
+                      case 'TransportationTime':
+                        $scope.hideResponsePhasesNav = true;
+                        $scope.selectedItemIndexNav1 = 3;
+                      break;
+                      case 'TreatmentTime':
+                        //care measures
+                        $scope.hideResponsePhasesNav = true;
+                        $scope.selectedItemIndexNav1 = 4;
+                      break;
+                      default:
+                        //no match
+                        if (DEBUG) {
+                          console.log('Selected indicator unknown!');
+                        }
+                        break;
+                    }
+                  }
+                  
+                };
+                
+                
                 
 //                $scope.selectedItemIndexNav2 = -1;
                 

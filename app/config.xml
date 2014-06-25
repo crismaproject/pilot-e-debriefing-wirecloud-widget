@@ -11,7 +11,7 @@
         <Name>pilot-e-debriefing-widget</Name>
         <!-- Version: Current widget version number-->
         <!-- we include a build # to prevent caching by wirecloud -->
-        <Version>0.1.2.0</Version>
+        <Version>0.1.3.2</Version>
         <!-- DisplayName: Name shown in the UI of the widget -->
         <DisplayName>CRISMA Pilot E Debriefing Widget</DisplayName>
         <!-- Author: Widget developer(s) -->
@@ -65,14 +65,14 @@
             name="setWorldstate"
             type="text"
             label="Set Worldstate"
-            description="See https://github.com/crismaproject/pilot-e-application"
+            description="The worldstate data to be displayed"
             friendcode="worldstate_json_expanded"/>
-<!--         <InputEndpoint -->
-<!--             name="setEditing" -->
-<!--             type="text" -->
-<!--             label="Set Editing" -->
-<!--             description="See https://github.com/crismaproject/pilot-e-application" -->
-<!--             friendcode="boolean"/> -->
+        <InputEndpoint
+            name="setSelectedIndicator"
+            type="text"
+            label="Set Selected Indicator"
+            description="The selected Indicator"
+            friendcode="selected_indicator"/>
         <OutputEndpoint
             name="getDataitem"
             type="text"
