@@ -8,8 +8,9 @@ angular.module(
         '$q',
         '$resource',
         'de.cismet.commons.angular.angularTools.AngularTools',
+        'eu.crismaproject.pilotE.services.poi',
         'DEBUG',
-        function ($scope, $modal, $q, $resource, angularTools, DEBUG) {
+        function ($scope, $modal, $q, $resource, angularTools, poiservice, DEBUG) {
             'use strict';
 
             var dialog, initScope, mashupPlatform;
@@ -323,6 +324,7 @@ angular.module(
               var numberOfPatients = $scope.patients.length;
               var nuberOfResponders = 0;
               var ratioRespPerPat = null;
+              var ratioCorrectSupplyPerPatient = null;
               
               if (DEBUG) {
                 console.log('numberOfPatients: ' + numberOfPatients);
@@ -333,8 +335,28 @@ angular.module(
               var responders = new MiniSet();
               var numberOfCareMeasures = 0;
               var sumOfRatings = 0;
+              var numberOfCorrectSuppliedPatients = 0;
               
               for (var currPat = 0; currPat < numberOfPatients; currPat++) {
+                
+                //TODO: Kpi6b
+                // -identificationOfInjury
+                
+                var testCareMeasuresPolyTrauma = [{measure:'Ventilation', value:true, $self:'/CRISMA.careMeasures/3627'}, {measure:'Consciousness', value:true, $self:'/CRISMA.careMeasures/3628'}, {measure:'Hemorrhage', value:true, $self:'/CRISMA.careMeasures/3629'}, {measure:'Position', value:true, $self:'/CRISMA.careMeasures/3630'}, {measure:'Warmth preservation', value:true, $self:'/CRISMA.careMeasures/3631'}, {measure:'Attendance', value:true, $self:'/CRISMA.careMeasures/3632'}, {measure:'Supplemental Oxygen', value:true, $self:'/CRISMA.careMeasures/3633'}];
+                var testCareMeasuresPolyScrape = [{measure:'Ventilation', value:false, $self:'/CRISMA.careMeasures/3627'}, {measure:'Consciousness', value:true, $self:'/CRISMA.careMeasures/3628'}, {measure:'Hemorrhage', value:true, $self:'/CRISMA.careMeasures/3629'}, {measure:'Position', value:false, $self:'/CRISMA.careMeasures/3630'}, {measure:'Warmth preservation', value:true, $self:'/CRISMA.careMeasures/3631'}, {measure:'Attendance', value:false, $self:'/CRISMA.careMeasures/3632'}, {measure:'Supplemental Oxygen', value:true, $self:'/CRISMA.careMeasures/3633'}];
+                var testCareMeasuresUninjured = [{measure:'Ventilation', value:false, $self:'/CRISMA.careMeasures/3627'}, {measure:'Consciousness', value:true, $self:'/CRISMA.careMeasures/3628'}, {measure:'Hemorrhage', value:false, $self:'/CRISMA.careMeasures/3629'}, {measure:'Position', value:false, $self:'/CRISMA.careMeasures/3630'}, {measure:'Warmth preservation', value:false, $self:'/CRISMA.careMeasures/3631'}, {measure:'Attendance', value:false, $self:'/CRISMA.careMeasures/3632'}, {measure:'Supplemental Oxygen', value:false, $self:'/CRISMA.careMeasures/3633'}];
+                
+                
+                var identificationOfInjury = 'chestTrauma';
+//                var identificationOfInjury = 'scrape';
+//                var identificationOfInjury = 'uninjured';
+                var necessaryMeasuresExecuted = poiservice.necessaryMeasuresExecuted(identificationOfInjury, $scope.patients[currPat].careMeasures);
+//                var necessaryMeasuresExecuted = poiservice.necessaryMeasuresExecuted(identificationOfInjury, testCareMeasuresPolyTrauma);
+                if(necessaryMeasuresExecuted){
+                  numberOfCorrectSuppliedPatients++;
+                }
+                
+                
                 
                 if($scope.patients[currPat].preTriage.treatedBy !== null &&
                     $scope.patients[currPat].preTriage.treatedBy !== ''){
@@ -365,14 +387,14 @@ angular.module(
 //                    }
                     
                     
-                    //count number of care measures for kpi6a
-                    if($scope.patients[currPat].careMeasures.treatment_by !== null &&
-                        $scope.patients[currPat].careMeasures.treatment_by !== ''){
-                      
-                      if($scope.patients[currPat].careMeasures[currCm].value === true){
-                        numberOfCareMeasures++;
-                      }
-                    }
+//                    //count number of care measures for kpi6a
+//                    if($scope.patients[currPat].careMeasures.treatment_by !== null &&
+//                        $scope.patients[currPat].careMeasures.treatment_by !== ''){
+//                      
+//                      if($scope.patients[currPat].careMeasures[currCm].value === true){
+//                        numberOfCareMeasures++;
+//                      }
+//                    }
                     
                 
                   }
@@ -399,44 +421,55 @@ angular.module(
                 console.log('$scope.kpi3a: ' + $scope.kpi3a);
               }
               
-              $scope.kpi6a = numberOfCareMeasures;
+//              $scope.kpi6a = numberOfCareMeasures;
+//              
+//              if (DEBUG) {
+//                console.log('$scope.kpi6a: ' + $scope.kpi6a);
+//              }
               
+              
+//              var averageRating = Math.round((sumOfRatings / numberOfCareMeasures) * 100) / 100;
+//              $scope.kpi6b = getAverageRatingString(averageRating);
+//              
+//              if (DEBUG) {
+//                console.log('sumOfRatings: ' + sumOfRatings);
+//                console.log('averageRating: ' + averageRating);
+//                console.log('$scope.kpi6b: ' + $scope.kpi6b);
+//              }
+              
+              
+              ratioCorrectSupplyPerPatient = Math.round((numberOfCorrectSuppliedPatients / numberOfPatients) * 100) / 100;
+              $scope.kpi6b = ratioCorrectSupplyPerPatient;
               if (DEBUG) {
-                console.log('$scope.kpi6a: ' + $scope.kpi6a);
-              }
-              
-              
-              var averageRating = Math.round((sumOfRatings / numberOfCareMeasures) * 100) / 100;
-              $scope.kpi6b = getAverageRatingString(averageRating);
-              
-              if (DEBUG) {
-                console.log('sumOfRatings: ' + sumOfRatings);
-                console.log('averageRating: ' + averageRating);
+                console.log('numberOfPatients: ' + numberOfPatients);
+                console.log('numberOfCorrectSuppliedPatients: ' + numberOfCorrectSuppliedPatients);
+                console.log('ratioCorrectSupplyPerPatient: ' + ratioCorrectSupplyPerPatient);
                 console.log('$scope.kpi6b: ' + $scope.kpi6b);
               }
               
+              
             };
             
             
-            var getAverageRatingString = function (rating) {
-                if (!rating) {
-                  return '';
-              }
-  
-              if (rating <= 1.5) {
-                  return '++';
-              } else if (rating <= 2.5) {
-                  return '+';
-              } else if (rating <= 3.5) {
-                  return '0';
-              } else if (rating <= 4.5) {
-                  return '-';
-              } else if (rating <= 6) {
-                  return '--';
-              }
-  
-              return '';
-            };
+//            var getAverageRatingString = function (rating) {
+//                if (!rating) {
+//                  return '';
+//              }
+//  
+//              if (rating <= 1.5) {
+//                  return '++';
+//              } else if (rating <= 2.5) {
+//                  return '+';
+//              } else if (rating <= 3.5) {
+//                  return '0';
+//              } else if (rating <= 4.5) {
+//                  return '-';
+//              } else if (rating <= 6) {
+//                  return '--';
+//              }
+//  
+//              return '';
+//            };
             
             var sortDates = function(a, b) {
               // a < b

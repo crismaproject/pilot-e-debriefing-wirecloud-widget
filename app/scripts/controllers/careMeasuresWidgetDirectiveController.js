@@ -24,7 +24,7 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
             // Provide a custom seriesColors array to override the default colors.
             seriesColors : [ '#FF0000', '#FFFF00', '#66FF66', '#C0C0C0' ],
             title : {
-              text : 'Overview of all patients',
+              text : 'Triage classification of all patients',
               fontFamily : 'Helvetica',
               fontSize : '14pt',
               show : true,

@@ -22,24 +22,26 @@ angular.module('eu.crismaproject.pilotE.controllers')
                 
                 //Data for Care-Measures-Widget:
                 
-                $scope.cmKpiData = [ {
-                  value : '??',
-                  key : 'Number of application of basic measures on scene'
-                },
+                $scope.cmKpiData = [
 //                {
 //                  value : '??',
-//                  key : 'Patient / mime assessment of basic measures '
-//                } 
+//                  key : 'Number of application of basic measures on scene'
+//                }
+//                ,
+                {
+                  value : '??',
+                  key : 'Percentage of correct supplied patients'
+                }
                 
                 ];
                 
-                $scope.$watch('kpi6a', function() {
-                  $scope.cmKpiData[0].value =  $scope.$parent.kpi6a;
-                });
-                
-//                $scope.$watch('kpi6b', function() {
-//                  $scope.cmKpiData[1].value =  $scope.$parent.kpi6b;
+//                $scope.$watch('kpi6a', function() {
+//                  $scope.cmKpiData[0].value =  $scope.$parent.kpi6a;
 //                });
+                
+                $scope.$watch('kpi6b', function() {
+                  $scope.cmKpiData[0].value =  ($scope.$parent.kpi6b * 100).toString() + '%';
+                });
                 
                 //Data for Pre-Triage-Widget:
                 
