@@ -28,7 +28,7 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
              stackSeries : true,
            captureRightClick : true,
            title : {
-             text : 'Alerts-and-Requests',
+             text : 'Resource Requests',
              fontFamily : 'Helvetica',
              fontSize : '14pt',
              show : true,

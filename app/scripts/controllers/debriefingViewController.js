@@ -230,7 +230,7 @@ angular.module('eu.crismaproject.pilotE.controllers')
                 
                 $scope.listItemsData = [
                   {
-                    value : 'Alerts and Requests'
+                    value : 'Resource Requests'
                   },
                   
 //                  {
@@ -293,6 +293,14 @@ angular.module('eu.crismaproject.pilotE.controllers')
                         //care measures
                         $scope.hideResponsePhasesNav = true;
                         $scope.selectedItemIndexNav1 = 4;
+                      break;
+                      case 'ResourceRequests':
+                        //resource requests
+                        $scope.hideResponsePhasesNav = true;
+                        $scope.selectedItemIndexNav1 = 0;
+                      break;
+                      case 'ResourceArrivals':
+                        //todo: create view
                       break;
                       default:
                         //no match
