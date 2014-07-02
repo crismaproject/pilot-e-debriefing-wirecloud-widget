@@ -217,9 +217,9 @@ angular.module(
                     dai = item.datadescriptor.defaultaccessinfo;
                     res = $resource(dai);
                     $scope.apiurl = dai.substr(0, dai.indexOf('icmm_api') + 8);
-//                    $scope.exercise = res.get({id: item.actualaccessinfo});
+                    $scope.exercise = res.get({id: item.actualaccessinfo});
 //                    $scope.exercise = res.get({id: 42});
-                    $scope.exercise = res.get({id: 43});
+//                    $scope.exercise = res.get({id: 43});
 //                    $scope.exercise = res.get({id: 9});
                     $scope.exercise.$promise.then(function () {
                         $scope.patients = $scope.exercise.patients;
