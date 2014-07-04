@@ -220,10 +220,92 @@ angular.module(
                     $scope.exercise = res.get({id: item.actualaccessinfo});
 //                    $scope.exercise = res.get({id: 42});
 //                    $scope.exercise = res.get({id: 43});
+//                      $scope.exercise = res.get({id: 44});
 //                    $scope.exercise = res.get({id: 9});
                     $scope.exercise.$promise.then(function () {
                         $scope.patients = $scope.exercise.patients;
                         $scope.exerc = $scope.exercise;
+                        
+                        
+                        //-------test-------
+                        
+//                        $scope.exerc.alertsRequests =
+//                        [
+//                         {
+//                           time : '2014-07-02T15:59:42.924Z',
+//                           alert : 'request 1',
+//                           rescueMeans : [{
+//                             type : 'KdoW',
+//                             name : 'Command vehicle',
+//                             icon : 'img/ambulance_16.png',
+//                             quantity : 3,
+//                             $self : '/CRISMA.rescueMeans/17'
+//                           },
+//                           {
+//                             type : 'RTW',
+//                             name : 'Intensive care ambulance',
+//                             icon : 'img/ambulance_16.png',
+//                             quantity : 6,
+//                             $self : '/CRISMA.rescueMeans/18'
+//                           }
+//                           ],
+//                            status : 'request',
+//                            $self : '/CRISMA.alertsRequests/50'
+//                         },
+//                         {
+//                           time : '2014-07-02T16:03:42.924Z',
+//                           alert : 'request 2',
+//                           rescueMeans : [{
+//                             type : 'MTW',
+//                             name : 'Personnel transport vehicle',
+//                             icon : 'img/ambulance_16.png',
+//                             quantity : 4,
+//                             $self : '/CRISMA.rescueMeans/19'
+//                           },
+//                           {
+//                             type : 'PV',
+//                             name : 'Police vehicle',
+//                             icon : 'img/ambulance_16.png',
+//                             quantity : 3,
+//                             $self : '/CRISMA.rescueMeans/20'
+//                           },
+//                           {
+//                             type : 'RTH',
+//                             name : 'Intensive care helicopter',
+//                             icon : 'img/ambulance_16.png',
+//                             quantity : 4,
+//                             $self : '/CRISMA.rescueMeans/21'
+//                           }
+//                           ],
+//                           status : 'request',
+//                           $self : '/CRISMA.alertsRequests/50'
+//                         },
+//                         {
+//                           time: '2014-07-02T16:05:42.924Z',
+//                           alert : 'arrival 1',
+//                           rescueMeans : [{
+//                             type : 'KdoW',
+//                             name : 'Command vehicle',
+//                             icon : 'img/ambulance_16.png',
+//                             quantity : 2,
+//                             $self : '/CRISMA.rescueMeans/17'
+//                           }
+//                           ],
+//                           status : 'arrival',
+//                           $self : '/CRISMA.alertsRequests/51'
+//                         },
+//                         {
+//                            time: '2014-07-02T16:10:42.924Z',
+//                            alert : 'evac 1',
+//                            rescueMeans : [],
+//                            status : 'evacuation',
+//                            $self : '/CRISMA.alertsRequests/52'
+//                         }
+//                       ];
+                        
+                        
+                        //-------test-------
+                        
                         
                         //compute further kpis
                         computeKpi2And1();

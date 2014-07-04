@@ -134,6 +134,9 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
         
         var alertsAndRequestsDataForChart = [];
         var numberOfAlertsRequests = 0;
+        var numberOfRequests = 0;
+        var numberOfArrivals = 0;
+        var numberOfEvacuations = 0;
         
         $scope.totalNbrVehicles = {
             rtw: 0,
@@ -156,10 +159,37 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
         
         // Get number of all alerts and requests.
         numberOfAlertsRequests = $scope.alertsAndRequestsData.alertsRequests.length;
+
+        
+        for (var currAlert = 0; currAlert < numberOfAlertsRequests; currAlert++) {
+          var status = $scope.alertsAndRequestsData.alertsRequests[currAlert].status;
+          if(status !== undefined && status !== null){
+           switch (status){
+             case 'request':
+               numberOfRequests++;
+               break;
+             case 'arrival':
+               numberOfArrivals++;
+               break;
+             case 'evacuation':
+               numberOfEvacuations++;
+               break;
+             default:
+               //no match
+               if (DEBUG) {
+                 console.log('Alert status unknown!');
+               }
+               break;
+           }
+          }
+        }
         
         if (DEBUG) {
 //          console.log('Response: ' + resp.toSource());
-          console.log('Number of Alerts: ' + numberOfAlertsRequests);
+          console.log('Number of alerts (request, arrival, evacuation): ' + numberOfAlertsRequests);
+          console.log('Number of requests: ' + numberOfRequests);
+          console.log('Number of arrivals: ' + numberOfArrivals);
+          console.log('Number of evacuations: ' + numberOfEvacuations);
         }
 
         // Get requested vehicles of all alerts and put the
@@ -168,42 +198,62 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
       $scope.alertsRequestsCheckCorrectTimestamp = [];
       var alertsRequestsCheckIncorrectTimestamp = [];
 //      var alertsRequestsCheck = [];
+      
 
-      for (var currAlert = 0; currAlert < numberOfAlertsRequests; currAlert++) {
-         var numerOfRescueMeans = $scope.alertsAndRequestsData.alertsRequests[currAlert].rescueMeans.length;
-         if (DEBUG) {
-           console.log('time: ' + $scope.alertsAndRequestsData.alertsRequests[currAlert].time);
-           console.log('alert: ' + $scope.alertsAndRequestsData.alertsRequests[currAlert].alert);
-           console.log('#rescueMeans: ' + numerOfRescueMeans);
-         }
-         var vehicles = [];
+      for (currAlert = 0; currAlert < numberOfAlertsRequests; currAlert++) {
+        
+        //Only use alert if it is a request (there are 3 alert types: request, arrival, evacuation)
+        if($scope.alertsAndRequestsData.alertsRequests[currAlert].status === 'request'){
+        
+          var numerOfRescueMeans = $scope.alertsAndRequestsData.alertsRequests[currAlert].rescueMeans.length;
+          if (DEBUG) {
+            console.log('time: ' + $scope.alertsAndRequestsData.alertsRequests[currAlert].time);
+            console.log('alert: ' + $scope.alertsAndRequestsData.alertsRequests[currAlert].alert);
+            console.log('status: ' + $scope.alertsAndRequestsData.alertsRequests[currAlert].status);
+            console.log('#rescueMeans: ' + numerOfRescueMeans);
+          }
+          var vehicles = [];
+          var alertMsg = '';
+          
+//          if (moment($scope.alertsAndRequestsData.alertsRequests[currAlert].time).isValid()) {
+//            alertMsg = $scope.alertsAndRequestsData.alertsRequests[currAlert].alert !== null &&
+//            $scope.alertsAndRequestsData.alertsRequests[currAlert].alert !== '' ? $scope.alertsAndRequestsData.alertsRequests[currAlert].alert : 'no mesage';
+//            $scope.alertsRequestsCheckCorrectTimestamp[currAlert] =
+//              [moment($scope.alertsAndRequestsData.alertsRequests[currAlert].time).format('YYYY-MM-DD HH:mm:ss'), vehicles, alertMsg];
+//          }else {
+//            alertsRequestsCheckIncorrectTimestamp[currAlert] = [$scope.alertsAndRequestsData.alertsRequests[currAlert].time, vehicles, alertMsg];
+//          }
+          
+          if (moment($scope.alertsAndRequestsData.alertsRequests[currAlert].time).isValid()) {
+            alertMsg = $scope.alertsAndRequestsData.alertsRequests[currAlert].alert !== null &&
+            $scope.alertsAndRequestsData.alertsRequests[currAlert].alert !== '' ? $scope.alertsAndRequestsData.alertsRequests[currAlert].alert : 'no mesage';
+            var dataToPush = [moment($scope.alertsAndRequestsData.alertsRequests[currAlert].time).format('YYYY-MM-DD HH:mm:ss'), vehicles, alertMsg];
+            $scope.alertsRequestsCheckCorrectTimestamp.push(dataToPush);
+          }else {
+            alertsRequestsCheckIncorrectTimestamp[currAlert] = [$scope.alertsAndRequestsData.alertsRequests[currAlert].time, vehicles, alertMsg];
+          }
+          
+          
+          for (var currRescueMeans = 0; currRescueMeans < numerOfRescueMeans; currRescueMeans++) {
+            var vehicleType = $scope.alertsAndRequestsData.alertsRequests[currAlert].rescueMeans[currRescueMeans].type;
+            var vehicleQuantity = $scope.alertsAndRequestsData.alertsRequests[currAlert].rescueMeans[currRescueMeans].quantity;
+            if (DEBUG) {
+              console.log('rescueMeans index: ' + currRescueMeans);
+              console.log('type: ' + vehicleType);
+              console.log('quantity: ' + vehicleQuantity);
+            }
+            
+            var vehicle = {
+                type: vehicleType,
+                quantity: vehicleQuantity
+            };
+            
+//            $scope.alertsRequestsCheckCorrectTimestamp[currAlert][1].push(vehicle);
+            $scope.alertsRequestsCheckCorrectTimestamp[$scope.alertsRequestsCheckCorrectTimestamp.length - 1][1].push(vehicle);
+          }
          
-         if (moment($scope.alertsAndRequestsData.alertsRequests[currAlert].time).isValid()) {
-           var alertMsg = $scope.alertsAndRequestsData.alertsRequests[currAlert].alert !== null &&
-           $scope.alertsAndRequestsData.alertsRequests[currAlert].alert !== '' ? $scope.alertsAndRequestsData.alertsRequests[currAlert].alert : 'no mesage'
-           $scope.alertsRequestsCheckCorrectTimestamp[currAlert] =
-             [moment($scope.alertsAndRequestsData.alertsRequests[currAlert].time).format('YYYY-MM-DD HH:mm:ss'), vehicles, alertMsg];
-         }else {
-           alertsRequestsCheckIncorrectTimestamp[currAlert] = [$scope.alertsAndRequestsData.alertsRequests[currAlert].time, vehicles, alertMsg];
-         }
-         
-         
-         for (var currRescueMeans = 0; currRescueMeans < numerOfRescueMeans; currRescueMeans++) {
-           var vehicleType = $scope.alertsAndRequestsData.alertsRequests[currAlert].rescueMeans[currRescueMeans].type;
-           var vehicleQuantity = $scope.alertsAndRequestsData.alertsRequests[currAlert].rescueMeans[currRescueMeans].quantity;
-           if (DEBUG) {
-             console.log('rescueMeans index: ' + currRescueMeans);
-             console.log('type: ' + vehicleType);
-             console.log('quantity: ' + vehicleQuantity);
-           }
-           
-           var vehicle = {
-               type: vehicleType,
-               quantity: vehicleQuantity
-           };
-           
-           $scope.alertsRequestsCheckCorrectTimestamp[currAlert][1].push(vehicle);
-         }
+          
+        }
      }
       
 //      var testvehicle = {
@@ -251,28 +301,33 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
       
       if (DEBUG) {
         console.log('alertsRequestsCheckCorrectTimestamp: ' + $scope.alertsRequestsCheckCorrectTimestamp);
+        var alertsRequestsCheckCorrectTimestampLength = $scope.alertsRequestsCheckCorrectTimestamp === undefined ? 0 : $scope.alertsRequestsCheckCorrectTimestamp.length;
+        console.log('$scope.alertsRequestsCheckCorrectTimestamp.length: ' + alertsRequestsCheckCorrectTimestampLength);
         console.log('alertsRequestsCheckIncorrectTimestamp: ' + alertsRequestsCheckIncorrectTimestamp);
+        var alertsRequestsCheckIncorrectTimestampLength = $scope.alertsRequestsCheckIncorrectTimestamp === undefined ? 0 : $scope.alertsRequestsCheckIncorrectTimestamp.length;
+        console.log('$scope.alertsRequestsCheckIncorrectTimestamp.length: ' + alertsRequestsCheckIncorrectTimestampLength);
       }
       
       
+      if($scope.alertsRequestsCheckCorrectTimestamp.length > 0){
+        
+        // Starttime for the chart.
+        $scope.timePeriodStart = moment(
+            $scope.alertsRequestsCheckCorrectTimestamp[0][0]).format('YYYY-MM-DD HH:mm:ss');
+        if (DEBUG) {
+          console.log('timePeriodStart: ' + $scope.timePeriodStart);
+        }
+  
+        // Endtime for the chart.
+        $scope.timePeriodEnd = moment(
+//        $scope.alertsRequestsCheckCorrectTimestamp[$scope.alertsRequestsCheckCorrectTimestamp.length - 1][0]).format('YYYY-MM-DD HH:mm:ss');
+//        $scope.alertsRequestsCheckCorrectTimestamp[numberOfArrivals - 1][0]).format('YYYY-MM-DD HH:mm:ss');
+        $scope.alertsRequestsCheckCorrectTimestamp[numberOfRequests - 1][0]).format('YYYY-MM-DD HH:mm:ss');
+        if (DEBUG) {
+          console.log('timePeriodEnd: ' +  $scope.timePeriodEnd);
+        }
       
-
-      // Starttime for the chart.
-      $scope.timePeriodStart = moment(
-          $scope.alertsRequestsCheckCorrectTimestamp[0][0]).format('YYYY-MM-DD HH:mm:ss');
-      if (DEBUG) {
-        console.log('timePeriodStart: ' + $scope.timePeriodStart);
       }
-
-      // Endtime for the chart.
-      $scope.timePeriodEnd = moment(
-          $scope.alertsRequestsCheckCorrectTimestamp[$scope.alertsRequestsCheckCorrectTimestamp.length - 1][0]).format('YYYY-MM-DD HH:mm:ss');
-      if (DEBUG) {
-        console.log('timePeriodEnd: ' +  $scope.timePeriodEnd);
-      }
-      
-      
-      
       
 
       $scope.calculateAlertsAndRequests = function(
@@ -462,6 +517,7 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
              message : message,
              time : moment(time).format('HH:mm:ss')
          };
+         
          $scope.alertTimesAndMessages.push(alert);
         }
         
@@ -589,7 +645,14 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
       // Finally set end date to chart options.
       chartOpts.barChartOptions.axes.xaxis.max = moment($scope.timePeriodEnd).add('minutes', 30).format('YYYY-MM-DD HH:mm:ss');
       
-      $scope.chartData = alertsAndRequestsDataForChart;
+      //Check if there is no data to be displayed
+      if(alertsAndRequestsDataForChart.length > 0){
+        $scope.chartData = alertsAndRequestsDataForChart;
+      }
+      else {
+        $scope.chartData = [[null]];
+      }
+      
       $scope.chartSettings = chartOpts.barChartOptions;
       
       }
