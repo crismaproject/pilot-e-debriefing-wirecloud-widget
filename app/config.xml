@@ -11,7 +11,7 @@
         <Name>pilot-e-debriefing-widget</Name>
         <!-- Version: Current widget version number-->
         <!-- we include a build # to prevent caching by wirecloud -->
-        <Version>0.1.3.4</Version>
+        <Version>0.1.3.6</Version>
         <!-- DisplayName: Name shown in the UI of the widget -->
         <DisplayName>CRISMA Pilot E Debriefing Widget</DisplayName>
         <!-- Author: Widget developer(s) -->

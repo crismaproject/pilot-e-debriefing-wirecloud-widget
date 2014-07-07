@@ -150,7 +150,7 @@ var controllers = angular.module('eu.crismaproject.pilotE.controllers');
             chartOpts.pieChartOptions.seriesColors = seriesColors;
             
             if (DEBUG) {
-              console.log('classificationMap: '+ classificationMap.toSource());
+              console.log('classificationMap: '+ classificationMap);
               console.log('seriesColors: '+ seriesColors);
             }
             
