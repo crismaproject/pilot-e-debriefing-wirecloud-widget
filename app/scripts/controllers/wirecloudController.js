@@ -221,6 +221,7 @@ angular.module(
 //                    $scope.exercise = res.get({id: 42});
 //                    $scope.exercise = res.get({id: 43});
 //                      $scope.exercise = res.get({id: 44});
+                      $scope.exercise = res.get({id: 45});
 //                    $scope.exercise = res.get({id: 9});
                     $scope.exercise.$promise.then(function () {
                         $scope.patients = $scope.exercise.patients;
@@ -441,7 +442,7 @@ angular.module(
                 var necessaryMeasuresExecuted = poiservice.necessaryMeasuresExecuted(identificationOfInjury, $scope.patients[currPat].careMeasures);
                 
                 if (DEBUG) {
-                  var ok = necessaryMeasuresExecuted === true ? 'yes' : 'no';
+                  var ok = necessaryMeasuresExecuted === 1 ? 'yes' : 'no';
                   console.log('necessaryMeasuresExecuted: ' + ok);
                 }
                 
